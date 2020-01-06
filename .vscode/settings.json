@@ -1,5 +1,7 @@
 {
   "css.validate": false,
   "less.validate": false,
-  "scss.validate": false
+  "scss.validate": false,
+  "tailwindCSS.emmetCompletions": true,
+  "editor.tabSize": 2
 }

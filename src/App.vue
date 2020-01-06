@@ -1,34 +1,32 @@
+<script>
+import Sidebar from "./components/Sidebar/Sidebar";
+import SideContext from "./components/SideContext/SideContext";
+
+// icons
+import "vue-awesome/icons/regular/file";
+import "vue-awesome/icons/search";
+
+export default {
+  components: {
+    Sidebar,
+    SideContext
+  }
+};
+</script>
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div id="app" class="flex h-full bg-red-600">
+    <!-- <router-link to="/">Home</router-link>|
+    <router-link to="/about">About</router-link>-->
+    <!--  -->
+
+    <Sidebar />
+    <SideContext />
+
+    <router-view class="ml-4" />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="scss" scoped></style>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
-
-<style src="./assets/tailwind.css">
+<style src="./assets/tailwind.css" />
