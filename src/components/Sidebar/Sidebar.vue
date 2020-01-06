@@ -10,6 +10,11 @@ export default {
     SearchIcon,
     SettingsIcon,
     SidebarIcon
+  },
+  methods: {
+    toggleContext(contextAction) {
+      this.$store.dispatch(contextAction);
+    }
   }
 };
 </script>
@@ -21,12 +26,12 @@ export default {
       <!-- top -->
       <div class="flex flex-col h-full">
         <!-- single icon -->
-        <SidebarIcon>
+        <SidebarIcon @click.native="toggleContext('toggleIsExplorerShowing')">
           <FileIcon />
         </SidebarIcon>
         <!-- single icon -->
-        <SidebarIcon>
-          <SearchIcon />
+        <SidebarIcon @click.native="toggleContext('toggleIsSearchShowing')">
+          <SearchIcon width="24" />
         </SidebarIcon>
       </div>
       <!-- bottom -->
