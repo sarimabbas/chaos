@@ -22,8 +22,7 @@ export default {
 
     <Sidebar />
     <SideContext />
-
-    <router-view class="ml-4" />
+    <router-view />
   </div>
 </template>
 

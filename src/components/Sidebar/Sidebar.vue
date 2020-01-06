@@ -2,6 +2,7 @@
 import FileIcon from "../../assets/icons/file.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import SettingsIcon from "../../assets/icons/settings.svg";
+import PackageIcon from "../../assets/icons/package.svg";
 import SidebarIcon from "./SidebarIcon";
 
 export default {
@@ -9,7 +10,8 @@ export default {
     FileIcon,
     SearchIcon,
     SettingsIcon,
-    SidebarIcon
+    SidebarIcon,
+    PackageIcon
   },
   methods: {
     toggleContext(contextAction) {
@@ -26,12 +28,22 @@ export default {
       <!-- top -->
       <div class="flex flex-col h-full">
         <!-- single icon -->
-        <SidebarIcon @click.native="toggleContext('toggleIsExplorerShowing')">
+        <SidebarIcon
+          @click.native="toggleContext('toggleIsExplorerShowing')"
+          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isExplorerShowing}]"
+        >
           <FileIcon />
         </SidebarIcon>
         <!-- single icon -->
-        <SidebarIcon @click.native="toggleContext('toggleIsSearchShowing')">
+        <SidebarIcon
+          @click.native="toggleContext('toggleIsSearchShowing')"
+          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isSearchShowing}]"
+        >
           <SearchIcon width="24" />
+        </SidebarIcon>
+        <!-- single icon -->
+        <SidebarIcon>
+          <PackageIcon width="24" />
         </SidebarIcon>
       </div>
       <!-- bottom -->
