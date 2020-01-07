@@ -25,12 +25,10 @@ export default {
 <template>
   <div>
     <!-- heading -->
-    <div
-      class="mt-1 text-xs font-bold tracking-widest text-center text-gray-600 uppercase"
-    >Explorer Context</div>
+    <div class="mt-1 text-center ui-help-text">Explorer Context</div>
     <!-- controls -->
     <div class="p-4">
-      <p class="mb-1 text-xs font-bold tracking-widest text-gray-300 uppercase">Choose mode</p>
+      <p class="mb-1 ui-help-text">Choose mode</p>
 
       <button
         class="inline-flex items-center px-2 py-1 text-sm text-gray-800 bg-gray-300 rounded hover:bg-gray-400"

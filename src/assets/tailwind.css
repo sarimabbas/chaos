@@ -5,5 +5,13 @@ body {
   height: 100%;
 }
 
+.keystroke {
+  @apply px-1 ml-2 text-xs bg-gray-400 rounded-sm;
+}
+
+.ui-help-text {
+  @apply text-xs font-bold tracking-widest text-gray-600 uppercase;
+}
+
 @tailwind components;
 @tailwind utilities;

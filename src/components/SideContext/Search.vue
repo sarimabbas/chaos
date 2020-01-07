@@ -11,14 +11,12 @@ export default {
 
 <template>
   <div class="h-32">
-    <div
-      class="mt-1 text-xs font-bold tracking-widest text-center text-gray-600 uppercase"
-    >Search Context</div>
+    <div class="mt-1 text-center ui-help-text">Search Context</div>
     <div class="mx-2 mt-1 mb-2">
       <input
-        class="w-full px-2 py-1 text-xs bg-white border border-gray-300 rounded-sm appearance-none focus:outline-none focus:shadow-outline"
+        class="w-full px-2 py-1 text-xs placeholder-gray-700 bg-white border border-gray-300 rounded-sm appearance-none focus:outline-none focus:shadow-outline"
         type="email"
-        placeholder="jane@example.com"
+        placeholder="Search for a file or folder..."
       />
     </div>
 
