@@ -1,0 +1,12 @@
+# command line parsing
+click
+
+# formatting
+black
+
+# pywebview
+pywebview
+pyobjc
+
+# networking
+requests

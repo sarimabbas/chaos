@@ -3,5 +3,10 @@
   "less.validate": false,
   "scss.validate": false,
   "tailwindCSS.emmetCompletions": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "python.pythonPath": "${workspaceFolder}/src/backend/venv/bin/python",
+  "python.formatting.provider": "black"
 }

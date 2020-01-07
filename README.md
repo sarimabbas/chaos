@@ -1,19 +1,7 @@
-# chaos
+# Chaos
 
-## Project setup
-```
-yarn install
-```
+> CPSC 490
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Current screenshot
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![Current Screenshot](./docs/screenshots/current.png)
