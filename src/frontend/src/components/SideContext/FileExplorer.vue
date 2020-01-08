@@ -25,9 +25,7 @@ export default {
       this.roots = [await paths];
     },
     collapse() {
-      if (this.mode == "Traditional View") {
-        this.collapseHelper(this.roots[0]);
-      }
+      this.collapseHelper(this.roots[0]);
     },
     collapseHelper(curObj) {
       // leaf
