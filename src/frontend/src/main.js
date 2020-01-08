@@ -7,6 +7,8 @@ import Icon from "vue-awesome/components/Icon";
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$backend = window.pywebview;
+
 Vue.component("v-icon", Icon);
 
 new Vue({

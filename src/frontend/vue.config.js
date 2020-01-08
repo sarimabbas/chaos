@@ -1,4 +1,5 @@
 module.exports = {
+  assetsDir: "static",
   chainWebpack: config => {
     // handle svg imports
     const svgRule = config.module.rule("svg");

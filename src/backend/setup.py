@@ -9,7 +9,10 @@ from setuptools import setup
 
 APP = ["./main.py"]
 DATA_FILES = ["../frontend/dist"]
-OPTIONS = {"iconfile": "./icon.icns"}
+OPTIONS = {
+    "iconfile": "./icon.icns",
+    "packages": ["flask", "werkzeug", "jinja2"],
+}
 
 setup(
     app=APP,

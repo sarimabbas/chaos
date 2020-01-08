@@ -10,3 +10,6 @@ pyobjc
 
 # networking
 requests
+flask
+flask-cors
+Jinja2

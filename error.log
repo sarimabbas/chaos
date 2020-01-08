@@ -1,0 +1,4 @@
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:04:28] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:05:16] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:05:22] "GET /api/paths HTTP/1.1" 200 -

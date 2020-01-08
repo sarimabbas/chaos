@@ -2,6 +2,7 @@
 import TreeView from "../TreeView/TreeView";
 import MinusSquareIcon from "../../assets/icons/minus-square.svg";
 import LayersIcon from "../../assets/icons/layers.svg";
+import api from "../../api";
 export default {
   components: {
     TreeView,
@@ -19,9 +20,8 @@ export default {
   },
   methods: {
     async getPaths() {
-      const paths = await pywebview.api.recursivelyGetPaths(
-        "~/Developer/chaos"
-      );
+      const res = await api.get("/paths");
+      const paths = await res.data;
       this.roots = [await paths];
     },
     collapse() {
@@ -73,7 +73,10 @@ export default {
       <div class="my-1 text-center ui-help-text">Explorer Context</div>
       <!--  controls -->
       <div class="flex items-center justify-between px-1 py-1 bg-gray-800 f">
-        <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">{{ this.mode }}</span>
+        <span
+          class="text-xs font-bold tracking-widest text-gray-400 uppercase"
+          >{{ this.mode }}</span
+        >
         <div class="flex items-center justify-between">
           <LayersIcon
             @click="changeMode"
@@ -89,7 +92,11 @@ export default {
       </div>
     </div>
     <!-- rest -->
-    <TreeView :roots="roots" class="overflow-y-auto" ref="treeview" />
+    <TreeView
+      :roots="roots"
+      class="overflow-x-hidden overflow-y-auto"
+      ref="treeview"
+    />
   </div>
 </template>
 

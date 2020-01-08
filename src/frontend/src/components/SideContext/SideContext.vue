@@ -23,8 +23,10 @@ export default {
 
 <template>
   <div class="flex-none w-56 h-full bg-gray-900" v-show="showSideContext">
-    <FileExplorer v-if="this.$store.state.sidebarContexts.isExplorerShowing" />
-    <Search v-if="this.$store.state.sidebarContexts.isSearchShowing" />
+    <FileExplorer
+      v-show="this.$store.state.sidebarContexts.isExplorerShowing"
+    />
+    <Search v-show="this.$store.state.sidebarContexts.isSearchShowing" />
   </div>
 </template>
 

@@ -2,7 +2,14 @@ import webview
 import argparse
 import sys
 import os
+import threading
+from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 from api import API
+
+app = Flask(__name__, template_folder="dist", static_folder="dist/static")
+api = API()
+CORS(app)
 
 
 def parseArgs():
@@ -14,10 +21,34 @@ def parseArgs():
     return args
 
 
+@app.route("/")
+def index():
+    if args.debug:
+        return "In debug mode"
+    return render_template("index.html")
+
+
+@app.route("/api/paths")
+def getPaths():
+    paths = api.recursivelyGetPaths("~/Developer/chaos")
+    return jsonify(paths)
+
+
+def start_server():
+    app.run(host="localhost", port=5000)
+
+
 if __name__ == "__main__":
     args = parseArgs()
     print(args)
-    api = API()
+
+    t = threading.Thread(target=start_server)
+    t.daemon = True
+    t.start()
+
+    import logging
+
+    logging.basicConfig(filename="error.log", level=logging.DEBUG)
 
     if args.debug:
         window = webview.create_window(
@@ -26,8 +57,6 @@ if __name__ == "__main__":
         webview.start(debug=True)
     else:
         window = webview.create_window(
-            "Chaos", "./dist/index.html", js_api=api, text_select=True
+            "Chaos", "http://localhost:5000/", js_api=api, text_select=True
         )
-        # with open(os.path.expanduser("~/Downloads/hello.txt"), "w") as f:
-        #     f.write("\n".join(sys.argv))
-        webview.start(http_server=True)
+        webview.start()
