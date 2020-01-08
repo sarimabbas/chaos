@@ -2,6 +2,15 @@
 
 > CPSC 490
 
+- [Chaos](#chaos)
+  - [Current screenshot](#current-screenshot)
+  - [Setup](#setup)
+    - [Setup backend](#setup-backend)
+    - [Setup frontend](#setup-frontend)
+    - [Setup backend](#setup-backend-1)
+  - [Development mode](#development-mode)
+  - [Build production app](#build-production-app)
+
 ## Current screenshot
 
 ![Current Screenshot](./docs/screenshots/current.png)
