@@ -5,9 +5,8 @@
 - [Chaos](#chaos)
   - [Current screenshot](#current-screenshot)
   - [Setup](#setup)
-    - [Setup backend](#setup-backend)
     - [Setup frontend](#setup-frontend)
-    - [Setup backend](#setup-backend-1)
+    - [Setup backend](#setup-backend)
   - [Development mode](#development-mode)
   - [Build production app](#build-production-app)
 
@@ -16,15 +15,6 @@
 ![Current Screenshot](./docs/screenshots/current.png)
 
 ## Setup
-
-### Setup backend
-
-```
-cd src/backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
 
 ### Setup frontend
 
