@@ -6,43 +6,16 @@ export default {
     Node,
     MinusSquareIcon
   },
-  props: ["roots"],
-  data() {
-    return {
-      collapseAll: Date.now()
-    };
-  },
-  methods: {
-    collapse() {
-      this.collapseAll = Date.now();
-    }
-  }
+  props: ["roots"]
 };
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center justify-between px-1 py-1 bg-gray-800">
-      <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Tree View</span>
-      <MinusSquareIcon
-        @click="collapse"
-        class="ml-auto text-gray-300 cursor-pointer hover:text-gray-500"
-        width="20"
-      />
-    </div>
-
-    <ul class="overflow-hidden">
-      <node
-        v-for="(node, index) in roots"
-        :node="node"
-        :key="index"
-        :handleNodeClick="() => {}"
-        :collapse="collapseAll"
-      />
+  <div class="h-full cursor-pointer">
+    <ul>
+      <node v-for="(node, index) in roots" :node="node" :key="index" :handleNodeClick="() => {}" />
     </ul>
   </div>
 </template>
 
 
-<style>
-</style>

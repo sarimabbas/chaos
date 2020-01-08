@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-none w-56 bg-gray-900" v-show="showSideContext">
+  <div class="flex-none w-56 h-full bg-gray-900" v-show="showSideContext">
     <FileExplorer v-if="this.$store.state.sidebarContexts.isExplorerShowing" />
     <Search v-if="this.$store.state.sidebarContexts.isSearchShowing" />
   </div>

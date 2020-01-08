@@ -15,18 +15,18 @@
       </span>
       <!-- <span class="node-level" @click="handleNodeClick(node)">H{{ node.data.level }}</span> -->
       <span
-        :class="['inline-block w-full text-sm text-gray-400 truncate ml-1 select-none', { 'pl-5' : !node.children}]"
+        :class="['inline-block w-full text-sm text-gray-400 truncate ml-1 select-none', { 'pl-5' : !node.children.length }]"
         @click="handleNodeClick(node)"
-      >{{ node.title }}</span>
+      >{{ node.name }}</span>
     </div>
-    <ul v-if="node.children && node.children.length" v-show="showChildren">
+    <!-- nested items (if any) -->
+    <ul v-if="node.children && node.children.length && node.showChildren">
       <node
         class="pl-5"
         v-for="(child, index) in node.children"
         :key="index"
         :node="child"
         :handleNodeClick="handleNodeClick"
-        :collapse="collapse"
       ></node>
     </ul>
   </li>
@@ -41,20 +41,15 @@ export default {
     ChevronRightIcon,
     ChevronDownIcon
   },
-  props: ["node", "handleNodeClick", "collapse"],
+  props: ["node", "handleNodeClick"],
   data() {
     return {
-      showChildren: true
+      showChildren: false
     };
   },
   methods: {
     toggleChildren() {
-      this.showChildren = !this.showChildren;
-    }
-  },
-  watch: {
-    collapse: function(val) {
-      this.showChildren = false;
+      this.node.showChildren = !this.node.showChildren;
     }
   }
 };
@@ -62,42 +57,10 @@ export default {
 
 
 <style scoped>
-.node-tree {
-  margin-left: 16px;
-}
-
-.node-collapse {
-  display: flex;
-  align-items: center;
-  font-size: 0.6rem;
-  font-weight: 700;
-}
-
 .node-level {
   margin-left: 5px;
   margin-right: 5px;
   font-size: 0.6rem;
   font-weight: 700;
-}
-
-.node-collapse-icon {
-  margin: 0;
-}
-.node-label {
-  display: flex;
-  align-items: center;
-  background-color: grey;
-  border-radius: 5px;
-  padding: 5px;
-  margin-bottom: 2px;
-  cursor: pointer;
-}
-.node-text {
-  width: calc(100%);
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.8rem;
 }
 </style>
