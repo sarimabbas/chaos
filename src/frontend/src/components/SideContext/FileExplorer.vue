@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       roots: [],
-      mode: "Traditional View" // or "Nested View"
+      mode: "Traditional View"
     };
   },
   mounted() {
@@ -42,7 +42,7 @@ export default {
     },
     changeMode() {
       if (this.mode == "Traditional View") {
-        this.mode = "Nested View";
+        this.mode = "Folder View";
       } else {
         this.mode = "Traditional View";
       }

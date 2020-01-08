@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <li class="pr-1 bg-gray-700" v-if="node.show">
+  <li class="pr-1" v-if="node.show">
     <!-- the single item -->
     <div
       class="flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover"
@@ -40,8 +40,8 @@ export default {
         class="flex items-center ml-1"
         v-if="node.children && node.children.length && someChildrenVisible"
       >
-        <chevron-down-icon v-if="node.showChildren" width="20" />
-        <chevron-right-icon v-else width="20" />
+        <chevron-down-icon v-if="node.showChildren" width="20" class="text-gray-400" />
+        <chevron-right-icon v-else width="20" class="text-gray-400" />
       </span>
       <!-- <span class="node-level" @click="handleNodeClick(node)">H{{ node.data.level }}</span> -->
       <span
