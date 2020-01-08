@@ -20,6 +20,7 @@ class API:
                 "children": [],
                 "type": "file",
                 "name": curPath.name,
+                "show": True,
             }
 
         nextPaths = curPath.iterdir()
@@ -32,6 +33,7 @@ class API:
                 "children": [self.recursivelyGetPathsHelper(p) for p in nextPaths],
                 "name": curPath.name,
                 "showChildren": False,
+                "show": True,
             }
 
     def logger(self, msg):

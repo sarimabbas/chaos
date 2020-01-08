@@ -1,14 +1,17 @@
 <script>
 import TreeView from "../TreeView/TreeView";
 import MinusSquareIcon from "../../assets/icons/minus-square.svg";
+import LayersIcon from "../../assets/icons/layers.svg";
 export default {
   components: {
     TreeView,
-    MinusSquareIcon
+    MinusSquareIcon,
+    LayersIcon
   },
   data() {
     return {
-      roots: []
+      roots: [],
+      mode: "Traditional View" // or "Nested View"
     };
   },
   mounted() {
@@ -22,19 +25,41 @@ export default {
       this.roots = [await paths];
     },
     collapse() {
-      this.collapseHelper(this.roots[0]);
+      if (this.mode == "Traditional View") {
+        this.collapseHelper(this.roots[0]);
+      }
     },
     collapseHelper(curObj) {
       // leaf
       if (!curObj.children.length || !"showChildren" in curObj) {
         return;
       }
-
       // internal
       if (curObj.children.length && "showChildren" in curObj) {
         curObj.showChildren = false;
         curObj.children.forEach(child => {
           this.collapseHelper(child);
+        });
+      }
+    },
+    changeMode() {
+      if (this.mode == "Traditional View") {
+        this.mode = "Nested View";
+      } else {
+        this.mode = "Traditional View";
+      }
+      this.toggleLeaves(this.roots[0]);
+    },
+    toggleLeaves(curObj) {
+      // leaf
+      if (!curObj.children.length || !"showChildren" in curObj) {
+        curObj.show = !curObj.show;
+        return;
+      }
+      // internal
+      if (curObj.children.length && "showChildren" in curObj) {
+        curObj.children.forEach(child => {
+          this.toggleLeaves(child);
         });
       }
     }
@@ -47,26 +72,22 @@ export default {
     <!-- top -->
     <div>
       <!-- heading -->
-      <div class="mt-1 text-center ui-help-text">Explorer Context</div>
-      <!-- controls -->
-      <div class="p-4">
-        <p class="mb-1 ui-help-text">Choose mode</p>
-
-        <button class="ui-option-button">
-          <span>File Tree</span>
-        </button>
-        <button class="ui-option-button">
-          <span>Tag Tree</span>
-        </button>
-      </div>
-      <!-- more controls -->
-      <div class="flex items-center justify-between flex-shrink-0 px-1 py-1 bg-gray-800">
-        <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Tree View</span>
-        <MinusSquareIcon
-          @click="collapse"
-          class="ml-auto text-gray-300 cursor-pointer hover:text-gray-500"
-          width="20"
-        />
+      <div class="my-1 text-center ui-help-text">Explorer Context</div>
+      <!--  controls -->
+      <div class="flex items-center justify-between px-1 py-1 bg-gray-800 f">
+        <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">{{ this.mode }}</span>
+        <div class="flex items-center justify-between">
+          <LayersIcon
+            @click="changeMode"
+            class="mx-1 ml-auto text-gray-300 cursor-pointer hover:text-gray-500"
+            width="20"
+          />
+          <MinusSquareIcon
+            @click="collapse"
+            class="ml-auto text-gray-300 cursor-pointer hover:text-gray-500"
+            width="20"
+          />
+        </div>
       </div>
     </div>
     <!-- rest -->
