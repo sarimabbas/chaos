@@ -16,6 +16,9 @@ export default {
   methods: {
     toggleContext(contextAction) {
       this.$store.dispatch(contextAction);
+    },
+    openSettings() {
+      this.$router.push("settings");
     }
   }
 };
@@ -42,12 +45,15 @@ export default {
           <SearchIcon width="24" />
         </SidebarIcon>
         <!-- single icon -->
-        <SidebarIcon>
+        <SidebarIcon
+          @click.native="toggleContext('toggleIsExtensionsShowing')"
+          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isExtensionsShowing}]"
+        >
           <PackageIcon width="24" />
         </SidebarIcon>
       </div>
       <!-- bottom -->
-      <SidebarIcon>
+      <SidebarIcon @click.native="openSettings">
         <SettingsIcon />
       </SidebarIcon>
     </div>

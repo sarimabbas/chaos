@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <div id="app" class="flex h-full bg-red-600">
+  <div id="app" class="flex h-full">
     <!-- <router-link to="/">Home</router-link>|
     <router-link to="/about">About</router-link>-->
     <!--  -->

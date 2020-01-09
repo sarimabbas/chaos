@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Splash from "../views/Splash.vue";
+import Settings from "../views/Settings.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/splash",
     name: "splash",
     component: Splash
+  },
+  {
+    path: "/settings",
+    name: "settings",
+    component: Settings
   },
   {
     path: "/about",

@@ -1,4 +1,44 @@
 INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
-INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:04:28] "GET /api/paths HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:05:16] "GET / HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 00:05:22] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:39:52] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:41:08] "GET / HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/sarimabbas/Developer/chaos/src/backend/main.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:41:19] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:41:42] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/sarimabbas/Developer/chaos/src/backend/main.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:42:23] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:45:38] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:47:25] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:47:30] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 11:48:36] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 12:03:25] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 12:03:37] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 12:05:00] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 12:11:55] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 12:53:53] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 13:49:52] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 13:53:06] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 13:59:08] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 13:59:53] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:00:07] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:00:51] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:01:06] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:03:27] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:15:44] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:16:11] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:16:25] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:17:14] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Jan/2020 14:17:58] "GET /api/paths HTTP/1.1" 200 -

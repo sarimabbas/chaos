@@ -3,6 +3,7 @@ import argparse
 import sys
 import os
 import threading
+import logging
 from flask import Flask, render_template, jsonify
 from flask_cors import CORS
 from api import API
@@ -24,7 +25,7 @@ def parseArgs():
 @app.route("/")
 def index():
     if args.debug:
-        return "In debug mode"
+        return "In debug mode. Check frontend port."
     return render_template("index.html")
 
 
@@ -35,28 +36,28 @@ def getPaths():
 
 
 def start_server():
-    app.run(host="localhost", port=5000)
+    if args.debug:
+        app.run(host="localhost", port=5000, debug=True)
+    else:
+        app.run(host="localhost", port=5000)
 
 
 if __name__ == "__main__":
     args = parseArgs()
     print(args)
 
-    t = threading.Thread(target=start_server)
-    t.daemon = True
-    t.start()
-
-    import logging
-
-    logging.basicConfig(filename="error.log", level=logging.DEBUG)
-
+    # in debug, only run flask
+    # in prod, run flask and create the webview
     if args.debug:
-        window = webview.create_window(
-            "Chaos", url="http://localhost:8080/", js_api=api, text_select=True
-        )
-        webview.start(debug=True)
+        logging.basicConfig(filename="error.log", level=logging.DEBUG)
+        start_server()
     else:
+        # start flask in separate thread
+        t = threading.Thread(target=start_server)
+        t.daemon = True
+        t.start()
+        # start webview
         window = webview.create_window(
-            "Chaos", "http://localhost:5000/", js_api=api, text_select=True
+            "Chaos", "http://localhost:5000/", text_select=True
         )
         webview.start()

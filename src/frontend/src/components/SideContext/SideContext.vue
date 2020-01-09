@@ -1,10 +1,12 @@
 <script>
 import FileExplorer from "./FileExplorer";
 import Search from "./Search";
+import Extensions from "./Extensions";
 export default {
   components: {
     FileExplorer,
-    Search
+    Search,
+    Extensions
   },
   computed: {
     showSideContext() {
@@ -23,10 +25,9 @@ export default {
 
 <template>
   <div class="flex-none w-56 h-full bg-gray-900" v-show="showSideContext">
-    <FileExplorer
-      v-show="this.$store.state.sidebarContexts.isExplorerShowing"
-    />
+    <FileExplorer v-show="this.$store.state.sidebarContexts.isExplorerShowing" />
     <Search v-show="this.$store.state.sidebarContexts.isSearchShowing" />
+    <Extensions v-show="this.$store.state.sidebarContexts.isExtensionsShowing" />
   </div>
 </template>
 
