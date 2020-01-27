@@ -133,3 +133,7 @@ INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:23:26] "GET /api/filepicker?type=fol
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:23:26] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:23:45] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:23:45] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:49:15] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:49:15] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:50:35] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/Jan/2020 22:50:35] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -

@@ -12,7 +12,21 @@ export default {
     close() {
       this.$router.push("splash");
     },
-    fetchFiles() {}
+    fetchFiles() {},
+    nestedChildrenHelper(node) {
+      const children = [];
+      if (node.children && node.children.length > 0) {
+        for (let child of node.children) {
+          // add the child to the array
+          children.push(child);
+          // also add all of its children
+          if (child.children && child.children.length > 0) {
+            children = children.concat(this.nestedChildren(child.children));
+          }
+        }
+      }
+      return children;
+    }
   },
   computed: {
     currentWorkingPath() {
@@ -20,6 +34,14 @@ export default {
     },
     currentWorkingNode() {
       return this.$store.state.views.currentWorkingNode;
+    },
+    immediateChildren() {
+      return this.$store.state.views.currentWorkingNode.children;
+    },
+    nestedChildren() {
+      return this.nestedChildrenHelper(
+        this.$store.state.views.currentWorkingNode
+      );
     }
   },
   watch: {
@@ -51,7 +73,7 @@ export default {
       <!-- immediate children list -->
       <ul>
         <li
-          v-for="child in currentWorkingNode.children"
+          v-for="child in nestedChildren"
           :key="child.path"
           class="p-3 my-1 truncate bg-gray-300 border-gray-600 rounded-sm"
         >{{child.name}}</li>
