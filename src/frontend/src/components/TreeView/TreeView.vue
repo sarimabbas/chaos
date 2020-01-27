@@ -6,14 +6,19 @@ export default {
     Node,
     MinusSquareIcon
   },
-  props: ["roots"]
+  props: ["roots", "handleNodeClick"]
 };
 </script>
 
 <template>
   <div class="h-full cursor-pointer">
     <ul>
-      <node v-for="(node, index) in roots" :node="node" :key="index" :handleNodeClick="() => {}" />
+      <node
+        v-for="(node, index) in roots"
+        :node="node"
+        :key="index"
+        :handleNodeClick="handleNodeClick"
+      />
     </ul>
   </div>
 </template>

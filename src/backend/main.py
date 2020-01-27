@@ -4,13 +4,14 @@ import sys
 import os
 import threading
 import logging
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-from api import API
+import helpers
 
 app = Flask(__name__, template_folder="dist", static_folder="dist/static")
-api = API()
 CORS(app)
+
+window = None
 
 
 def parseArgs():
@@ -26,13 +27,33 @@ def parseArgs():
 def index():
     if args.debug:
         return "In debug mode. Check frontend port."
+    return ""
     return render_template("index.html")
 
 
-@app.route("/api/paths")
-def getPaths():
-    paths = api.recursivelyGetPaths("~/Developer/chaos")
-    return jsonify(paths)
+@app.route("/api/pathfinder")
+def pathFinder():
+    startPath = request.args.get("path", default="")
+    print(startPath)
+    allPaths = helpers.recursivelyGetPaths(startPath)
+    return jsonify(allPaths)
+
+
+@app.route("/api/filepicker")
+def filePicker():
+    if window:
+        typeOfDialog = request.args.get("type", default="folder", type=str)
+        if typeOfDialog == "folder":
+            paths = helpers.filePicker(window, webview.FOLDER_DIALOG)
+        elif typeOfDialog == "file":
+            paths = helpers.filePicker(window, webview.OPEN_DIALOG)
+        elif typeOfDialog == "save":
+            paths = helpers.filePicker(window, webview.SAVE_DIALOG)
+        else:
+            return jsonify({})
+        return jsonify(paths)
+    else:
+        return jsonify({})
 
 
 def start_server():
@@ -46,18 +67,19 @@ if __name__ == "__main__":
     args = parseArgs()
     print(args)
 
+    logging.basicConfig(filename="error.log", level=logging.DEBUG)
+
     # in debug, only run flask
     # in prod, run flask and create the webview
-    if args.debug:
-        logging.basicConfig(filename="error.log", level=logging.DEBUG)
-        start_server()
-    else:
-        # start flask in separate thread
-        t = threading.Thread(target=start_server)
-        t.daemon = True
-        t.start()
-        # start webview
-        window = webview.create_window(
-            "Chaos", "http://localhost:5000/", text_select=True
-        )
-        webview.start()
+    # if args.debug:
+    #     start_server()
+    # else:
+    # start flask in separate thread
+    t = threading.Thread(target=start_server)
+    t.daemon = True
+    t.start()
+    # start webview
+    window = webview.create_window(
+        "Chaos", "http://localhost:8080/", text_select=True
+    )
+    webview.start(debug=True)

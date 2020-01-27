@@ -29,7 +29,7 @@ def main():
 def dev():
     print("Starting development mode...")
     os.system(
-        f"(sleep 10 && ./src/backend/venv/bin/python ./src/backend/main.py --debug) & (yarn --cwd ./src/frontend/ serve) && fg"
+        f"(sleep 10 && ./src/backend/venv/bin/python ./src/backend/main.py) & (yarn --cwd ./src/frontend/ serve) && fg"
     )
 
 

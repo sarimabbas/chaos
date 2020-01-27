@@ -1,0 +1,378 @@
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 134-105-392
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:38:59] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:03] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:08] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 11:39:09] "GET /api/filepicker?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:44:02] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:44:06] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:44:23] "GET /api/filepicker HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:44:29] "GET /api/filepicker HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:44:40] "GET /api/filepicker HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:45:32] "GET /api/filepicker HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:45:37] "GET /api/filepicker HTTP/1.1" 404 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 38, in filePicker
+    result = helpers.filePicker(window)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/helpers.py", line 7, in filePicker
+    result = window.create_file_dialog(dialog_type=OPEN_DIALOG)
+NameError: name 'OPEN_DIALOG' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:45:59] "GET /api/filepicker HTTP/1.1" 500 -
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 38, in filePicker
+    result = helpers.filePicker(window)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/helpers.py", line 7, in filePicker
+    result = window.create_file_dialog(dialog_type=OPEN_DIALOG)
+NameError: name 'OPEN_DIALOG' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:46:09] "GET /api/filepicker HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 40, in filePicker
+    result = helpers.filePicker(window)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/helpers.py", line 7, in filePicker
+    result = window.create_file_dialog(dialog_type=OPEN_DIALOG)
+NameError: name 'OPEN_DIALOG' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:47:16] "GET /api/filepicker HTTP/1.1" 500 -
+ERROR:main:Exception on / [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 29, in index
+    return render_template("index.html")
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 60, in get_source
+    return self._get_source_fast(environment, template)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 89, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:47:30] "GET / HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ERROR:main:Exception on / [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 29, in index
+    return render_template("index.html")
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/jinja2/loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 60, in get_source
+    return self._get_source_fast(environment, template)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/templating.py", line 89, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:47:48] "GET / HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:49:05] "GET / HTTP/1.1" 200 -
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 41, in filePicker
+    result = helpers.filePicker(window)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/helpers.py", line 7, in filePicker
+    result = window.create_file_dialog(dialog_type=OPEN_DIALOG)
+NameError: name 'OPEN_DIALOG' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:49:13] "GET /api/filepicker HTTP/1.1" 500 -
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 41, in filePicker
+    result = helpers.filePicker(window)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/helpers.py", line 7, in filePicker
+    result = window.create_file_dialog(dialog_type=OPEN_DIALOG)
+NameError: name 'OPEN_DIALOG' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:49:18] "GET /api/filepicker HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:50:41] "GET /api/filepicker HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:51:21] "GET /api/filepicker HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:52:52] "GET /api/filepicker HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:53:51] "GET /api/filepicker HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 43, in filePicker
+    typeOfDialog = request.args.get("type", default="folder", type=str)
+NameError: name 'request' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:58:38] "GET /api/filepicker?type=folder HTTP/1.1" 500 -
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 43, in filePicker
+    typeOfDialog = request.args.get("type", default="folder", type=str)
+NameError: name 'request' is not defined
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:58:41] "GET /api/filepicker?type=folder HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 45, in filePicker
+    paths = helpers.filePicker(window, webview.FOLDER_DIALOG)
+TypeError: filePicker() takes 1 positional argument but 2 were given
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:59:33] "GET /api/filepicker?type=folder HTTP/1.1" 500 -
+ERROR:main:Exception on /api/filepicker [GET]
+Traceback (most recent call last):
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/sarimabbas/Developer/chaos/src/backend/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "main.py", line 45, in filePicker
+    paths = helpers.filePicker(window, webview.FOLDER_DIALOG)
+TypeError: filePicker() takes 1 positional argument but 2 were given
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 12:59:40] "GET /api/filepicker?type=folder HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:00:20] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:08:04] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:08:35] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:09:09] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:09:24] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:09:53] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:11:25] "GET /api/paths HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:13:15] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:13:16] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads%2Ffeather HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:17:16] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 13:17:17] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads%2Ffeather HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:16:36] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:16:37] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:18:35] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:18:35] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:19:10] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:19:10] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:19:53] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:19:53] "GET /api/paths?path[]=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:23:24] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:23:24] "GET /api/paths?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:25:05] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:25:05] "GET /api/paths?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:25:26] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:25:28] "GET /api/paths?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:27:15] "GET /api/filepicker?type=file HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:27:15] "GET /api/paths?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos%2Fmanage.py HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:29:36] "GET /api/filepicker?type=%7B%22isTrusted%22:true%7D HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:29:36] "GET /api/paths?path=%7B%7D HTTP/1.1" 404 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:29:57] "GET /api/filepicker?type=file HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:29:58] "GET /api/paths?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos%2Fmanage.py HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:31:13] "GET /api/filepicker?type=file HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:31:13] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos%2Fmanage.py HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:34:27] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 16:34:27] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 20:43:24] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jan/2020 20:43:24] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:15:46] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:15:46] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:56:44] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:56:44] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:57:44] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 20:57:44] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 21:27:01] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 21:27:01] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 22:24:29] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/Jan/2020 22:24:29] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:03:23] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:03:24] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:04:08] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:04:08] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:04:37] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:04:37] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:08:18] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:08:18] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:09:09] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:09:09] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:12:56] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:12:56] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:13:53] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:13:53] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:14:26] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:14:26] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:15:11] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:15:11] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -

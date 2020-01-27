@@ -22,7 +22,6 @@ export default {
 
     <div class="flex items-center justify-between px-1 py-1 bg-gray-800">
       <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Results</span>
-      <SearchIcon class="ml-auto text-gray-300 cursor-pointer hover:text-gray-500" width="20" />
     </div>
   </div>
 </template>

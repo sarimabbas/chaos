@@ -6,10 +6,6 @@ body {
   height: 100%;
 }
 
-.keystroke {
-  @apply px-1 ml-2 text-xs bg-gray-400 rounded-sm;
-}
-
 .ui-help-text {
   @apply text-xs font-bold tracking-widest text-gray-600 uppercase;
 }
@@ -20,6 +16,18 @@ body {
 
 .ui-option-button:hover {
   @apply text-gray-500;
+}
+
+.ui-button {
+  @apply px-1 bg-gray-400 rounded-sm cursor-pointer;
+}
+
+.ui-button:hover {
+  @apply bg-gray-500;
+}
+
+.ui-keystroke {
+  @apply px-1 ml-2 text-xs bg-gray-400 rounded-sm;
 }
 
 .spin {

@@ -3,10 +3,12 @@ import TreeView from "../TreeView/TreeView";
 import MinusSquareIcon from "../../assets/icons/minus-square.svg";
 import LayersIcon from "../../assets/icons/layers.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
+import XSquareIcon from "../../assets/icons/x-square.svg";
 import api from "../../api";
 export default {
   components: {
     TreeView,
+    XSquareIcon,
     MinusSquareIcon,
     LayersIcon,
     LoaderIcon
@@ -19,16 +21,9 @@ export default {
     };
   },
   mounted() {
-    this.getPaths();
+    console.log("File Explorer mounted");
   },
   methods: {
-    async getPaths() {
-      this.loading = true;
-      const res = await api.get("/paths");
-      const paths = await res.data;
-      this.roots = [await paths];
-      this.loading = await false;
-    },
     collapse() {
       if (this.roots.length) {
         this.collapseHelper(this.roots[0]);
@@ -69,6 +64,33 @@ export default {
           this.toggleLeaves(child);
         });
       }
+    },
+    async filePicker(pickerType) {
+      const pickerRequest = await api.get("/filepicker", {
+        params: { type: pickerType || "folder" }
+      });
+      const pickedPath = await pickerRequest.data;
+      this.loading = true;
+      const pathRequest = await api.get("/pathfinder", {
+        params: { path: pickedPath }
+      });
+      const paths = await pathRequest.data;
+      this.roots = [await paths];
+      this.loading = false;
+    },
+    fileClear() {
+      this.roots = [];
+    },
+    handleNodeClick(node) {
+      const oldPath = this.$route.fullPath;
+      const newPath = this.$router.resolve({
+        name: "folder",
+        query: { path: node.path }
+      }).resolved.fullPath;
+
+      if (newPath != oldPath) {
+        this.$router.push(newPath);
+      }
     }
   }
 };
@@ -83,7 +105,8 @@ export default {
       <!--  controls -->
       <div class="flex items-center justify-between px-1 py-1 bg-gray-800 f">
         <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">{{ this.mode }}</span>
-        <div class="flex items-center justify-between" v-if="roots.length">
+        <div v-if="roots.length" class="flex items-center justify-between">
+          <XSquareIcon @click="fileClear" class="mx-1 ml-auto ui-option-button" width="20" />
           <LayersIcon @click="changeMode" class="mx-1 ml-auto ui-option-button" width="20" />
           <MinusSquareIcon @click="collapse" class="ml-auto ui-option-button" width="20" />
         </div>
@@ -91,6 +114,7 @@ export default {
     </div>
     <!-- rest -->
     <TreeView
+      :handleNodeClick="handleNodeClick"
       :roots="roots"
       v-if="roots.length"
       class="overflow-x-hidden overflow-y-auto"
@@ -99,12 +123,9 @@ export default {
     <div v-else-if="loading" class="m-auto text-center text-gray-400">
       <LoaderIcon width="24" class="spin" />
     </div>
-    <div v-else class="m-auto text-center">
-      <input type="file" id="file" class="file-input" />
-      <label
-        for="file"
-        class="px-2 py-1 m-auto text-base cursor-pointer keystroke hover:bg-gray-500"
-      >Open file or folder</label>
+    <div v-else class="flex m-auto text-center">
+      <button @click="filePicker('folder')" class="px-2 py-1 mr-2 text-base ui-button">Open folder</button>
+      <button @click="filePicker('file')" class="px-2 py-1 mr-2 text-base ui-button">Open file</button>
     </div>
   </div>
 </template>

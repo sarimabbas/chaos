@@ -5,11 +5,11 @@
       <h1 class="text-6xl">Chaos</h1>
       <p class="text-sm">
         Open file or folder
-        <span class="keystroke">CMD + O</span>
+        <span class="ui-keystroke">CMD + O</span>
       </p>
       <p class="mt-2 text-sm">
         New file with default module
-        <span class="keystroke">CMD + N</span>
+        <span class="ui-keystroke">CMD + N</span>
       </p>
     </div>
   </div>
