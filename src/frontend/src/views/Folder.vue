@@ -14,14 +14,14 @@ export default {
     },
     fetchFiles() {},
     nestedChildrenHelper(node) {
-      const children = [];
+      let children = [];
       if (node.children && node.children.length > 0) {
         for (let child of node.children) {
           // add the child to the array
           children.push(child);
           // also add all of its children
           if (child.children && child.children.length > 0) {
-            children = children.concat(this.nestedChildren(child.children));
+            children = children.concat(this.nestedChildrenHelper(child));
           }
         }
       }
