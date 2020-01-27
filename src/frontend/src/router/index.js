@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Splash from "../views/Splash.vue";
 import Settings from "../views/Settings.vue";
 import Folder from "../views/Folder.vue";
+import File from "../views/File.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/folder",
     name: "folder",
     component: Folder
+  },
+  {
+    path: "/file",
+    name: "file",
+    component: File
   },
   {
     path: "/about",

@@ -34,10 +34,11 @@ export default {
     <!-- the single item -->
     <div
       class="flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover"
-      @click="toggleChildren"
     >
+      <!-- the chevron -->
       <span
         class="flex items-center ml-1"
+        @click="toggleChildren"
         v-if="node.children && node.children.length && someChildrenVisible"
       >
         <chevron-down-icon v-if="node.showChildren" width="20" class="text-gray-400" />

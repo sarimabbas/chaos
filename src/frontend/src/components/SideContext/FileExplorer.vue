@@ -20,9 +20,7 @@ export default {
       mode: "Traditional View"
     };
   },
-  mounted() {
-    console.log("File Explorer mounted");
-  },
+  mounted() {},
   methods: {
     collapse() {
       if (this.roots.length) {
@@ -82,12 +80,27 @@ export default {
       this.roots = [];
     },
     handleNodeClick(node) {
-      const oldPath = this.$route.fullPath;
-      const newPath = this.$router.resolve({
-        name: "folder",
-        query: { path: node.path }
-      }).resolved.fullPath;
+      let oldPath = this.$route.fullPath;
+      let newPath = this.$route.fullPath;
 
+      // navigate to folder view
+      if (node.type === "directory") {
+        newPath = this.$router.resolve({
+          name: "folder"
+          // query: { path: node.path }
+        }).resolved.fullPath;
+        // navigate to file views
+      } else if (node.type === "file") {
+        newPath = this.$router.resolve({
+          name: "file"
+          // query: { path: node.path }
+        }).resolved.fullPath;
+      }
+
+      // set node in the store
+      this.$store.dispatch("setCurrentWorkingNode", node);
+
+      // only push new path if not on it already
       if (newPath != oldPath) {
         this.$router.push(newPath);
       }

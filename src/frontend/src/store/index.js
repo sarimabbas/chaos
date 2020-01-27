@@ -10,6 +10,11 @@ export default new Vuex.Store({
       isExplorerShowing: false,
       isSearchShowing: false,
       isExtensionsShowing: false
+    },
+    // Views
+    views: {
+      currentWorkingNode: {},
+      currentWorkingPath: ""
     }
   },
   mutations: {
@@ -30,6 +35,10 @@ export default new Vuex.Store({
       state.sidebarContexts.isSearchShowing = false;
       state.sidebarContexts.isExtensionsShowing = !state.sidebarContexts
         .isExtensionsShowing;
+    },
+    setCurrentWorkingNode(state, node) {
+      state.views.currentWorkingNode = node;
+      state.views.currentWorkingPath = node.path;
     }
   },
   actions: {
@@ -41,6 +50,9 @@ export default new Vuex.Store({
     },
     toggleIsExtensionsShowing(ctx) {
       ctx.commit("toggleIsExtensionsShowing");
+    },
+    setCurrentWorkingNode(ctx, node) {
+      ctx.commit("setCurrentWorkingNode", node);
     }
   },
   modules: {}
