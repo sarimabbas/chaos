@@ -16,11 +16,17 @@ export default {
   data() {
     return {
       roots: [],
-      loading: false,
-      mode: "Traditional View"
+      loading: false
     };
   },
   mounted() {},
+  computed: {
+    mode() {
+      return this.$store.state.views.folderMode === "immediate"
+        ? "Immediate Mode"
+        : "Nested Mode";
+    }
+  },
   methods: {
     collapse() {
       if (this.roots.length) {
@@ -41,10 +47,10 @@ export default {
       }
     },
     changeMode() {
-      if (this.mode == "Traditional View") {
-        this.mode = "Folder View";
+      if (this.mode == "Immediate Mode") {
+        this.$store.dispatch("setFolderMode", "nested");
       } else {
-        this.mode = "Traditional View";
+        this.$store.dispatch("setFolderMode", "immediate");
       }
       if (this.roots.length) {
         this.toggleLeaves(this.roots[0]);

@@ -42,6 +42,9 @@ export default {
       return this.nestedChildrenHelper(
         this.$store.state.views.currentWorkingNode
       );
+    },
+    isFolderImmediateMode() {
+      return this.$store.state.views.folderMode === "immediate";
     }
   },
   watch: {
@@ -71,7 +74,14 @@ export default {
       </div>
       <!-- <span>{{ this.$route.query.path }}</span> -->
       <!-- immediate children list -->
-      <ul>
+      <ul v-if="isFolderImmediateMode">
+        <li
+          v-for="child in immediateChildren"
+          :key="child.path"
+          class="p-3 my-1 truncate bg-gray-300 border-gray-600 rounded-sm"
+        >{{child.name}}</li>
+      </ul>
+      <ul v-else>
         <li
           v-for="child in nestedChildren"
           :key="child.path"
