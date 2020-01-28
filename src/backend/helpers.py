@@ -22,26 +22,34 @@ def recursivelyGetPaths(curPath: str):
 
 def recursivelyGetPathsHelper(curPath: Path):
 
+    # stat result
+    stat = curPath.stat()
+    commonProp = {
+        "path": str(curPath),
+        "name": curPath.name,
+        "show": True,
+        "system": {
+            "st_size": stat.st_size,
+            "st_mtime": stat.st_mtime,
+            "st_ctime": stat.st_ctime,
+        },
+    }
+
     # if leaf node, return
     if curPath.is_file():
         return {
-            "path": str(curPath),
-            "children": [],
+            **commonProp,
             "type": "file",
-            "name": curPath.name,
-            "show": True,
+            "children": [],
         }
-
-    nextPaths = curPath.iterdir()
 
     # if parent node, recurse
     if curPath.is_dir():
+        nextPaths = curPath.iterdir()
         return {
-            "path": str(curPath),
+            **commonProp,
             "type": "directory",
             "children": [recursivelyGetPathsHelper(p) for p in nextPaths],
-            "name": curPath.name,
             "showChildren": False,
-            "show": True,
         }
 

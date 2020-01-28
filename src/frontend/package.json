@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
+    "lodash": "^4.17.15",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
     "vue-awesome": "^4.0.2",
