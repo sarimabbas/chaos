@@ -218,3 +218,32 @@ INFO:werkzeug:127.0.0.1 - - [28/Jan/2020 17:30:08] "GET /api/pathfinder?path=%2F
 INFO:werkzeug:127.0.0.1 - - [28/Jan/2020 17:37:23] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [28/Jan/2020 17:37:23] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
 INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2020 15:13:16] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [31/Jan/2020 15:13:16] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:23:15] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:23:16] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:25] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:26] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:32] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:33] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:47] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:29:48] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:02] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:03] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:19] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:21] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:25] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:30:26] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:31:07] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:31:08] "GET /api/pathfinder?path= HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:31:19] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:31:21] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:31:27] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:33:20] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:33:21] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDeveloper%2Fchaos HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:33:32] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:33:33] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Feb/2020 15:33:37] "GET /api/filepicker?type=folder HTTP/1.1" 200 -

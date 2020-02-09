@@ -30,7 +30,7 @@ class Atom:
             },
             "module": {
                 "id": "",  # UUID string i.e. which module created it
-                "name": "",  # Name of module that created the file
+                "name": "",  # Name of that module
                 # module-specific properties below, e.g.
                 # "assetsPath" : "",
                 # "apiToken" : ""

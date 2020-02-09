@@ -377,3 +377,4 @@ INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:14:26] "GET /api/pathfinder?path=%2F
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:15:11] "GET /api/filepicker?type=folder HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/Jan/2020 19:15:11] "GET /api/pathfinder?path=%2FUsers%2Fsarimabbas%2FDownloads HTTP/1.1" 200 -
 INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)

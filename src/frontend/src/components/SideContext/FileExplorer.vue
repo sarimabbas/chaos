@@ -74,6 +74,10 @@ export default {
         params: { type: pickerType || "folder" }
       });
       const pickedPath = await pickerRequest.data;
+      console.log(pickedPath);
+      if ((await pickedPath) === "") {
+        return;
+      }
       this.loading = true;
       const pathRequest = await api.get("/pathfinder", {
         params: { path: pickedPath }
