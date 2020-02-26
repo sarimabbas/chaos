@@ -28,6 +28,14 @@ export default {
       return this.$store.state.views.folderMode === "immediate"
         ? "Immediate Mode"
         : "Nested Mode";
+    },
+    refreshFileExplorer() {
+      return this.$store.state.hacks.refreshFileExplorer;
+    }
+  },
+  watch: {
+    refreshFileExplorer: function(newVal, oldVal) {
+      this.refreshTree();
     }
   },
   methods: {
@@ -108,12 +116,6 @@ export default {
         ) {
           this.$store.dispatch("setCurrentWorkingNode", this.roots[0]);
         }
-
-        // this.$router.go();
-        // this.handleNodeClick(this.$store.state.views.currentWorkingNode);
-        // let nodeHack = this.$store.state.views.currentWorkingNode;
-        // nodeHack["update"] = true;
-        // this.$store.dispatch("setCurrentWorkingNode", nodeHack);
       }
     },
     refreshTreeHelper(oldTree, newTree) {
@@ -197,7 +199,6 @@ export default {
       :roots="roots"
       v-if="roots.length"
       class="overflow-x-hidden overflow-y-auto"
-      ref="treeview"
     />
     <div v-else-if="loading" class="m-auto text-center text-gray-400">
       <LoaderIcon width="24" class="spin" />

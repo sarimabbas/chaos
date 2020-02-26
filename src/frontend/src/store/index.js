@@ -16,6 +16,9 @@ export default new Vuex.Store({
       currentWorkingNode: {},
       currentWorkingPath: "",
       folderMode: "immediate" // false: "nested" mode
+    },
+    hacks: {
+      refreshFileExplorer: new Date()
     }
   },
   mutations: {
@@ -43,6 +46,9 @@ export default new Vuex.Store({
     },
     setFolderMode(state, mode) {
       state.views.folderMode = mode;
+    },
+    refreshFileExplorer(state) {
+      state.hacks.refreshFileExplorer = new Date();
     }
   },
   actions: {
@@ -60,6 +66,9 @@ export default new Vuex.Store({
     },
     setFolderMode(ctx, mode) {
       ctx.commit("setFolderMode", mode);
+    },
+    refreshFileExplorer(ctx) {
+      ctx.commit("refreshFileExplorer");
     }
   },
   modules: {}
