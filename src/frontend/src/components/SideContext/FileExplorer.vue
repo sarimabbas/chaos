@@ -4,6 +4,7 @@ import MinusSquareIcon from "../../assets/icons/minus-square.svg";
 import LayersIcon from "../../assets/icons/layers.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
 import XSquareIcon from "../../assets/icons/x-square.svg";
+import RotateCwIcon from "../../assets/icons/rotate-cw.svg";
 import api from "../../api";
 export default {
   components: {
@@ -11,11 +12,13 @@ export default {
     XSquareIcon,
     MinusSquareIcon,
     LayersIcon,
+    RotateCwIcon,
     LoaderIcon
   },
   data() {
     return {
       roots: [],
+      lastSetPath: "",
       loading: false
     };
   },
@@ -74,6 +77,7 @@ export default {
         params: { type: pickerType || "folder" }
       });
       const pickedPath = await pickerRequest.data;
+      this.lastSetPath = await pickedPath;
       console.log(pickedPath);
       if ((await pickedPath) === "") {
         return;
@@ -86,6 +90,57 @@ export default {
       this.roots = [await paths];
       this.loading = false;
     },
+    async refreshTree() {
+      if (this.lastSetPath !== "") {
+        // fetch the directory again
+        this.loading = true;
+        const pathRequest = await api.get("/pathfinder", {
+          params: { path: this.lastSetPath }
+        });
+        // patch the new tree with the old tree's toggles
+        const paths = await pathRequest.data;
+        await this.refreshTreeHelper(this.roots[0], paths);
+        this.roots = [await paths];
+        this.loading = false;
+        // refresh the folder views if the root is the same
+        if (
+          this.$store.state.views.currentWorkingNode.path === this.roots[0].path
+        ) {
+          this.$store.dispatch("setCurrentWorkingNode", this.roots[0]);
+        }
+
+        // this.$router.go();
+        // this.handleNodeClick(this.$store.state.views.currentWorkingNode);
+        // let nodeHack = this.$store.state.views.currentWorkingNode;
+        // nodeHack["update"] = true;
+        // this.$store.dispatch("setCurrentWorkingNode", nodeHack);
+      }
+    },
+    refreshTreeHelper(oldTree, newTree) {
+      // compare current node paths and path
+      if (newTree.children.length && newTree.path == oldTree.path) {
+        newTree.showChildren = oldTree.showChildren;
+      }
+
+      // compare children
+      if (newTree.children.length && oldTree.children.length) {
+        let n_children = newTree.children.concat().sort();
+        let o_children = oldTree.children.concat().sort();
+        n_children = n_children.filter(nc => {
+          let keep = false;
+          o_children.forEach(oc => {
+            if (nc.path == oc.path) {
+              keep = true;
+            }
+          });
+          return keep;
+        });
+
+        n_children.forEach((child, index) => {
+          this.refreshTreeHelper(child, o_children[index]);
+        });
+      }
+    },
     fileClear() {
       this.roots = [];
     },
@@ -96,8 +151,8 @@ export default {
       // navigate to folder view
       if (node.type === "directory") {
         newPath = this.$router.resolve({
-          name: "folder"
-          // query: { path: node.path }
+          name: "folder",
+          query: { path: node.path }
         }).resolved.fullPath;
         // navigate to file views
       } else if (node.type === "file") {
@@ -129,9 +184,10 @@ export default {
       <div class="flex items-center justify-between px-1 py-1 bg-gray-800 f">
         <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">{{ this.mode }}</span>
         <div v-if="roots.length" class="flex items-center justify-between">
-          <XSquareIcon @click="fileClear" class="mx-1 ml-auto ui-option-button" width="20" />
-          <LayersIcon @click="changeMode" class="mx-1 ml-auto ui-option-button" width="20" />
-          <MinusSquareIcon @click="collapse" class="ml-auto ui-option-button" width="20" />
+          <RotateCwIcon @click="refreshTree" class="mx-1 ml-auto ui-option-button" width="15" />
+          <XSquareIcon @click="fileClear" class="mx-1 ml-auto ui-option-button" width="15" />
+          <LayersIcon @click="changeMode" class="mx-1 ml-auto ui-option-button" width="15" />
+          <MinusSquareIcon @click="collapse" class="ml-auto ui-option-button" width="15" />
         </div>
       </div>
     </div>
