@@ -4,3 +4,4 @@ src/backend/build
 __pycache__
 .eggs
 dist
+.DS_Store

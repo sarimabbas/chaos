@@ -7,11 +7,22 @@ Usage:
 
 from setuptools import setup
 
-APP = ["./main.py"]
+APP = ["./src/main.py"]
 DATA_FILES = ["../frontend/dist"]
 OPTIONS = {
     "iconfile": "./icon.icns",
     "packages": ["flask", "werkzeug", "jinja2"],
+    "plist": {
+        "CFBundleDocumentTypes": [
+            {
+                "CFBundleTypeName": "Chaos",
+                "CFBundleTypeRole": "Editor",
+                "CFBundleTypeIconFile": "./icon.icns",
+                "LSTypeIsPackage": True,
+                "LSItemContentTypes": [".chaos"],
+            }
+        ]
+    },
 }
 
 setup(

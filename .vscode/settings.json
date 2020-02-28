@@ -8,5 +8,6 @@
     "editor.tabSize": 4
   },
   "python.pythonPath": "${workspaceFolder}/src/backend/venv/bin/python",
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true
 }
