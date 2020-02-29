@@ -33,7 +33,7 @@ export default {
   <li class="pr-1" v-if="node.show">
     <!-- the single item -->
     <div
-      class="flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover"
+      :class="['flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover', node.selected ? 'bg-gray-600' : '']"
     >
       <!-- the chevron -->
       <span

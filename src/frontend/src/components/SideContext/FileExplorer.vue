@@ -5,7 +5,7 @@ import LayersIcon from "../../assets/icons/layers.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
 import XSquareIcon from "../../assets/icons/x-square.svg";
 import RotateCwIcon from "../../assets/icons/rotate-cw.svg";
-import api from "../../api";
+
 export default {
   components: {
     TreeView,
@@ -81,17 +81,16 @@ export default {
       }
     },
     async filePicker(pickerType) {
-      const pickerRequest = await api.get("/filepicker", {
+      const pickerRequest = await this.$chaos.rest.get("/filepicker", {
         params: { type: pickerType || "folder" }
       });
       const pickedPath = await pickerRequest.data;
       this.lastSetPath = await pickedPath;
-      console.log(pickedPath);
       if ((await pickedPath) === "") {
         return;
       }
       this.loading = true;
-      const pathRequest = await api.get("/pathfinder", {
+      const pathRequest = await this.$chaos.rest.get("/pathfinder", {
         params: { path: pickedPath }
       });
       const paths = await pathRequest.data;
@@ -102,7 +101,7 @@ export default {
       if (this.lastSetPath !== "") {
         // fetch the directory again
         this.loading = true;
-        const pathRequest = await api.get("/pathfinder", {
+        const pathRequest = await this.$chaos.rest.get("/pathfinder", {
           params: { path: this.lastSetPath }
         });
         // patch the new tree with the old tree's toggles
@@ -146,6 +145,12 @@ export default {
     fileClear() {
       this.roots = [];
     },
+    selectedHelper(tree) {
+      tree.selected = false;
+      tree.children.forEach(c => {
+        this.selectedHelper(c);
+      });
+    },
     handleNodeClick(node) {
       let oldPath = this.$route.fullPath;
       let newPath = this.$route.fullPath;
@@ -153,8 +158,8 @@ export default {
       // navigate to folder view
       if (node.type === "directory") {
         newPath = this.$router.resolve({
-          name: "folder",
-          query: { path: node.path }
+          name: "folder"
+          // query: { path: node.path }
         }).resolved.fullPath;
         // navigate to file views
       } else if (node.type === "file") {
@@ -163,6 +168,10 @@ export default {
           // query: { path: node.path }
         }).resolved.fullPath;
       }
+
+      // set node as selected, and all the others as not
+      this.selectedHelper(this.roots[0]);
+      node.selected = true;
 
       // set node in the store
       this.$store.dispatch("setCurrentWorkingNode", node);

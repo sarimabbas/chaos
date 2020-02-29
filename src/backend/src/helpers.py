@@ -33,6 +33,7 @@ def recursivelyGetPathsHelper(curPath: Path):
             "st_mtime": stat.st_mtime,
             "st_ctime": stat.st_ctime,
         },
+        "selected": False,
     }
 
     # if leaf node, return

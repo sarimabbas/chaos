@@ -1,10 +1,8 @@
 <script>
 import Node from "./Node";
-import MinusSquareIcon from "../../assets/icons/minus-square.svg";
 export default {
   components: {
-    Node,
-    MinusSquareIcon
+    Node
   },
   props: ["roots", "handleNodeClick"]
 };
