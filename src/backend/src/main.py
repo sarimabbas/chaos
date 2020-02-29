@@ -24,7 +24,6 @@ CORS(app)
 @app.route("/api/pathfinder")
 def pathFinder():
     startPath = request.args.get("path", default="")
-    print(startPath)
     allPaths = helpers.recursivelyGetPaths(startPath)
     return jsonify(allPaths)
 
@@ -57,10 +56,8 @@ def openURL():
 @app.route("/api/write-json-to-file", methods=["POST"])
 def writeJSONToFile():
     response = request.json
-    print(response)
     path = response["path"]
     data = response["data"]
-    print(data)
     a = Atom()
     res = a.update(data)
     if res:
@@ -74,7 +71,6 @@ def writeJSONToFile():
 @app.route("/api/modules/website/create")
 def modules_website_create():
     url = request.args.get("url", default=None, type=str)
-    print(url)
     if url:
         return Website.create(url).toJSON()
     return ""
@@ -86,6 +82,20 @@ def readFile():
     if path:
         content = helpers.readFile(path)
         return content
+    return "Error"
+
+
+@app.route("/api/write-file", methods=["POST"])
+def writeFile():
+    response = request.json
+    path = response["path"]
+    data = response["data"]
+    a = Atom()
+    res = a.update(data)
+    if res:
+        res = a.save(path)
+        if res:
+            return "Success"
     return "Error"
 
 
