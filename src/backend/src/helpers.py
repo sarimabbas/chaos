@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import webbrowser
 from typing import Dict
+from atom import Atom
 
 
 def filePicker(window, dialogType):
@@ -15,8 +16,8 @@ def filePicker(window, dialogType):
 
 
 def recursivelyGetPaths(curPath: str):
-    curPath: Path = Path(curPath).expanduser()
-    return recursivelyGetPathsHelper(curPath)
+    path: Path = Path(curPath).expanduser()
+    return recursivelyGetPathsHelper(path)
 
 
 def recursivelyGetPathsHelper(curPath: Path):
@@ -65,6 +66,18 @@ def recursivelyGetPathsHelper(curPath: Path):
 
 def openURL(url: str):
     webbrowser.open_new_tab(url)
+
+
+def readFile(strPath: str) -> str:
+    path: Path = Path(strPath).expanduser()
+    if path.exists():
+        if path.is_file():
+            return path.read_text()
+        elif path.suffix in [".chaos", ".sa490", ".crncl"]:
+            atom = Atom()
+            atom.load(strPath)
+            return str(atom)
+    return ""
 
 
 # if __name__ == "__main__":

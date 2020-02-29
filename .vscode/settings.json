@@ -9,5 +9,7 @@
   },
   "python.pythonPath": "${workspaceFolder}/src/backend/venv/bin/python",
   "python.formatting.provider": "black",
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.mypyEnabled": true
 }

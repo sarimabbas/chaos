@@ -5,3 +5,4 @@ __pycache__
 .eggs
 dist
 .DS_Store
+.mypy_cache

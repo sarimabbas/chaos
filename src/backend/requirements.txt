@@ -3,6 +3,7 @@ click
 
 # formatting
 black
+mypy
 
 # pywebview
 pywebview
