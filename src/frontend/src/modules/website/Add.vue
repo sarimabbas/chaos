@@ -1,5 +1,4 @@
 <script>
-import api from "../../api";
 import CheckIcon from "../../assets/icons/check.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
 export default {
@@ -17,23 +16,24 @@ export default {
   methods: {
     async fetchURL() {
       this.loading = true;
-      const request = await api.get("/modules/website/create", {
-        params: { url: this.url }
+      const hostname = new URL(this.url).hostname;
+      const request = await this.$chaos.rest.get("/modules/website/create", {
+        params: {
+          url: this.url,
+          path:
+            this.$store.state.views.currentWorkingPath +
+            "/" +
+            hostname +
+            ".chaos"
+        }
       });
       const data = await request.data;
+      this.$chaos.refreshExplorer();
       this.loading = false;
       this.success = true;
       setTimeout(() => {
         this.success = false;
       }, 2000);
-      if (data) {
-        const hostname = new URL(this.url).hostname;
-        await api.post("/write-json-to-file", {
-          path: this.$store.state.views.currentWorkingPath + "/" + hostname + ".chaos",
-          data: data
-        });
-        this.$store.dispatch("refreshFileExplorer");
-      }
     }
   }
 };
@@ -53,7 +53,10 @@ export default {
         placeholder="Enter URL e.g. https://google.com"
         v-model="url"
       />
-      <button class="px-2 ml-2 bg-gray-400 rounded-lg hover:bg-gray-500" @click="fetchURL">
+      <button
+        class="px-2 ml-2 bg-gray-400 rounded-lg hover:bg-gray-500"
+        @click="fetchURL"
+      >
         <span v-if="loading">
           <LoaderIcon width="24" class="spin" />
         </span>
