@@ -1,5 +1,4 @@
 <script>
-import api from "../api";
 import { get as lGet } from "lodash";
 import CrossIcon from "../assets/icons/cross.svg";
 import WebsiteInteract from "../modules/website/Interact";
@@ -23,12 +22,7 @@ export default {
     currentPath: {
       immediate: true,
       handler: async function(newVal, oldVal) {
-        console.log(newVal);
-        const response = await api.get("/read-file", {
-          params: {
-            path: newVal
-          }
-        });
+        const response = await this.$chaos.file.read(newVal);
         if (this.isFileAtom) {
           this.manifest = await response.data;
         } else {
