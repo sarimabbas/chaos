@@ -10,7 +10,7 @@ import helpers
 from atom import Atom
 
 # from modules.website import module as website
-from modules.website.module import Website
+from modules.website.module import create as website_create
 
 # from .components.modules import website
 
@@ -71,9 +71,11 @@ def writeJSONToFile():
 @app.route("/api/modules/website/create")
 def modules_website_create():
     url = request.args.get("url", default=None, type=str)
-    if url:
-        return Website.create(url).toJSON()
-    return ""
+    path = request.args.get("path", default=None, type=str)
+    if url and path:
+        website_create(url, path)
+        return "success"
+    return "error"
 
 
 @app.route("/api/read-file")
