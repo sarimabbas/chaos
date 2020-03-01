@@ -22,12 +22,14 @@ export default {
   <div class="relative">
     <!-- the button to open the dropdown -->
     <button
-      class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm"
+      class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
       type="button"
       @click="toggle"
     >
       <span>{{ text }}</span>
-      <ChevronDownIcon width="20" />
+      <div class="ml-1">
+        <slot name="icon" />
+      </div>
     </button>
     <!-- the overlay in the background which allows exit click -->
     <button
@@ -37,10 +39,7 @@ export default {
       class="fixed inset-0 w-full h-full cursor-default"
     ></button>
     <!-- the actual links -->
-    <div
-      v-if="isOpen"
-      class="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-xl"
-    >
+    <div v-if="isOpen" class="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-xl">
       <slot />
     </div>
   </div>
