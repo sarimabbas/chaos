@@ -1,6 +1,7 @@
 # python stuff
 src/backend/venv
 src/backend/build
+node_modules
 __pycache__
 .eggs
 dist
