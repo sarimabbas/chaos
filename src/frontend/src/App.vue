@@ -2,15 +2,12 @@
 import Sidebar from "./components/Sidebar/Sidebar";
 import SideContext from "./components/SideContext/SideContext";
 
-// icons
-import "vue-awesome/icons/regular/file";
-import "vue-awesome/icons/search";
-
 export default {
   components: {
     Sidebar,
     SideContext
-  }
+  },
+  mounted() {}
 };
 </script>
 
