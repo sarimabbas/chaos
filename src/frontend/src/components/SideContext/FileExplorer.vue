@@ -22,7 +22,12 @@ export default {
       loading: false
     };
   },
-  mounted() {},
+  mounted() {
+    this.$events.$on("explorerNodeClick", node => {
+      this.handleNodeClick(node);
+    });
+  },
+
   computed: {
     mode() {
       return this.$store.state.views.folderMode === "immediate"
@@ -36,6 +41,9 @@ export default {
   watch: {
     refreshFileExplorer: function(newVal, oldVal) {
       this.refreshTree();
+    },
+    externalNodeClick: function(newVal, oldVal) {
+      this.handleNodeClick(newVal);
     }
   },
   methods: {
@@ -152,6 +160,10 @@ export default {
       });
     },
     handleNodeClick(node) {
+      if (!node) {
+        return;
+      }
+
       let oldPath = this.$route.fullPath;
       let newPath = this.$route.fullPath;
 
@@ -193,12 +205,31 @@ export default {
       <div class="my-1 text-center ui-help-text">Explorer Context</div>
       <!--  controls -->
       <div class="flex items-center justify-between px-1 py-1 bg-gray-800 f">
-        <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">{{ this.mode }}</span>
+        <span
+          class="text-xs font-bold tracking-widest text-gray-400 uppercase"
+          >{{ this.mode }}</span
+        >
         <div v-if="roots.length" class="flex items-center justify-between">
-          <RotateCwIcon @click="refreshTree" class="mx-1 ml-auto ui-option-button" width="15" />
-          <XSquareIcon @click="fileClear" class="mx-1 ml-auto ui-option-button" width="15" />
-          <LayersIcon @click="changeMode" class="mx-1 ml-auto ui-option-button" width="15" />
-          <MinusSquareIcon @click="collapse" class="ml-auto ui-option-button" width="15" />
+          <RotateCwIcon
+            @click="refreshTree"
+            class="mx-1 ml-auto ui-option-button"
+            width="15"
+          />
+          <XSquareIcon
+            @click="fileClear"
+            class="mx-1 ml-auto ui-option-button"
+            width="15"
+          />
+          <LayersIcon
+            @click="changeMode"
+            class="mx-1 ml-auto ui-option-button"
+            width="15"
+          />
+          <MinusSquareIcon
+            @click="collapse"
+            class="ml-auto ui-option-button"
+            width="15"
+          />
         </div>
       </div>
     </div>
@@ -213,8 +244,18 @@ export default {
       <LoaderIcon width="24" class="spin" />
     </div>
     <div v-else class="flex m-auto text-center">
-      <button @click="filePicker('folder')" class="px-2 py-1 mr-2 text-base ui-button">Open folder</button>
-      <button @click="filePicker('file')" class="px-2 py-1 mr-2 text-base ui-button">Open file</button>
+      <button
+        @click="filePicker('folder')"
+        class="px-2 py-1 mr-2 text-base ui-button"
+      >
+        Open folder
+      </button>
+      <button
+        @click="filePicker('file')"
+        class="px-2 py-1 mr-2 text-base ui-button"
+      >
+        Open file
+      </button>
     </div>
   </div>
 </template>
