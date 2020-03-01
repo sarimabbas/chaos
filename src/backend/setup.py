@@ -11,6 +11,7 @@ APP = ["./src/main.py"]
 DATA_FILES = ["../frontend/dist"]
 OPTIONS = {
     "iconfile": "./icon.icns",
+    "argv_emulation": True,
     "packages": ["flask", "werkzeug", "jinja2"],
     "plist": {
         "CFBundleDocumentTypes": [
@@ -19,9 +20,10 @@ OPTIONS = {
                 "CFBundleTypeRole": "Editor",
                 "CFBundleTypeIconFile": "./icon.icns",
                 "LSTypeIsPackage": True,
-                "LSItemContentTypes": [".chaos"],
+                "CFBundleTypeExtensions": ["chaos"],
             }
-        ]
+        ],
+        "CFBundleIdentifier": "com.sarimabbas.chaos",
     },
 }
 
