@@ -73,7 +73,7 @@ def readFile(strPath: str) -> str:
     path: Path = Path(strPath).expanduser()
     if path.exists():
         if path.is_file():
-            return path.read_text()
+            return path.read_text(encoding="utf-8")
         elif path.suffix in [".chaos", ".sa490", ".crncl"]:
             atom = Atom()
             atom.load(strPath)
