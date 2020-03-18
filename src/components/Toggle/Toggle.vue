@@ -1,11 +1,26 @@
+<script>
+export default {
+  props: ["labelRight", "labelLeft", "handler", "checked"]
+};
+</script>
+
 <template>
-  <div class="flex items-center justify-center w-full mb-24">
+  <div>
     <!-- Toggle Button -->
-    <label for="toogleA" class="flex items-center cursor-pointer">
+    <label class="flex items-center cursor-pointer">
+      <!-- labelLeft -->
+      <div class="mr-3 font-medium text-gray-200">
+        {{ labelLeft }}
+      </div>
       <!-- toggle -->
       <div class="relative">
         <!-- input -->
-        <input id="toogleA" type="checkbox" class="hidden toggle_input" />
+        <input
+          type="checkbox"
+          class="hidden toggle_input"
+          @input="handler"
+          :checked="checked"
+        />
         <!-- line -->
         <div
           class="w-10 h-4 bg-gray-400 rounded-full shadow-inner toggle__line"
@@ -15,17 +30,13 @@
           class="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow toggle__dot"
         ></div>
       </div>
-      <!-- label -->
-      <div class="ml-3 font-medium text-gray-700">
-        Toggle Me!
+      <!-- labelRight -->
+      <div class="ml-3 font-medium text-gray-200">
+        {{ labelRight }}
       </div>
     </label>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style scoped>
 .toggle__dot {

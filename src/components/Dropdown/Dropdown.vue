@@ -39,7 +39,10 @@ export default {
       class="fixed inset-0 w-full h-full cursor-default"
     ></button>
     <!-- the actual links -->
-    <div v-if="isOpen" class="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-xl">
+    <div
+      v-if="isOpen"
+      class="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-xl"
+    >
       <slot />
     </div>
   </div>

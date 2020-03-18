@@ -1,30 +1,40 @@
 <script>
 import { get as lGet } from "lodash";
-import Add from "../components/Add/Add";
-import CrossIcon from "../assets/icons/cross.svg";
-import ChevronDownIcon from "../assets/icons/chevron-down.svg";
-import PlusIcon from "../assets/icons/plus.svg";
-import FilterIcon from "../assets/icons/filter.svg";
-import EyeIcon from "../assets/icons/eye.svg";
-import ArrowDownIcon from "../assets/icons/arrow-down.svg";
-import Dropdown from "../components/Dropdown/Dropdown";
-import DropdownItem from "../components/Dropdown/DropdownItem";
-import store from "../store";
+import Add from "../../components/Add/Add";
+import CrossIcon from "../../assets/icons/cross.svg";
+import ChevronDownIcon from "../../assets/icons/chevron-down.svg";
+import PlusIcon from "../../assets/icons/plus.svg";
+import FilterIcon from "../../assets/icons/filter.svg";
+import EyeIcon from "../../assets/icons/eye.svg";
+import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import DropdownItem from "../../components/Dropdown/DropdownItem";
+
+import ListView from "../../components/ListView/ListView";
+import GridView from "../../components/GridView/GridView";
+
+import store from "../../store";
 export default {
   components: {
-    CrossIcon,
-    ArrowDownIcon,
     Dropdown,
     DropdownItem,
+    Add,
+
+    // icons
+    CrossIcon,
+    ArrowDownIcon,
     ChevronDownIcon,
     PlusIcon,
     FilterIcon,
     EyeIcon,
-    Add
+    // views
+    ListView,
+    GridView
   },
   data() {
     return {
-      nodeSortProperty: ""
+      nodeSortProperty: "",
+      viewProperty: "list"
     };
   },
   mounted() {},
@@ -105,7 +115,9 @@ export default {
       <div class="flex items-center justify-between my-3">
         <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
           Folder:
-          <h2 class="inline text-xl text-gray-200">{{ currentWorkingNode.name }}</h2>
+          <h2 class="inline text-xl text-gray-200">
+            {{ currentWorkingNode.name }}
+          </h2>
         </h1>
         <CrossIcon class="ui-option-button" width="24" @click="close" />
       </div>
@@ -116,6 +128,24 @@ export default {
             <template v-slot:icon>
               <EyeIcon width="15" />
             </template>
+            <DropdownItem
+              text="List"
+              :onClick="
+                () => {
+                  viewProperty = 'list';
+                }
+              "
+              :active="viewProperty === 'list'"
+            />
+            <DropdownItem
+              text="Grid"
+              :onClick="
+                () => {
+                  viewProperty = 'grid';
+                }
+              "
+              :active="viewProperty === 'grid'"
+            />
           </Dropdown>
           <Dropdown text="Filter" class="mr-2">
             <template v-slot:icon>
@@ -155,6 +185,7 @@ export default {
             />
           </Dropdown>
         </div>
+        <!--  Add button -->
         <button
           class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
           type="button"
@@ -165,27 +196,40 @@ export default {
             <PlusIcon width="15" />
           </div>
         </button>
-        <modal name="add-modal" height="auto" :scrollable="true" :adaptive="true">
+        <modal
+          name="add-modal"
+          height="auto"
+          :scrollable="true"
+          :adaptive="true"
+        >
           <Add />
         </modal>
       </div>
       <!-- immediate children list -->
-      <ul v-if="isFolderImmediateMode">
-        <li
-          v-for="child in immediateChildren"
-          @click="handleClick(child)"
-          :key="child.path"
-          class="px-2 py-1 my-1 truncate bg-white border-gray-600 rounded-sm cursor-pointer"
-        >{{ child.name }}</li>
-      </ul>
-      <ul v-else>
-        <li
-          v-for="child in nestedChildren"
-          @click="handleClick(child)"
-          :key="child.path"
-          class="px-2 py-1 my-1 truncate bg-white border-gray-600 rounded-sm cursor-pointer"
-        >{{ child.name }}</li>
-      </ul>
+      <div v-if="isFolderImmediateMode">
+        <ListView
+          v-if="viewProperty == 'list'"
+          :items="immediateChildren"
+          :handleClick="handleClick"
+        />
+        <GridView
+          v-if="viewProperty == 'grid'"
+          :items="immediateChildren"
+          :handleClick="handleClick"
+        />
+      </div>
+      <div v-else>
+        <ListView
+          v-if="viewProperty == 'list'"
+          :items="nestedChildren"
+          :handleClick="handleClick"
+        />
+        <GridView
+          v-if="viewProperty == 'grid'"
+          :items="nestedChildren"
+          :handleClick="handleClick"
+        />
+      </div>
     </div>
   </div>
 </template>

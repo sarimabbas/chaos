@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Splash from "../views/Splash.vue";
 import Settings from "../views/Settings.vue";
-import Folder from "../views/Folder.vue";
+import Folder from "../views/Folder/Folder.vue";
 import File from "../views/File.vue";
 
 Vue.use(VueRouter);
