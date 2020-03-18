@@ -4,7 +4,6 @@ import LoaderIcon from "../../assets/icons/loader.svg";
 
 const moduleID = "com.sarimabbas.chaos.website";
 const moduleName = "Chaos Website Module";
-import mhtml2html from "mhtml2html";
 
 export default {
   components: {
@@ -72,16 +71,14 @@ export default {
 
         // save the full directory
         const pathToPage = this.$chaos.path.join(pathToBundle, "page.mhtml");
-        await win.webContents.savePage(pathToPage, "MHTML");
+        await win.webContents.savePage(pathToPage, "HTMLComplete");
 
-        const mhtmlFileContents = this.$chaos.fs.readFileSync(
-          pathToPage,
-          "utf8"
-        );
-        const html = mhtml2html.convert(mhtmlFileContents);
-        console.log(html);
-
-        return;
+        // const mhtmlFileContents = this.$chaos.fs.readFileSync(
+        //   pathToPage,
+        //   "utf8"
+        // );
+        // const html = mhtml2html.convert(mhtmlFileContents);
+        // console.log(html);
 
         // save a compressed/inlined version for preview
         this.$chaos.inline.html(
@@ -109,27 +106,6 @@ export default {
             }, 2000);
           }
         );
-
-        // await this.$chaos.critical.generate({
-        //   inline: true,
-        //   base: pathToBundle,
-        //   src: "page.html",
-        //   target: "singlepage.html",
-        //   inlineImages: true,
-        //   assetPaths: [pathToBundle],
-        //   maxImageFileSize: 1000000000,
-        //   width: 1300,
-        //   height: 900
-        // });
-
-        // close the window and update explorer
-        // win.close();
-        // this.loading = false;
-        // this.success = true;
-        // this.$chaos.refreshExplorer();
-        // setTimeout(() => {
-        //   this.success = false;
-        // }, 2000);
       });
     }
   }

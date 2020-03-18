@@ -1,4 +1,10 @@
 module.exports = {
+  pluginOptions: {
+    electronBuilder: {
+      externals: ["@hapi/joi", "axios", "web-resource-inliner"]
+      // nodeModulesPath: ["../../node_modules", "./node_modules"]
+    }
+  },
   assetsDir: "static",
   chainWebpack: config => {
     // handle svg imports
