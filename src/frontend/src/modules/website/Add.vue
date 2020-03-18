@@ -1,6 +1,11 @@
 <script>
 import CheckIcon from "../../assets/icons/check.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
+
+const moduleID = "com.sarimabbas.chaos.website";
+const moduleName = "Chaos Website Module";
+import mhtml2html from "mhtml2html";
+
 export default {
   components: {
     CheckIcon,
@@ -10,30 +15,122 @@ export default {
     return {
       url: "",
       loading: false,
-      success: false
+      success: false,
+      error: false
     };
   },
   methods: {
     async fetchURL() {
       this.loading = true;
+
+      // check if URL even exists
+      let axiosResponse;
+      try {
+        axiosResponse = await this.$chaos.axios.get(this.url);
+      } catch (error) {
+        this.loading = false;
+        this.error = true;
+        return;
+      }
+
+      // create path to a new bundle file
       const hostname = new URL(this.url).hostname;
-      const request = await this.$chaos.rest.get("/modules/website/create", {
-        params: {
-          url: this.url,
-          path:
-            this.$store.state.views.currentWorkingPath +
-            "/" +
-            hostname +
-            ".chaos"
-        }
+      const pathToBundle =
+        this.$store.state.views.currentWorkingPath + "/" + hostname + ".chaos";
+
+      // create a new renderer process window, but keep it hidden
+      let win = new this.$chaos.BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false
       });
-      const data = await request.data;
-      this.$chaos.refreshExplorer();
-      this.loading = false;
-      this.success = true;
-      setTimeout(() => {
-        this.success = false;
-      }, 2000);
+
+      // register event handler to clear up window when closed
+      win.on("closed", () => {
+        win = null;
+      });
+
+      // load the entered URL
+      win.loadURL(this.url);
+
+      // when the window is finished loading
+      win.webContents.on("did-finish-load", async () => {
+        // create atom
+        const webpageAtom = new this.$chaos.Atom();
+
+        webpageAtom.update({
+          module: {
+            id: moduleID,
+            name: moduleName,
+            page: "./page.html",
+            singlepage: "./singlepage.html",
+            url: this.url
+          }
+        });
+
+        webpageAtom.save(pathToBundle);
+
+        // save the full directory
+        const pathToPage = this.$chaos.path.join(pathToBundle, "page.mhtml");
+        await win.webContents.savePage(pathToPage, "MHTML");
+
+        const mhtmlFileContents = this.$chaos.fs.readFileSync(
+          pathToPage,
+          "utf8"
+        );
+        const html = mhtml2html.convert(mhtmlFileContents);
+        console.log(html);
+
+        return;
+
+        // save a compressed/inlined version for preview
+        this.$chaos.inline.html(
+          {
+            fileContent: this.$chaos.fs.readFileSync(pathToPage, "utf8"),
+            images: true,
+            svgs: true,
+            scripts: false,
+            links: true,
+            relativeTo: pathToBundle
+          },
+          (error, result) => {
+            this.$chaos.fs.writeFileSync(
+              this.$chaos.path.join(pathToBundle, "singlepage.html"),
+              result
+            );
+
+            // finish
+            win.close();
+            this.loading = false;
+            this.success = true;
+            this.$chaos.refreshExplorer();
+            setTimeout(() => {
+              this.success = false;
+            }, 2000);
+          }
+        );
+
+        // await this.$chaos.critical.generate({
+        //   inline: true,
+        //   base: pathToBundle,
+        //   src: "page.html",
+        //   target: "singlepage.html",
+        //   inlineImages: true,
+        //   assetPaths: [pathToBundle],
+        //   maxImageFileSize: 1000000000,
+        //   width: 1300,
+        //   height: 900
+        // });
+
+        // close the window and update explorer
+        // win.close();
+        // this.loading = false;
+        // this.success = true;
+        // this.$chaos.refreshExplorer();
+        // setTimeout(() => {
+        //   this.success = false;
+        // }, 2000);
+      });
     }
   }
 };

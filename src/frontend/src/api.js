@@ -1,6 +1,22 @@
-import axios from "axios";
 import store from "./store";
 import events from "./events";
+
+// electron APIs
+import { remote, ipcRenderer, shell } from "electron";
+const { exec } = remote.require("child_process");
+const { dialog, BrowserWindow } = remote;
+const fs = remote.require("fs");
+const path = remote.require("path");
+const Joi = remote.require("@hapi/joi");
+const axios = remote.require("axios");
+const critical = remote.require("critical");
+const inline = remote.require("web-resource-inliner");
+const { Parser, Processor } = remote.require("fast-mhtml");
+const mhtml2html = remote.require("mhtml2html");
+const { JSDOM } = remote.require("jsdom");
+
+// backend APIs
+import Atom from "./backend/atom";
 
 const rest = axios.create({
   baseURL:
@@ -34,12 +50,22 @@ const renameFile = () => {};
 
 const api = {
   rest,
-  file: {
-    read: readFile,
-    write: writeFile,
-    rename: renameFile
-  },
-  refreshExplorer
+  fs,
+  path,
+  Joi,
+  refreshExplorer,
+  exec,
+  events,
+  dialog,
+  BrowserWindow,
+  axios,
+  Atom,
+  critical,
+  inline,
+  Parser,
+  Processor,
+  mhtml2html,
+  JSDOM
 };
 
 export default api;

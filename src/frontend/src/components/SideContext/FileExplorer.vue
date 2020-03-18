@@ -6,6 +6,8 @@ import LoaderIcon from "../../assets/icons/loader.svg";
 import XSquareIcon from "../../assets/icons/x-square.svg";
 import RotateCwIcon from "../../assets/icons/rotate-cw.svg";
 
+import { recursivelyGetPaths, filePicker } from "../../backend/explorer";
+
 export default {
   components: {
     TreeView,
@@ -88,34 +90,25 @@ export default {
         });
       }
     },
-    async filePicker(pickerType) {
-      const pickerRequest = await this.$chaos.rest.get("/filepicker", {
-        params: { type: pickerType || "folder" }
-      });
-      const pickedPath = await pickerRequest.data;
-      this.lastSetPath = await pickedPath;
-      if ((await pickedPath) === "") {
+    async filePicker() {
+      const pickerRequest = filePicker();
+      this.lastSetPath = pickerRequest;
+      if (pickerRequest === "") {
         return;
       }
       this.loading = true;
-      const pathRequest = await this.$chaos.rest.get("/pathfinder", {
-        params: { path: pickedPath }
-      });
-      const paths = await pathRequest.data;
-      this.roots = [await paths];
+      const pathRequest = recursivelyGetPaths(pickerRequest);
+      this.roots = [pathRequest];
       this.loading = false;
     },
     async refreshTree() {
       if (this.lastSetPath !== "") {
         // fetch the directory again
         this.loading = true;
-        const pathRequest = await this.$chaos.rest.get("/pathfinder", {
-          params: { path: this.lastSetPath }
-        });
+        const pathRequest = recursivelyGetPaths(this.lastSetPath);
         // patch the new tree with the old tree's toggles
-        const paths = await pathRequest.data;
-        await this.refreshTreeHelper(this.roots[0], paths);
-        this.roots = [await paths];
+        this.refreshTreeHelper(this.roots[0], pathRequest);
+        this.roots = [pathRequest];
         this.loading = false;
         // refresh the folder views if the root is the same
         if (
@@ -244,17 +237,8 @@ export default {
       <LoaderIcon width="24" class="spin" />
     </div>
     <div v-else class="flex m-auto text-center">
-      <button
-        @click="filePicker('folder')"
-        class="px-2 py-1 mr-2 text-base ui-button"
-      >
-        Open folder
-      </button>
-      <button
-        @click="filePicker('file')"
-        class="px-2 py-1 mr-2 text-base ui-button"
-      >
-        Open file
+      <button @click="filePicker" class="px-2 py-1 mr-2 text-base ui-button">
+        Open file or folder
       </button>
     </div>
   </div>

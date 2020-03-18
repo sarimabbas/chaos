@@ -50,8 +50,8 @@ def build():
     # then running py2app from venv and relocating to dist
     os.system(
         """
-      rm -rf build/ &&
-      venv/bin/python setup.py py2app &&
+      rm -rf build/ dist/ &&
+      venv/bin/pyinstaller main.spec --noconfirm &&
       mv dist/ ../../dist
       """
     )

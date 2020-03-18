@@ -1,6 +1,7 @@
 <script>
 import { get as lGet } from "lodash";
 import Toggle from "./components/Toggle/Toggle";
+
 export default {
   props: ["manifest"],
   components: {
@@ -34,14 +35,20 @@ export default {
     },
     currentPath() {
       return this.currentNode.path;
+    },
+    currentPathToPage() {
+      return (
+        "file://" + this.$chaos.path.join(this.currentPath, "singlepage.html")
+      );
     }
   },
   methods: {
     async loadOfflineDom() {
       const pathToOfflineDom =
-        this.currentPath + this.manifest.module.page.slice(1);
-      const response = await this.$chaos.file.read(pathToOfflineDom);
-      this.offlineDom = await response.data;
+        this.currentPath + this.manifest.module.singlepage.slice(1);
+      const response = this.$chaos.fs.readFileSync(pathToOfflineDom);
+
+      this.offlineDom = response;
     },
     toggleHandler(event) {
       this.liveToggleState = !this.liveToggleState;
@@ -73,13 +80,13 @@ export default {
         <div v-else>
           <iframe
             :srcdoc="offlineDom"
-            sandbox
             class="absolute top-0 left-0 w-full h-full border-0"
           />
         </div>
       </div>
+      <br />
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

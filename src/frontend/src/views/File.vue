@@ -9,23 +9,28 @@ export default {
       manifest: null
     };
   },
-  // mounted() {
-  //   this.path = this.$route.query.path;
-  // },
   methods: {
     close() {
       this.$router.push("splash");
     }
   },
   watch: {
-    // TODO
     currentPath: {
       immediate: true,
+      deep: true,
       handler: async function(newVal, oldVal) {
-        const response = await this.$chaos.file.read(newVal);
-        if (this.isFileAtom) {
-          this.manifest = await response.data;
+        console.log(newVal);
+        // check if new path is an atom
+        const validExtensions = [".chaos", ".crncl", ".sa490"];
+        const extension = this.$chaos.path.parse(newVal).ext;
+        if (validExtensions.includes(extension)) {
+          // read manifest
+          const atom = new this.$chaos.Atom();
+          if (atom.load(newVal)) {
+            this.manifest = atom.toObj();
+          }
         } else {
+          //  const readString = this.$chaos.fs.readFileSync(newVal);
           this.manifest = null;
         }
       }
@@ -54,11 +59,12 @@ export default {
 };
 </script>
 
-
 <template>
   <div class="w-full h-full overflow-y-scroll bg-gray-700">
     <div class="flex items-center justify-between mx-4 my-3">
-      <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">File View</h1>
+      <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
+        File View
+      </h1>
       <CrossIcon class="ui-option-button" width="24" @click="close" />
     </div>
     <!-- <span>{{ this.$route.query.path }}</span> -->
@@ -66,9 +72,11 @@ export default {
     <!-- <span>Exte ID: {{ currentFileExtension }}</span> -->
     <!-- <span>Module ID: {{ moduleID }}</span> -->
 
-    <WebsiteInteract v-if="moduleID === 'com.sarimabbas.website'" :manifest="manifest" />
+    <WebsiteInteract
+      v-if="moduleID === 'com.sarimabbas.chaos.website'"
+      :manifest="manifest"
+    />
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
