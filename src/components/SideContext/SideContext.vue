@@ -6,28 +6,36 @@ export default {
   components: {
     FileExplorer,
     Search,
-    Extensions
+    Extensions,
   },
   computed: {
     showSideContext() {
       let show = false;
       const contexts = this.$store.state.sidebarContexts;
-      Object.keys(contexts).forEach(function(key) {
+      Object.keys(contexts).forEach(function (key) {
         if (contexts[key]) {
           show = true;
         }
       });
       return show;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="flex-none w-56 h-full bg-gray-900" v-show="showSideContext">
-    <FileExplorer v-show="this.$store.state.sidebarContexts.isExplorerShowing" />
+  <div
+    class="flex-none w-56 h-full overflow-auto bg-gray-900 resize-x"
+    style="min-width: 14rem;"
+    v-show="showSideContext"
+  >
+    <FileExplorer
+      v-show="this.$store.state.sidebarContexts.isExplorerShowing"
+    />
     <Search v-show="this.$store.state.sidebarContexts.isSearchShowing" />
-    <Extensions v-show="this.$store.state.sidebarContexts.isExtensionsShowing" />
+    <Extensions
+      v-show="this.$store.state.sidebarContexts.isExtensionsShowing"
+    />
   </div>
 </template>
 
