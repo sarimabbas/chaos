@@ -15,17 +15,17 @@ export default {
     MinusSquareIcon,
     LayersIcon,
     RotateCwIcon,
-    LoaderIcon
+    LoaderIcon,
   },
   data() {
     return {
       roots: [],
       lastSetPath: "",
-      loading: false
+      loading: false,
     };
   },
   mounted() {
-    this.$events.$on("explorerNodeClick", node => {
+    this.$events.$on("explorerNodeClick", (node) => {
       this.handleNodeClick(node);
     });
   },
@@ -38,15 +38,15 @@ export default {
     },
     refreshFileExplorer() {
       return this.$store.state.hacks.refreshFileExplorer;
-    }
+    },
   },
   watch: {
-    refreshFileExplorer: function(newVal, oldVal) {
+    refreshFileExplorer: function (newVal, oldVal) {
       this.refreshTree();
     },
-    externalNodeClick: function(newVal, oldVal) {
+    externalNodeClick: function (newVal, oldVal) {
       this.handleNodeClick(newVal);
-    }
+    },
   },
   methods: {
     collapse() {
@@ -62,7 +62,7 @@ export default {
       // internal
       if (curObj.children.length && "showChildren" in curObj) {
         curObj.showChildren = false;
-        curObj.children.forEach(child => {
+        curObj.children.forEach((child) => {
           this.collapseHelper(child);
         });
       }
@@ -85,7 +85,7 @@ export default {
       }
       // internal
       if (curObj.children.length && "showChildren" in curObj) {
-        curObj.children.forEach(child => {
+        curObj.children.forEach((child) => {
           this.toggleLeaves(child);
         });
       }
@@ -99,6 +99,7 @@ export default {
       this.loading = true;
       const pathRequest = recursivelyGetPaths(pickerRequest);
       this.roots = [pathRequest];
+      this.$store.dispatch("setWorkspaceRootNode", this.roots[0]);
       this.loading = false;
     },
     async refreshTree() {
@@ -115,6 +116,7 @@ export default {
           this.$store.state.views.currentWorkingNode.path === this.roots[0].path
         ) {
           this.$store.dispatch("setCurrentWorkingNode", this.roots[0]);
+          this.$store.dispatch("setWorkspaceRootNode", this.roots[0]);
         }
       }
     },
@@ -128,9 +130,9 @@ export default {
       if (newTree.children.length && oldTree.children.length) {
         let n_children = newTree.children.concat().sort();
         let o_children = oldTree.children.concat().sort();
-        n_children = n_children.filter(nc => {
+        n_children = n_children.filter((nc) => {
           let keep = false;
-          o_children.forEach(oc => {
+          o_children.forEach((oc) => {
             if (nc.path == oc.path) {
               keep = true;
             }
@@ -148,7 +150,7 @@ export default {
     },
     selectedHelper(tree) {
       tree.selected = false;
-      tree.children.forEach(c => {
+      tree.children.forEach((c) => {
         this.selectedHelper(c);
       });
     },
@@ -163,13 +165,13 @@ export default {
       // navigate to folder view
       if (node.type === "directory") {
         newPath = this.$router.resolve({
-          name: "folder"
+          name: "folder",
           // query: { path: node.path }
         }).resolved.fullPath;
         // navigate to file views
       } else if (node.type === "file") {
         newPath = this.$router.resolve({
-          name: "file"
+          name: "file",
           // query: { path: node.path }
         }).resolved.fullPath;
       }
@@ -185,8 +187,8 @@ export default {
       if (newPath != oldPath) {
         this.$router.push(newPath);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

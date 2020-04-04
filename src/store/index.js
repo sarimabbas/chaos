@@ -27,6 +27,8 @@ export default new Vuex.Store({
     },
     // Views
     views: {
+      workspaceRootNode: {},
+      workspaceRootPath: "",
       currentWorkingNode: {},
       currentWorkingPath: "",
       folderMode: "immediate", // false: "nested" mode
@@ -81,6 +83,10 @@ export default new Vuex.Store({
       state.views.currentWorkingNode = node;
       state.views.currentWorkingPath = node.path;
     },
+    setWorkspaceRootNode(state, node) {
+      state.views.workspaceRootNode = node;
+      state.views.workspaceRootPath = node.path;
+    },
     setFolderMode(state, mode) {
       state.views.folderMode = mode;
     },
@@ -103,6 +109,9 @@ export default new Vuex.Store({
     },
     setCurrentWorkingNode(ctx, node) {
       ctx.commit("setCurrentWorkingNode", node);
+    },
+    setWorkspaceRootNode(ctx, node) {
+      ctx.commit("setWorkspaceRootNode", node);
     },
     setFolderMode(ctx, mode) {
       ctx.commit("setFolderMode", mode);
