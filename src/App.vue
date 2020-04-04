@@ -97,9 +97,10 @@ export default {
 @import "./assets/theme.css";
 
 .gutter {
-  background-color: rgb(0, 0, 0, 0);
+  background-color: var(--theme-background-primary-color);
   background-repeat: no-repeat;
   background-position: 50%;
+  z-index: 999;
 }
 
 .gutter.gutter-horizontal {

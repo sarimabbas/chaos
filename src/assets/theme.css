@@ -8,6 +8,11 @@
   --theme-text-secondary-color-light: #b7b9c0;
   /* content colors */
   --theme-background-primary-dark: #1a202c;
+
+  /* set the final colors here */
+  --theme-text-primary-color: --theme-text-primary-color-dark;
+  --theme-text-secondary-color: --theme-text-secondary-color-dark;
+  --theme-background-primary-color: --theme-background-primary-dark;
 }
 
 /* The themeable parts of the UI are below. Each relevant CSS class starts with
