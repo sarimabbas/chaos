@@ -1,13 +1,13 @@
 <script>
 import Sidebar from "./components/Sidebar/Sidebar";
-import SideContext from "./components/SideContext/SideContext";
+import LeftContext from "./components/LeftContext/LeftContext";
 
 export default {
   components: {
     Sidebar,
-    SideContext
+    LeftContext,
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 
@@ -18,9 +18,13 @@ export default {
     <!--  -->
 
     <Sidebar />
-    <SideContext />
-    <router-view />
+    <LeftContext />
+    <div class="w-full theme-content-view"><router-view /></div>
+    <!-- <SideContext /> -->
   </div>
 </template>
 
-<style src="./assets/tailwind.css" />
+<style>
+@import "./assets/tailwind.css";
+@import "./assets/theme.css";
+</style>

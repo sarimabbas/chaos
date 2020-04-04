@@ -3,6 +3,7 @@ import FileIcon from "../../assets/icons/file.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import SettingsIcon from "../../assets/icons/settings.svg";
 import PackageIcon from "../../assets/icons/package.svg";
+import MessageCircleIcon from "../../assets/icons/message-circle.svg";
 import SidebarIcon from "./SidebarIcon";
 
 export default {
@@ -11,7 +12,8 @@ export default {
     SearchIcon,
     SettingsIcon,
     SidebarIcon,
-    PackageIcon
+    MessageCircleIcon,
+    PackageIcon,
   },
   methods: {
     toggleContext(contextAction) {
@@ -19,13 +21,13 @@ export default {
     },
     openSettings() {
       this.$router.push("settings");
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="flex-initial w-16 h-full bg-gray-800">
+  <div class="flex-initial w-16 h-full theme-side-bar">
     <!-- icons -->
     <div class="flex flex-col content-between h-full">
       <!-- top -->
@@ -33,23 +35,50 @@ export default {
         <!-- single icon -->
         <SidebarIcon
           @click.native="toggleContext('toggleIsExplorerShowing')"
-          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isExplorerShowing}]"
+          :class="[
+            {
+              'theme-side-bar-button-active': this.$store.state.contexts
+                .isExplorerShowing,
+            },
+          ]"
         >
           <FileIcon />
         </SidebarIcon>
         <!-- single icon -->
         <SidebarIcon
           @click.native="toggleContext('toggleIsSearchShowing')"
-          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isSearchShowing}]"
+          :class="[
+            {
+              'theme-side-bar-button-active': this.$store.state.contexts
+                .isSearchShowing,
+            },
+          ]"
         >
           <SearchIcon width="24" />
         </SidebarIcon>
         <!-- single icon -->
         <SidebarIcon
           @click.native="toggleContext('toggleIsExtensionsShowing')"
-          :class="[{'border-pink-700' : this.$store.state.sidebarContexts.isExtensionsShowing}]"
+          :class="[
+            {
+              'theme-side-bar-button-active': this.$store.state.contexts
+                .isExtensionsShowing,
+            },
+          ]"
         >
           <PackageIcon width="24" />
+        </SidebarIcon>
+        <!-- chat icon -->
+        <SidebarIcon
+          @click.native="toggleContext('toggleIsChatShowing')"
+          :class="[
+            {
+              'theme-side-bar-button-active': this.$store.state.contexts
+                .isChatShowing,
+            },
+          ]"
+        >
+          <MessageCircleIcon width="24" />
         </SidebarIcon>
       </div>
       <!-- bottom -->
@@ -59,5 +88,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped></style>

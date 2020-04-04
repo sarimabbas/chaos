@@ -1,0 +1,47 @@
+/* Define your colors or other CSS variables here */
+:root {
+  /* suggested colors */
+  /* text colors */
+  --theme-text-primary-color-dark: #292a30;
+  --theme-text-secondary-color-dark: #82858f;
+  --theme-text-primary-color-light: rgba(255, 255, 255, 0.9);
+  --theme-text-secondary-color-light: #b7b9c0;
+  /* content colors */
+  --theme-background-primary-dark: #1a202c;
+}
+
+/* The themeable parts of the UI are below. Each relevant CSS class starts with
+the "theme-" prefix. You can either use @apply with Tailwind classes, or use CSS
+properties e.g. background-color */
+
+/* 
+Tips:
+- Leave background-color blank to have vibrancy on macOS
+- 
+*/
+.theme-side-bar {
+  background-color: var(--theme-background-primary-dark);
+  border-right: 1px solid black;
+}
+
+.theme-side-bar-button-active {
+  @apply border-pink-800;
+}
+
+.theme-side-context {
+  /* @apply bg-gray-800; */
+  background-color: var(--theme-background-primary-dark);
+  border-right: 1px solid black;
+}
+
+.theme-content-view {
+  background-color: var(--theme-background-primary-dark);
+}
+
+.theme-text-primary {
+  color: var(--theme-text-primary-color-dark);
+}
+
+.theme-text-secondary {
+  color: var(--theme-text-secondary-color-dark);
+}

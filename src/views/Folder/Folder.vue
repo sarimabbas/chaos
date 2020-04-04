@@ -29,12 +29,12 @@ export default {
     EyeIcon,
     // views
     ListView,
-    GridView
+    GridView,
   },
   data() {
     return {
       nodeSortProperty: "",
-      viewProperty: "list"
+      viewProperty: "list",
     };
   },
   mounted() {},
@@ -73,7 +73,7 @@ export default {
         return sorted;
       }
       return nodeArray;
-    }
+    },
   },
   computed: {
     currentWorkingPath() {
@@ -94,21 +94,21 @@ export default {
     },
     isFolderImmediateMode() {
       return this.$store.state.views.folderMode === "immediate";
-    }
+    },
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-    }
+    },
     // currentWorkingPath(value) {
     //   console.log(value);
     // }
-  }
+  },
 };
 </script>
 
 <template>
-  <div class="w-full h-full overflow-y-scroll break-words bg-gray-700">
+  <div class="w-full h-full overflow-y-scroll break-words">
     <!-- margins -->
     <div class="mx-4">
       <!-- heading -->

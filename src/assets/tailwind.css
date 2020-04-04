@@ -1,10 +1,5 @@
 @tailwind base;
-
-html,
-body {
-  overflow-y: scroll;
-  height: 100%;
-}
+@tailwind components;
 
 .ui-help-text {
   @apply text-xs font-bold tracking-widest text-gray-600 uppercase;
@@ -30,6 +25,16 @@ body {
   @apply px-1 ml-2 text-xs bg-gray-400 rounded-sm;
 }
 
+@tailwind utilities;
+
+/* fix for the html/body height */
+html,
+body {
+  overflow-y: scroll;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+}
+
 .spin {
   animation: spin 2s linear infinite;
 }
@@ -42,6 +47,3 @@ body {
     transform: rotate(360deg);
   }
 }
-
-@tailwind components;
-@tailwind utilities;

@@ -1,44 +1,60 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { setAllExcept } from "../utilities";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // SidebarContext
-    sidebarContexts: {
+    // left and right sidebar
+    contexts: {
       isExplorerShowing: false,
       isSearchShowing: false,
-      isExtensionsShowing: false
+      isExtensionsShowing: false,
+      isChatShowing: false,
     },
     // Views
     views: {
       currentWorkingNode: {},
       currentWorkingPath: "",
-      folderMode: "immediate" // false: "nested" mode
+      folderMode: "immediate", // false: "nested" mode
     },
     hacks: {
-      refreshFileExplorer: new Date()
-    }
+      refreshFileExplorer: new Date(),
+    },
   },
   mutations: {
     toggleIsExplorerShowing(state) {
-      state.sidebarContexts.isSearchShowing = false;
-      state.sidebarContexts.isExtensionsShowing = false;
-      state.sidebarContexts.isExplorerShowing = !state.sidebarContexts
-        .isExplorerShowing;
+      setAllExcept(
+        state.contexts,
+        false,
+        "isExplorerShowing",
+        !state.contexts.isExplorerShowing
+      );
     },
     toggleIsSearchShowing(state) {
-      state.sidebarContexts.isExplorerShowing = false;
-      state.sidebarContexts.isExtensionsShowing = false;
-      state.sidebarContexts.isSearchShowing = !state.sidebarContexts
-        .isSearchShowing;
+      setAllExcept(
+        state.contexts,
+        false,
+        "isSearchShowing",
+        !state.contexts.isSearchShowing
+      );
     },
     toggleIsExtensionsShowing(state) {
-      state.sidebarContexts.isExplorerShowing = false;
-      state.sidebarContexts.isSearchShowing = false;
-      state.sidebarContexts.isExtensionsShowing = !state.sidebarContexts
-        .isExtensionsShowing;
+      setAllExcept(
+        state.contexts,
+        false,
+        "isExtensionsShowing",
+        !state.contexts.isExtensionsShowing
+      );
+    },
+    toggleIsChatShowing(state) {
+      setAllExcept(
+        state.contexts,
+        false,
+        "isChatShowing",
+        !state.contexts.isChatShowing
+      );
     },
     setCurrentWorkingNode(state, node) {
       state.views.currentWorkingNode = node;
@@ -49,7 +65,7 @@ export default new Vuex.Store({
     },
     refreshFileExplorer(state) {
       state.hacks.refreshFileExplorer = new Date();
-    }
+    },
   },
   actions: {
     toggleIsExplorerShowing(ctx) {
@@ -61,6 +77,9 @@ export default new Vuex.Store({
     toggleIsExtensionsShowing(ctx) {
       ctx.commit("toggleIsExtensionsShowing");
     },
+    toggleIsChatShowing(ctx) {
+      ctx.commit("toggleIsChatShowing");
+    },
     setCurrentWorkingNode(ctx, node) {
       ctx.commit("setCurrentWorkingNode", node);
     },
@@ -69,7 +88,7 @@ export default new Vuex.Store({
     },
     refreshFileExplorer(ctx) {
       ctx.commit("refreshFileExplorer");
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });
