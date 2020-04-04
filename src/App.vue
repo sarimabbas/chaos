@@ -2,36 +2,78 @@
 import Sidebar from "./components/Sidebar/Sidebar";
 import LeftContext from "./components/Contexts/LeftContext";
 import RightContext from "./components/Contexts/RightContext";
-import { Multipane, MultipaneResizer } from "vue-multipane";
+import Split from "split.js";
 
 export default {
   components: {
     Sidebar,
     LeftContext,
     RightContext,
-    Multipane,
-    MultipaneResizer,
+  },
+  data() {
+    return {
+      splitInstance: null,
+    };
+  },
+  watch: {
+    isContextShowing: {
+      handler: function (val) {
+        if (val.left && val.right) {
+          if (this.splitInstance) {
+            this.splitInstance.destroy();
+            this.splitInstance = null;
+          }
+          this.splitInstance = Split(["#p1", "#p2", "#p3"], {
+            sizes: [20, 60, 20],
+            gutterSize: 1,
+          });
+        } else if (val.left && !val.right) {
+          if (this.splitInstance) {
+            this.splitInstance.destroy();
+            this.splitInstance = null;
+          }
+          this.splitInstance = Split(["#p1", "#p2"], {
+            sizes: [20, 80],
+            gutterSize: 1,
+          });
+        } else if (!val.left && val.right) {
+          if (this.splitInstance) {
+            this.splitInstance.destroy();
+            this.splitInstance = null;
+          }
+          this.splitInstance = Split(["#p2", "#p3"], {
+            sizes: [80, 20],
+            gutterSize: 1,
+          });
+        } else {
+          if (this.splitInstance) {
+            this.splitInstance.destroy();
+            this.splitInstance = null;
+          }
+        }
+      },
+      immediate: true,
+    },
   },
   computed: {
-    isLeftContextShowing() {
-      let show = false;
+    isContextShowing() {
+      let leftShow = false;
+      let rightShow = false;
       const contexts = this.$store.state.contexts;
       Object.keys(contexts).forEach(function (key) {
         if (contexts[key].isShowing && contexts[key].side === "left") {
-          show = true;
+          leftShow = true;
         }
       });
-      return show;
-    },
-    isRightContextShowing() {
-      let show = false;
-      const contexts = this.$store.state.contexts;
       Object.keys(contexts).forEach(function (key) {
         if (contexts[key].isShowing && contexts[key].side === "right") {
-          show = true;
+          rightShow = true;
         }
       });
-      return show;
+      return {
+        left: leftShow,
+        right: rightShow,
+      };
     },
   },
 };
@@ -39,27 +81,29 @@ export default {
 
 <template>
   <div id="app" class="flex w-full h-full">
-    <multipane class="flex w-full h-full">
-      <Sidebar />
-      <LeftContext />
-      <multipane-resizer v-show="isLeftContextShowing"></multipane-resizer>
-      <div
-        :class="[
-          'theme-content-view w-full',
-          {
-            'flex-grow': !isRightContextShowing,
-          },
-        ]"
-      >
+    <Sidebar />
+    <div class="flex w-full h-full">
+      <LeftContext id="p1" />
+      <div :class="['theme-content-view w-full']" id="p2">
         <router-view />
       </div>
-      <multipane-resizer v-show="isRightContextShowing"></multipane-resizer>
-      <RightContext class="flex-grow" />
-    </multipane>
+      <RightContext id="p3" />
+    </div>
   </div>
 </template>
 
 <style>
 @import "./assets/tailwind.css";
 @import "./assets/theme.css";
+
+.gutter {
+  background-color: rgb(0, 0, 0, 0);
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  /* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg=="); */
+  cursor: col-resize;
+}
 </style>
