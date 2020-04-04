@@ -25,7 +25,7 @@ export default {
     v-show="showContext"
     style="min-width: 20rem;"
   >
-    <Chat v-show="this.$store.state.contexts.isChatShowing" />
+    <Chat v-show="this.$store.state.contexts.chat.isShowing" />
   </div>
 </template>
 

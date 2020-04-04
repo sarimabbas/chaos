@@ -18,7 +18,7 @@ export default {};
         Results
       </span>
     </div>
-  </div></template
->
+  </div>
+</template>
 
 <style></style>
