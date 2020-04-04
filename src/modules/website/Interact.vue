@@ -5,25 +5,25 @@ import Toggle from "./components/Toggle/Toggle";
 export default {
   props: ["manifest"],
   components: {
-    Toggle
+    Toggle,
   },
   data() {
     return {
       offlineDom: "",
-      liveToggleState: false
+      liveToggleState: false,
     };
   },
   watch: {
     currentPath: {
       immediate: true,
-      handler: async function(newVal, oldVal) {
+      handler: async function (newVal, oldVal) {
         // reset local props (just in case)
         this.offlineDom = "";
         this.liveToggleState = false;
         // reload the dom
         this.loadOfflineDom();
-      }
-    }
+      },
+    },
   },
   computed: {
     currentURL() {
@@ -40,7 +40,7 @@ export default {
       return (
         "file://" + this.$chaos.path.join(this.currentPath, "singlepage.html")
       );
-    }
+    },
   },
   methods: {
     async loadOfflineDom() {
@@ -52,8 +52,8 @@ export default {
     },
     toggleHandler(event) {
       this.liveToggleState = !this.liveToggleState;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -72,7 +72,7 @@ export default {
         <!-- there seems to be a bug in vue. If i put the first iframe in a DIV
         as well, vue cannot seem to distinguish between both sets and does not
         patch the dom appropriately -->
-        <iframe
+        <webview
           v-if="liveToggleState"
           :src="currentURL"
           class="absolute top-0 left-0 w-full h-full border-0"
