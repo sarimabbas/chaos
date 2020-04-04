@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-initial w-16 h-full theme-side-bar">
+  <div class="flex-initial h-full theme-side-bar" style="min-width: 4rem;">
     <!-- icons -->
     <div class="flex flex-col content-between h-full">
       <!-- top -->
