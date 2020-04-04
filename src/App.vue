@@ -45,7 +45,7 @@ export default {
       <multipane-resizer v-show="isLeftContextShowing"></multipane-resizer>
       <div
         :class="[
-          'theme-content-view',
+          'theme-content-view w-full',
           {
             'flex-grow': !isRightContextShowing,
           },
