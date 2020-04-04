@@ -1,19 +1,15 @@
 <script>
-import FileExplorer from "./FileExplorer";
-import Search from "./Search";
-import Extensions from "./Extensions";
+import Chat from "./Chat";
 export default {
   components: {
-    FileExplorer,
-    Search,
-    Extensions,
+    Chat,
   },
   computed: {
-    showSideContext() {
+    showContext() {
       let show = false;
       const contexts = this.$store.state.contexts;
       Object.keys(contexts).forEach(function (key) {
-        if (contexts[key]) {
+        if (contexts[key].isShowing && contexts[key].side === "right") {
           show = true;
         }
       });
@@ -25,9 +21,9 @@ export default {
 
 <template>
   <div
-    class="flex-none w-56 h-full overflow-auto resize-x theme-side-context"
-    style="min-width: 14rem;"
-    v-show="showSideContext"
+    class="h-full theme-right-context"
+    v-show="showContext"
+    style="min-width: 20rem;"
   >
     <Chat v-show="this.$store.state.contexts.isChatShowing" />
   </div>

@@ -12,11 +12,12 @@ export default {
     Chat,
   },
   computed: {
-    showSideContext() {
+    showContext() {
       let show = false;
       const contexts = this.$store.state.contexts;
       Object.keys(contexts).forEach(function (key) {
-        if (contexts[key]) {
+        if (contexts[key].isShowing && contexts[key].side === "left") {
+          console.log(key);
           show = true;
         }
       });
@@ -28,14 +29,13 @@ export default {
 
 <template>
   <div
-    class="flex-none w-56 h-full overflow-auto resize-x theme-side-context"
-    style="min-width: 14rem;"
-    v-show="showSideContext"
+    class="flex-none h-full theme-left-context"
+    v-show="showContext"
+    style="min-width: 15rem;"
   >
-    <FileExplorer v-show="this.$store.state.contexts.isExplorerShowing" />
-    <Search v-show="this.$store.state.contexts.isSearchShowing" />
-    <Extensions v-show="this.$store.state.contexts.isExtensionsShowing" />
-    <Chat v-show="this.$store.state.contexts.isChatShowing" />
+    <FileExplorer v-show="this.$store.state.contexts.explorer.isShowing" />
+    <Search v-show="this.$store.state.contexts.search.isShowing" />
+    <Extensions v-show="this.$store.state.contexts.extensions.isShowing" />
   </div>
 </template>
 

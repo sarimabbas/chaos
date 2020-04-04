@@ -28,10 +28,15 @@ Tips:
   @apply border-pink-800;
 }
 
-.theme-side-context {
+.theme-left-context {
   /* @apply bg-gray-800; */
   background-color: var(--theme-background-primary-dark);
   border-right: 1px solid black;
+}
+
+.theme-right-context {
+  background-color: var(--theme-background-primary-dark);
+  border-left: 1px solid black;
 }
 
 .theme-content-view {

@@ -8,10 +8,22 @@ export default new Vuex.Store({
   state: {
     // left and right sidebar
     contexts: {
-      isExplorerShowing: false,
-      isSearchShowing: false,
-      isExtensionsShowing: false,
-      isChatShowing: false,
+      explorer: {
+        isShowing: false,
+        side: "left",
+      },
+      search: {
+        isShowing: false,
+        side: "left",
+      },
+      extensions: {
+        isShowing: false,
+        side: "left",
+      },
+      chat: {
+        isShowing: false,
+        side: "right",
+      },
     },
     // Views
     views: {
@@ -25,36 +37,45 @@ export default new Vuex.Store({
   },
   mutations: {
     toggleIsExplorerShowing(state) {
-      setAllExcept(
-        state.contexts,
-        false,
-        "isExplorerShowing",
-        !state.contexts.isExplorerShowing
-      );
+      const contexts = state.contexts;
+      const initVal = contexts["explorer"].isShowing;
+      Object.keys(contexts).forEach(function (key) {
+        if (contexts[key].side == contexts["explorer"].side) {
+          contexts[key].isShowing = false;
+        }
+      });
+      contexts["explorer"].isShowing = !initVal;
     },
     toggleIsSearchShowing(state) {
-      setAllExcept(
-        state.contexts,
-        false,
-        "isSearchShowing",
-        !state.contexts.isSearchShowing
-      );
+      const contexts = state.contexts;
+      const initVal = contexts["search"].isShowing;
+      Object.keys(contexts).forEach(function (key) {
+        if (contexts[key].side == contexts["search"].side) {
+          contexts[key].isShowing = false;
+        }
+      });
+      contexts["search"].isShowing = !initVal;
     },
     toggleIsExtensionsShowing(state) {
-      setAllExcept(
-        state.contexts,
-        false,
-        "isExtensionsShowing",
-        !state.contexts.isExtensionsShowing
-      );
+      const contexts = state.contexts;
+      const initVal = contexts["extensions"].isShowing;
+      Object.keys(contexts).forEach(function (key) {
+        if (contexts[key].side == contexts["extensions"].side) {
+          contexts[key].isShowing = false;
+        }
+      });
+      contexts.extensions.isShowing = !contexts.extensions.isShowing;
+      contexts["extensions"].isShowing = !initVal;
     },
     toggleIsChatShowing(state) {
-      setAllExcept(
-        state.contexts,
-        false,
-        "isChatShowing",
-        !state.contexts.isChatShowing
-      );
+      const contexts = state.contexts;
+      const initVal = contexts["chat"].isShowing;
+      Object.keys(contexts).forEach(function (key) {
+        if (contexts[key].side == contexts["chat"].side) {
+          contexts[key].isShowing = false;
+        }
+      });
+      contexts["chat"].isShowing = !initVal;
     },
     setCurrentWorkingNode(state, node) {
       state.views.currentWorkingNode = node;
