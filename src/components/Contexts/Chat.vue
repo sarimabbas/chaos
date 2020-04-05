@@ -17,6 +17,7 @@ export default {
       messages: [],
       socket: null,
       messageBox: "",
+      userMap: {},
     };
   },
   mounted() {
@@ -200,6 +201,9 @@ export default {
           received.channel === this.currentChannelID
         ) {
           this.messages.unshift(received);
+          setTimeout(() => {
+            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+          }, 200);
         }
       });
 
@@ -268,8 +272,7 @@ export default {
       <div v-else-if="workspaceRootNode.path && !validConfig">
         <div class="px-16 py-4 mt-1 ui-help-text">
           No Slack configuration found in your Explorer root. Would you like to
-          create one? Create one here:
-          https://api.slack.com/apps?new_classic_app=1
+          create one?
         </div>
         <button
           @click="createConfig"
@@ -282,7 +285,11 @@ export default {
     <!-- SUCCESS CONDITION / LIST MESSAGES  -->
     <div class="flex flex-col h-full" v-else>
       <!-- top -->
-      <div class="flex-grow overflow-y-scroll">
+      <div
+        class="flex-grow overflow-y-scroll"
+        ref="messages"
+        style="scroll-behavior: smooth;"
+      >
         <!-- list of message bubbles -->
         <div
           v-for="msg in orderedMessages"
