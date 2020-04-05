@@ -17,7 +17,6 @@ export default {
       const contexts = this.$store.state.contexts;
       Object.keys(contexts).forEach(function (key) {
         if (contexts[key].isShowing && contexts[key].side === "left") {
-          console.log(key);
           show = true;
         }
       });

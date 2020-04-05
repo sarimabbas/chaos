@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { setAllExcept } from "../utilities";
 
 Vue.use(Vuex);
 
