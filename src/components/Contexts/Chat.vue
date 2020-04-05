@@ -16,6 +16,7 @@ export default {
       currentChannelID: "",
       messages: [],
       socket: null,
+      messageBox: "",
     };
   },
   mounted() {
@@ -234,6 +235,13 @@ export default {
         return;
       }
 
+      const response = await this.slack.chat.postMessage({
+        token: this.config.access_token,
+        channel: this.currentChannelID,
+        as_user: true,
+        text: this.messageBox,
+      });
+
       // construct the channel name
       const channelName = this.$chaos.path.basename(
         this.currentWorkingNode.path
@@ -281,7 +289,9 @@ export default {
           :key="msg.client_msg_id"
           class="p-2 m-2 bg-white border rounded shadow"
         >
-          {{ msg.text }}
+          <p class="break-all">
+            {{ msg.text }}
+          </p>
         </div>
       </div>
       <!-- bottom with message box -->
@@ -290,8 +300,11 @@ export default {
           class="w-full px-1 py-1 border rounded resize-none focus:outline-none focus:shadow-outline"
           type="textarea"
           placeholder="Enter message here..."
+          v-model="messageBox"
         />
-        <button class="pl-3"><SendIcon width="30" /></button>
+        <button class="pl-3" @click="sendMessage">
+          <SendIcon width="30" />
+        </button>
       </div>
     </div>
   </div>
