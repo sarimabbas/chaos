@@ -213,6 +213,7 @@ export default {
       // reset channel ID
       this.currentChannelID = "";
       this.pathIsDir = false;
+      this.scrollSmooth = false;
 
       // if no token, bail
       if (!this.config.access_token) {
