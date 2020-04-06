@@ -40,6 +40,12 @@ export default {
     this.slack = new Slack();
   },
   computed: {
+    isCurrentNodeRoot() {
+      return (
+        this.$store.state.views.workspaceRootNode.path ===
+        this.$store.state.views.currentWorkingNode.path
+      );
+    },
     workspaceRootNode() {
       return this.$store.state.views.workspaceRootNode;
     },
@@ -55,24 +61,14 @@ export default {
     currentNodeAsChannelName() {
       // root base name
       const rootBase = this.$chaos.path.basename(this.workspaceRootNode.path);
-
       // construct a difference of two paths
       let relativePath = this.$chaos.path.relative(
         this.workspaceRootNode.path,
         this.currentWorkingNode.path
       );
-
       // if the difference is empty, just make the channel name the root basename
-      let channelName;
-      if (!relativePath) {
-        channelName = rootBase;
-      } else {
-        // otherwise, make the channel name the concatenation
-        channelName = `${rootBase}____${replaceSlashesWithDelimiter(
-          relativePath
-        )}`;
-      }
-
+      const channelName = replaceSlashesWithDelimiter(relativePath);
+      console.log(channelName);
       return channelName;
     },
     orderedMessages() {
@@ -356,7 +352,8 @@ export default {
         !workspaceRootNode.path ||
         !validConfig ||
         !pathIsDir ||
-        !currentChannelID
+        !currentChannelID ||
+        isCurrentNodeRoot
       "
     >
       <!-- no root found text -->
@@ -382,6 +379,12 @@ export default {
       <div v-else-if="!pathIsDir" class="flex w-full">
         <div class="px-16 py-4 mt-1 ui-help-text">
           Channels can only be created and mirrored for directories.
+        </div>
+      </div>
+      <!-- path is root -->
+      <div v-else-if="isCurrentNodeRoot" class="flex w-full">
+        <div class="px-16 py-4 mt-1 ui-help-text">
+          Channels are mirrored for subfolders in your workspace.
         </div>
       </div>
       <!-- create channel if not exists -->

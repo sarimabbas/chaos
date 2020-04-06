@@ -7,7 +7,7 @@ export default {};
     class="flex items-center justify-center w-full h-10 shadow-xs base theme-top-bar"
     style="z-index: 1000;"
   >
-    Hello
+    Chaos
   </div>
 </template>
 
