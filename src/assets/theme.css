@@ -10,9 +10,9 @@
   --theme-background-primary-dark: #1a202c;
 
   /* set the final colors here */
-  --theme-text-primary-color: --theme-text-primary-color-dark;
-  --theme-text-secondary-color: --theme-text-secondary-color-dark;
-  --theme-background-primary-color: --theme-background-primary-dark;
+  --theme-text-primary-color: var(--theme-text-primary-color-light);
+  --theme-text-secondary-color: var(--theme-text-secondary-color-light);
+  --theme-background-primary-color: var(--theme-background-primary-dark);
 }
 
 /* The themeable parts of the UI are below. Each relevant CSS class starts with
@@ -24,9 +24,13 @@ Tips:
 - Leave background-color blank to have vibrancy on macOS
 - 
 */
+.theme-top-bar {
+  background-color: var(--theme-background-primary-dark);
+  color: var(--theme-text-primary-color);
+}
+
 .theme-side-bar {
   background-color: var(--theme-background-primary-dark);
-  border-right: 1px solid black;
 }
 
 .theme-side-bar-button-active {
@@ -36,12 +40,10 @@ Tips:
 .theme-left-context {
   /* @apply bg-gray-800; */
   background-color: var(--theme-background-primary-dark);
-  border-right: 1px solid black;
 }
 
 .theme-right-context {
   background-color: var(--theme-background-primary-dark);
-  border-left: 1px solid black;
 }
 
 .theme-content-view {

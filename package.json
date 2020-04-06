@@ -18,7 +18,6 @@
     "date-fns": "^2.11.1",
     "lodash": "^4.17.15",
     "slack": "^11.0.2",
-    "split.js": "^1.5.11",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
     "vue-js-modal": "^1.3.33",

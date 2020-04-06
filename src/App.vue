@@ -2,58 +2,21 @@
 import Sidebar from "./components/Sidebar/Sidebar";
 import LeftContext from "./components/Contexts/LeftContext";
 import RightContext from "./components/Contexts/RightContext";
-import Split from "split.js";
+import Topbar from "./components/Topbar/Topbar";
+import Bottombar from "./components/Bottombar/Bottombar";
 
 export default {
   components: {
     Sidebar,
     LeftContext,
     RightContext,
+    Topbar,
+    Bottombar,
   },
   data() {
     return {
       splitInstance: null,
     };
-  },
-  watch: {
-    isContextShowing: {
-      handler: function (val) {
-        if (val.left && val.right) {
-          if (this.splitInstance) {
-            this.splitInstance.destroy();
-            this.splitInstance = null;
-          }
-          this.splitInstance = Split(["#p1", "#p2", "#p3"], {
-            sizes: [20, 60, 20],
-            gutterSize: 1,
-          });
-        } else if (val.left && !val.right) {
-          if (this.splitInstance) {
-            this.splitInstance.destroy();
-            this.splitInstance = null;
-          }
-          this.splitInstance = Split(["#p1", "#p2"], {
-            sizes: [20, 80],
-            gutterSize: 1,
-          });
-        } else if (!val.left && val.right) {
-          if (this.splitInstance) {
-            this.splitInstance.destroy();
-            this.splitInstance = null;
-          }
-          this.splitInstance = Split(["#p2", "#p3"], {
-            sizes: [80, 20],
-            gutterSize: 1,
-          });
-        } else {
-          if (this.splitInstance) {
-            this.splitInstance.destroy();
-            this.splitInstance = null;
-          }
-        }
-      },
-      immediate: true,
-    },
   },
   computed: {
     isContextShowing() {
@@ -80,15 +43,15 @@ export default {
 </script>
 
 <template>
-  <div id="app" class="flex w-full h-full">
-    <Sidebar />
-    <div class="flex w-full h-full">
-      <LeftContext id="p1" />
-      <div :class="['theme-content-view w-full']" id="p2">
-        <router-view />
-      </div>
-      <RightContext id="p3" />
+  <div id="app" class="grid-container">
+    <Topbar class="Topbar" />
+    <Sidebar class="Sidebar" />
+    <LeftContext class="Left-Context" />
+    <div :class="['theme-content-view w-full Content']">
+      <router-view />
     </div>
+    <RightContext class="Right-Context" />
+    <Bottombar class="Bottombar" />
   </div>
 </template>
 
@@ -96,15 +59,39 @@ export default {
 @import "./assets/tailwind.css";
 @import "./assets/theme.css";
 
-.gutter {
-  background-color: var(--theme-background-primary-color);
-  background-repeat: no-repeat;
-  background-position: 50%;
-  z-index: 999;
+.grid-container {
+  display: grid;
+  grid-template-columns: min-content min-content 1fr min-content;
+  grid-template-rows: auto 1fr auto;
+  gap: 1px 1px;
+  grid-template-areas: "Topbar Topbar Topbar Topbar" "Sidebar Left-Context Content Right-Context" "Bottombar Bottombar Bottombar Bottombar";
+  height: 100%;
 }
 
-.gutter.gutter-horizontal {
-  /* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg=="); */
-  cursor: col-resize;
+.Topbar {
+  grid-area: Topbar;
+}
+
+.Sidebar {
+  grid-area: Sidebar;
+}
+
+.Left-Context {
+  grid-area: Left-Context;
+  resize: horizontal;
+  overflow: auto;
+}
+
+.Right-Context {
+  grid-area: Right-Context;
+  overflow: auto;
+}
+
+.Content {
+  grid-area: Content;
+}
+
+.Bottombar {
+  grid-area: Bottombar;
 }
 </style>

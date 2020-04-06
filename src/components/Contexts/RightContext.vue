@@ -21,7 +21,7 @@ export default {
 
 <template>
   <div
-    class="h-full theme-right-context"
+    class="flex-none h-full theme-right-context"
     v-show="showContext"
     style="min-width: 20rem;"
   >

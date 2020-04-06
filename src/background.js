@@ -27,6 +27,7 @@ function createWindow() {
     },
     vibrancy: "sidebar",
     backgroundColor: "#80FFFFFF",
+    titleBarStyle: "hiddenInset",
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
