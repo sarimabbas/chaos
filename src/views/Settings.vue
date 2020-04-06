@@ -5,20 +5,20 @@ export default {
   methods: {
     close() {
       this.$router.push("splash");
-    }
-  }
+    },
+  },
 };
 </script>
 
-
 <template>
-  <div class="w-full h-full bg-gray-700">
+  <div class="w-full h-full overflow-y-scroll bg-gray-700">
     <div class="flex items-center justify-between mx-4 my-3">
-      <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">Settings</h1>
+      <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
+        Settings
+      </h1>
       <CrossIcon class="ui-option-button" width="24" @click="close" />
     </div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
