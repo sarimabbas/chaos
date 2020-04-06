@@ -50,8 +50,8 @@ export default {
     <div :class="['theme-content-view w-full Content']">
       <router-view />
     </div>
-    <RightContext class="Right-Context" />
-    <Bottombar class="Bottombar" />
+    <!-- <RightContext class="Right-Context" /> -->
+    <!-- <Bottombar class="Bottombar" /> -->
   </div>
 </template>
 
