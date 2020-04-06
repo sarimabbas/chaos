@@ -122,7 +122,6 @@ export default {
         if (configAtom.load(pathToConfig)) {
           const config = configAtom.toObj().module.config;
           if (config.access_token) {
-            console.log(config.access_token);
             this.validConfig = true;
             this.config = config;
           }
@@ -246,7 +245,6 @@ export default {
       const channelsListResponse = await this.slack.conversations.list({
         token: this.config.access_token,
       });
-      await console.log(channelsListResponse);
 
       await channelsListResponse.channels.some((ch) => {
         if (ch.name === channelName) {
@@ -264,13 +262,9 @@ export default {
         token: this.config.access_token,
       });
 
-      await console.log("SOCKET REQUEST", socketRequest);
-
       await socketRequest.users.forEach(async (user) => {
         this.userMap[user.id] = await user;
       });
-
-      await console.log(this.userMap);
 
       this.socket = await new WebSocket(socketRequest.url);
 
@@ -282,7 +276,6 @@ export default {
           received.type === "message" &&
           received.channel === this.currentChannelID
         ) {
-          console.log(received);
           this.messages.unshift(received);
           this.scrollSmooth = true;
           setTimeout(() => {
@@ -290,8 +283,6 @@ export default {
           }, 200);
         }
       });
-
-      await console.log(socketRequest);
     },
     async createChannel() {
       // if no token, bail
@@ -305,8 +296,6 @@ export default {
       });
 
       this.getChannelID();
-
-      await console.log(response);
     },
     async listMessages() {
       // if no token, bail
@@ -327,7 +316,7 @@ export default {
       });
 
       this.messages = await response.messages;
-      console.log(response.messages);
+
       setTimeout(() => {
         this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
       }, 200);
