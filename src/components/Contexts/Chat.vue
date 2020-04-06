@@ -12,6 +12,11 @@ import {
   fromUnixTime,
 } from "date-fns";
 
+const replaceSlashesWithDelimiter = (str) => {
+  const pathDelimiter = "____";
+  return str.replace(/\//g, pathDelimiter);
+};
+
 export default {
   components: {
     SendIcon,
@@ -22,6 +27,8 @@ export default {
       slack: null,
       config: {},
       currentChannelID: "",
+      channelExists: false,
+      pathIsDir: false,
       messages: [],
       socket: null,
       messageBox: "",
@@ -38,6 +45,35 @@ export default {
     },
     currentWorkingNode() {
       return this.$store.state.views.currentWorkingNode;
+    },
+    relativePath() {
+      return this.$chaos.path.relative(
+        this.workspaceRootNode.path,
+        this.currentWorkingNode.path
+      );
+    },
+    currentNodeAsChannelName() {
+      // root base name
+      const rootBase = this.$chaos.path.basename(this.workspaceRootNode.path);
+
+      // construct a difference of two paths
+      let relativePath = this.$chaos.path.relative(
+        this.workspaceRootNode.path,
+        this.currentWorkingNode.path
+      );
+
+      // if the difference is empty, just make the channel name the root basename
+      let channelName;
+      if (!relativePath) {
+        channelName = rootBase;
+      } else {
+        // otherwise, make the channel name the concatenation
+        channelName = `${rootBase}____${replaceSlashesWithDelimiter(
+          relativePath
+        )}`;
+      }
+
+      return channelName;
     },
     orderedMessages() {
       return this.messages.slice().reverse();
@@ -119,13 +155,11 @@ export default {
       authWindow.webContents.session.webRequest.onBeforeRequest(
         filter,
         async (details, callback) => {
-          console.log(details);
           const url = new URL(details.url);
-          console.log(url);
+
           // process the callback url and get any param you need
 
           const code = url.searchParams.get("code");
-          console.log(code);
 
           const bearerTokenResponse = await this.$chaos.axios.get(
             "https://slack.com/api/oauth.access",
@@ -138,8 +172,6 @@ export default {
               },
             }
           );
-
-          await console.log(bearerTokenResponse.data);
 
           const configAtom = new this.$chaos.Atom();
           const pathToConfig = this.$chaos.path.join(
@@ -178,18 +210,36 @@ export default {
       });
     },
     async getChannelID() {
+      // reset channel ID
+      this.currentChannelID = "";
+      this.pathIsDir = false;
+
       // if no token, bail
       if (!this.config.access_token) {
         return;
       }
 
-      // reset channel ID
-      this.currentChannelID = "";
+      // if path not exist, bail
+      if (!this.$chaos.fs.existsSync(this.currentWorkingNode.path)) {
+        return;
+      }
 
-      // construct the channel name
-      const channelName = this.$chaos.path.basename(
-        this.currentWorkingNode.path
-      );
+      // if not directory, bail
+      if (
+        !this.$chaos.fs.lstatSync(this.currentWorkingNode.path).isDirectory()
+      ) {
+        return;
+      }
+
+      // .chaos files aren't directories
+      const testAtom = new this.$chaos.Atom();
+      if (testAtom.load(this.currentWorkingNode.path)) {
+        return;
+      }
+
+      this.pathIsDir = true;
+
+      const channelName = this.currentNodeAsChannelName;
 
       // look up all channels to see if there is a match
       const channelsListResponse = await this.slack.conversations.list({
@@ -241,6 +291,21 @@ export default {
       });
 
       await console.log(socketRequest);
+    },
+    async createChannel() {
+      // if no token, bail
+      if (!this.config.access_token) {
+        return;
+      }
+
+      const response = await this.slack.conversations.create({
+        token: this.config.access_token,
+        name: this.currentNodeAsChannelName,
+      });
+
+      this.getChannelID();
+
+      await console.log(response);
     },
     async listMessages() {
       // if no token, bail
@@ -297,7 +362,12 @@ export default {
     <!-- ERROR TEXT -->
     <div
       class="flex items-center h-full text-center"
-      v-if="!workspaceRootNode.path || !validConfig"
+      v-if="
+        !workspaceRootNode.path ||
+        !validConfig ||
+        !pathIsDir ||
+        !currentChannelID
+      "
     >
       <!-- no root found text -->
       <div v-if="!workspaceRootNode.path">
@@ -306,7 +376,7 @@ export default {
         </div>
       </div>
       <!-- no slack conig found text -->
-      <div v-else-if="workspaceRootNode.path && !validConfig">
+      <div v-else-if="!validConfig">
         <div class="px-16 py-4 mt-1 ui-help-text">
           No Slack configuration found in your Explorer root. Would you like to
           create one?
@@ -318,9 +388,27 @@ export default {
           Create Slack configuration
         </button>
       </div>
+      <!-- path is file, not dir  -->
+      <div v-else-if="!pathIsDir" class="flex w-full">
+        <div class="px-16 py-4 mt-1 ui-help-text">
+          Channels can only be created and mirrored for directories.
+        </div>
+      </div>
+      <!-- create channel if not exists -->
+      <div v-else-if="!currentChannelID">
+        <div class="px-16 py-4 mt-1 ui-help-text">
+          No Slack channel found for this path. Would you like to create one?
+        </div>
+        <button
+          class="px-2 py-1 mr-2 text-base ui-button"
+          @click="createChannel"
+        >
+          Create channel
+        </button>
+      </div>
     </div>
     <!-- SUCCESS CONDITION / LIST MESSAGES  -->
-    <div class="flex flex-col h-full" v-else>
+    <div class="flex flex-col h-full" v-else-if="currentChannelID">
       <!-- top -->
       <div
         :class="[

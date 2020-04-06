@@ -193,7 +193,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col w-full h-full">
     <!-- top -->
     <div>
       <!-- heading -->
