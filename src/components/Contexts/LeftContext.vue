@@ -38,7 +38,7 @@ export default {
     <FileExplorer v-show="this.$store.state.contexts.explorer.isShowing" />
     <Search v-show="this.$store.state.contexts.search.isShowing" />
     <Extensions v-show="this.$store.state.contexts.extensions.isShowing" />
-    <!-- <Chat v-show="this.$store.state.contexts.chat.isShowing" /> -->
+    <Chat v-show="this.$store.state.contexts.chat.isShowing" />
   </div>
 </template>
 

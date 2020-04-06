@@ -21,7 +21,7 @@ export default new Vuex.Store({
       },
       chat: {
         isShowing: false,
-        side: "right",
+        side: "left",
       },
     },
     // Views
