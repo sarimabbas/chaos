@@ -3,6 +3,14 @@ import { remote } from "electron";
 const { net, shell, BrowserWindow } = remote;
 const Slack = remote.require("slack");
 import SendIcon from "../../assets/icons/send.svg";
+import { get as lGet } from "lodash";
+import {
+  format,
+  formatDistance,
+  formatRelative,
+  subDays,
+  fromUnixTime,
+} from "date-fns";
 
 export default {
   components: {
@@ -18,6 +26,7 @@ export default {
       socket: null,
       messageBox: "",
       userMap: {},
+      scrollSmooth: false,
     };
   },
   mounted() {
@@ -51,6 +60,20 @@ export default {
     },
   },
   methods: {
+    getProfileImage(userId) {
+      return lGet(this.userMap[userId], "profile.image_192", "");
+    },
+    getProfileName(userId) {
+      return (
+        lGet(this.userMap[userId], "real_name", null) ||
+        lGet(this.userMap[userId], "name", "")
+      );
+    },
+    getMessageDate(msg) {
+      const ts = lGet(msg, "ts", "");
+      const date_ts = fromUnixTime(ts);
+      return formatRelative(date_ts, new Date());
+    },
     checkConfig() {
       const pathToConfig = this.$chaos.path.join(
         this.workspaceRootNode.path,
@@ -190,6 +213,14 @@ export default {
         token: this.config.access_token,
       });
 
+      await console.log("SOCKET REQUEST", socketRequest);
+
+      await socketRequest.users.forEach(async (user) => {
+        this.userMap[user.id] = await user;
+      });
+
+      await console.log(this.userMap);
+
       this.socket = await new WebSocket(socketRequest.url);
 
       // Listen for messages
@@ -200,7 +231,9 @@ export default {
           received.type === "message" &&
           received.channel === this.currentChannelID
         ) {
+          console.log(received);
           this.messages.unshift(received);
+          this.scrollSmooth = true;
           setTimeout(() => {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
           }, 200);
@@ -228,6 +261,10 @@ export default {
       });
 
       this.messages = await response.messages;
+      console.log(response.messages);
+      setTimeout(() => {
+        this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+      }, 200);
     },
     async sendMessage() {
       // if no token, bail
@@ -286,9 +323,11 @@ export default {
     <div class="flex flex-col h-full" v-else>
       <!-- top -->
       <div
-        class="flex-grow overflow-y-scroll"
+        :class="[
+          'flex-grow overflow-y-scroll',
+          { 'scroll-smooth': scrollSmooth },
+        ]"
         ref="messages"
-        style="scroll-behavior: smooth;"
       >
         <!-- list of message bubbles -->
         <div
@@ -296,25 +335,61 @@ export default {
           :key="msg.client_msg_id"
           class="p-2 m-2 bg-white border rounded shadow"
         >
-          <p class="break-all">
-            {{ msg.text }}
-          </p>
+          <div class="flex">
+            <img
+              :src="getProfileImage(msg.user)"
+              alt=""
+              class="object-cover h-6 rounded"
+              style="vertical-align: middle;"
+            />
+            <div class="w-full ml-2">
+              <div class="flex items-baseline">
+                <h3 class="mt-0 font-bold">{{ getProfileName(msg.user) }}</h3>
+                <span class="ml-2 text-xs">{{ getMessageDate(msg) }}</span>
+              </div>
+              <p class="dont-break-out">
+                {{ msg.text }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- bottom with message box -->
-      <div class="flex px-4 py-2 bg-white border shadow">
+      <div class="flex px-2 py-2 m-2 bg-white border rounded-md shadow-lg">
         <textarea
           class="w-full px-1 py-1 border rounded resize-none focus:outline-none focus:shadow-outline"
           type="textarea"
           placeholder="Enter message here..."
           v-model="messageBox"
         />
-        <button class="pl-3" @click="sendMessage">
-          <SendIcon width="30" />
+        <button class="px-3" @click="sendMessage">
+          <SendIcon width="30" class="text-gray-700" />
         </button>
       </div>
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+.dont-break-out {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+</style>
