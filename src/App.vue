@@ -63,7 +63,6 @@ export default {
   display: grid;
   grid-template-columns: min-content min-content 1fr min-content;
   grid-template-rows: auto 1fr auto;
-  gap: 1px 1px;
   grid-template-areas: "Topbar Topbar Topbar Topbar" "Sidebar Left-Context Content Right-Context" "Bottombar Bottombar Bottombar Bottombar";
   height: 100%;
 }

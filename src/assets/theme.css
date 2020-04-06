@@ -27,10 +27,12 @@ Tips:
 .theme-top-bar {
   background-color: var(--theme-background-primary-dark);
   color: var(--theme-text-primary-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.685);
 }
 
 .theme-side-bar {
   background-color: var(--theme-background-primary-dark);
+  border-right: 1px solid rgba(0, 0, 0, 0.685);
 }
 
 .theme-side-bar-button-active {
