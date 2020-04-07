@@ -10,13 +10,7 @@ export default {
 
 <template>
   <div class="grid">
-    <File
-      v-for="node in nodes"
-      :key="node.path"
-      :node="node"
-      renderAs="grid"
-      :renderAtomOnly="true"
-    />
+    <File v-for="node in nodes" :key="node.path" :node="node" renderAs="grid" />
   </div>
 </template>
 

@@ -12,7 +12,7 @@ export default {
     ListItem,
     Card,
   },
-  props: ["node", "renderAs", "renderAtomOnly"],
+  props: ["node", "renderAs"],
   data() {
     return {
       isAtom: false,
@@ -53,18 +53,6 @@ export default {
       }
       return "";
     },
-    shouldIRender() {
-      if (this.renderAtomOnly) {
-        if (this.isAtom) {
-          console.log("render me");
-          return true;
-        }
-        console.log("don't render me");
-        return false;
-      }
-      console.log("render me");
-      return true;
-    },
   },
   // watch: {
   //   node: {
@@ -90,7 +78,7 @@ export default {
     :description="description"
     :node="node"
     :click="handleClick"
-    v-if="shouldIRender && renderAs === 'list'"
+    v-if="renderAs === 'list'"
   />
   <Card
     :title="title"
@@ -98,7 +86,7 @@ export default {
     :image="image"
     :node="node"
     :click="handleClick"
-    v-else-if="shouldIRender && renderAs === 'grid'"
+    v-else-if="renderAs === 'grid'"
   />
 </template>
 
