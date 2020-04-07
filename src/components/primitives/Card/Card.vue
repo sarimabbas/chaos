@@ -5,7 +5,7 @@
   >
     <ResilientImage :src="image" class="h-32" />
     <div class="p-4 md:p-6">
-      <h3 class="pb-2 text-2xl font-semibold leading-tight sm:leading-normal">
+      <h3 class="pb-2 text-xl font-semibold leading-tight sm:leading-normal">
         {{ title }}
       </h3>
       <p>
