@@ -134,25 +134,25 @@ export default {
           console.log(err);
         }
 
+        // save PDF
+        const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
+        try {
+          console.log("Saving page as PDF...");
+          const pdf = await win.webContents.printToPDF({});
+          await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
+        } catch (err) {
+          console.log(err);
+        }
+
         // save screenshot
         const pathToScreenshot = this.$chaos.path.join(
           pathToBundle,
           "page.png"
         );
-        const image = await win.webContents.capturePage();
         try {
           console.log("Saving page as screenshot...");
+          const image = await win.webContents.capturePage();
           await this.$chaos.fs.writeFileSync(pathToScreenshot, image.toPNG());
-        } catch (err) {
-          console.log(err);
-        }
-
-        // save PDF
-        const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
-        const pdf = await win.webContents.printToPDF({});
-        try {
-          console.log("Saving page as PDF...");
-          await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
         } catch (err) {
           console.log(err);
         }
