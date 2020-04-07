@@ -207,28 +207,12 @@ export default {
       </div>
       <!-- immediate children list -->
       <div v-if="isFolderImmediateMode">
-        <ListView
-          v-if="viewProperty == 'list'"
-          :items="immediateChildren"
-          :handleClick="handleClick"
-        />
-        <GridView
-          v-if="viewProperty == 'grid'"
-          :items="immediateChildren"
-          :handleClick="handleClick"
-        />
+        <ListView v-if="viewProperty == 'list'" :nodes="immediateChildren" />
+        <GridView v-if="viewProperty == 'grid'" :nodes="immediateChildren" />
       </div>
       <div v-else>
-        <ListView
-          v-if="viewProperty == 'list'"
-          :items="nestedChildren"
-          :handleClick="handleClick"
-        />
-        <GridView
-          v-if="viewProperty == 'grid'"
-          :items="nestedChildren"
-          :handleClick="handleClick"
-        />
+        <ListView v-if="viewProperty == 'list'" :nodes="nestedChildren" />
+        <GridView v-if="viewProperty == 'grid'" :nodes="nestedChildren" />
       </div>
     </div>
   </div>

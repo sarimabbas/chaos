@@ -1,20 +1,21 @@
 <script>
-import Card from "../Card/Card";
+import File from "../File/File";
 export default {
   components: {
-    Card
+    File,
   },
-  props: ["items", "handleClick"]
+  props: ["nodes"],
 };
 </script>
 
 <template>
   <div class="grid">
-    <Card
-      v-for="item in items"
-      :key="item.path"
-      @click.native="handleClick(item)"
-      :description="item.name"
+    <File
+      v-for="node in nodes"
+      :key="node.path"
+      :node="node"
+      renderAs="grid"
+      :renderAtomOnly="true"
     />
   </div>
 </template>
