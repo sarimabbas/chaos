@@ -1,16 +1,14 @@
 import { fs, path, Joi } from "./common";
-import { merge as lMerge } from "lodash";
+import Spec from "./spec";
 
 const VALID_EXTENSIONS = [".crncl", ".chaos", ".sa490"];
 
-class Atom {
+class Atom extends Spec {
+  constructor() {
+    super();
+  }
+
   static spec = Joi.object({
-    // system metadata
-    system: {
-      st_size: Joi.number(),
-      st_mtime: Joi.date().timestamp(),
-      st_ctime: Joi.date().timestamp(),
-    },
     // shared metadata for all atoms, where possible
     shared: {
       // descriptors (besides the filename)
@@ -32,33 +30,6 @@ class Atom {
       // apiToken: ""
     },
   });
-
-  constructor() {
-    this.state = {};
-  }
-
-  update(rep) {
-    // save the original state
-    const save = JSON.parse(JSON.stringify(this.state));
-    // apply changes to the state
-    this.state = lMerge(this.state, rep);
-    // check if the update parses correctly
-    if (Atom.validate(this.state)) {
-      return true;
-    } else {
-      console.log("Failed atom update!");
-      this.state = save;
-      return false;
-    }
-  }
-
-  toString() {
-    return JSON.stringify(this.state);
-  }
-
-  toObj() {
-    return JSON.parse(JSON.stringify(this.state));
-  }
 
   save(pathToBundle) {
     // create the bundle dir if it doesnt exist
@@ -86,17 +57,6 @@ class Atom {
     const jsonData = JSON.parse(rawFileData);
     // set state
     this.state = jsonData;
-    return true;
-  }
-
-  static validate(rep) {
-    const { error, value } = Atom.spec.validate(rep, {
-      allowUnknown: true,
-    });
-    if (error) {
-      return false;
-      console.log(error);
-    }
     return true;
   }
 

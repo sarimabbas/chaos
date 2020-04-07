@@ -5,17 +5,17 @@ export default {
   name: "node",
   components: {
     ChevronRightIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
   },
   props: ["node", "handleNodeClick"],
   methods: {
     toggleChildren() {
       this.node.showChildren = !this.node.showChildren;
-    }
+    },
   },
   computed: {
     someChildrenVisible() {
-      return this.node.children.some(child => child.show);
+      return this.node.children.some((child) => child.show);
     },
     haveLeftPadding() {
       if (this.node.children && !this.node.children.length) {
@@ -24,8 +24,8 @@ export default {
       if (!this.someChildrenVisible) {
         return true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -33,7 +33,10 @@ export default {
   <li class="pr-1" v-if="node.show">
     <!-- the single item -->
     <div
-      :class="['flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover', node.selected ? 'bg-gray-600' : '']"
+      :class="[
+        'flex items-center justify-between h-6 bg-transparent hover:bg-gray-600 extend-for-hover',
+        node.selected ? 'bg-gray-600' : '',
+      ]"
     >
       <!-- the chevron -->
       <span
@@ -41,14 +44,22 @@ export default {
         @click="toggleChildren"
         v-if="node.children && node.children.length && someChildrenVisible"
       >
-        <chevron-down-icon v-if="node.showChildren" width="20" class="text-gray-400" />
+        <chevron-down-icon
+          v-if="node.showChildren"
+          width="20"
+          class="text-gray-400"
+        />
         <chevron-right-icon v-else width="20" class="text-gray-400" />
       </span>
       <!-- <span class="node-level" @click="handleNodeClick(node)">H{{ node.data.level }}</span> -->
       <span
-        :class="['inline-block w-full text-sm text-gray-400 truncate ml-1 select-none', { 'pl-6' : this.haveLeftPadding }]"
+        :class="[
+          'inline-block w-full text-sm text-gray-400 truncate ml-1 select-none',
+          { 'pl-6': this.haveLeftPadding },
+        ]"
         @click="handleNodeClick(node)"
-      >{{ node.name }}</span>
+        >{{ node.name }}</span
+      >
     </div>
     <!-- nested items (if any) -->
     <ul v-if="node.children && node.children.length && node.showChildren">
@@ -62,7 +73,6 @@ export default {
     </ul>
   </li>
 </template>
-
 
 <style scoped>
 .extend-for-hover {

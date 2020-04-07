@@ -2,9 +2,9 @@
 import Node from "./Node";
 export default {
   components: {
-    Node
+    Node,
   },
-  props: ["roots", "handleNodeClick"]
+  props: ["roots", "handleNodeClick"],
 };
 </script>
 
@@ -20,5 +20,3 @@ export default {
     </ul>
   </div>
 </template>
-
-

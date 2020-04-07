@@ -6,7 +6,7 @@ import LoaderIcon from "../../assets/icons/loader.svg";
 import XSquareIcon from "../../assets/icons/x-square.svg";
 import RotateCwIcon from "../../assets/icons/rotate-cw.svg";
 
-import { recursivelyGetPaths, filePicker } from "../../backend/explorer";
+import { recursivelyGetNodes, filePicker } from "../../backend/explorer";
 
 export default {
   components: {
@@ -97,7 +97,7 @@ export default {
         return;
       }
       this.loading = true;
-      const pathRequest = recursivelyGetPaths(pickerRequest);
+      const pathRequest = recursivelyGetNodes(pickerRequest);
       this.roots = [pathRequest];
       this.$store.dispatch("setWorkspaceRootNode", this.roots[0]);
       this.loading = false;
@@ -106,7 +106,7 @@ export default {
       if (this.lastSetPath !== "") {
         // fetch the directory again
         this.loading = true;
-        const pathRequest = recursivelyGetPaths(this.lastSetPath);
+        const pathRequest = recursivelyGetNodes(this.lastSetPath);
         // patch the new tree with the old tree's toggles
         this.refreshTreeHelper(this.roots[0], pathRequest);
         this.roots = [pathRequest];

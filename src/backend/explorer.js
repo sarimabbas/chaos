@@ -1,8 +1,10 @@
 import { dialog, fs, path } from "./common";
+import Node from "./node";
+import Atom from "./atom";
 
 export const filePicker = () => {
   const filePaths = dialog.showOpenDialogSync({
-    properties: ["openFile", "openDirectory", "createDirectory"]
+    properties: ["openFile", "openDirectory", "createDirectory"],
   });
   if (filePaths.length > 0) {
     return filePaths[0];
@@ -11,26 +13,33 @@ export const filePicker = () => {
   }
 };
 
-export const recursivelyGetPaths = curPath => {
+export const recursivelyGetNodes = (curPath) => {
   // first get the stat result
   const stat = fs.lstatSync(curPath);
   const parsePath = path.parse(curPath);
 
-  const commonProp = {
+  // compile the common properties
+  const node = new Node();
+  node.update({
     path: curPath,
     name: parsePath.base,
     show: true,
-    selected: false
-  };
+    selected: false,
+  });
 
   // if leaf node, return
-  const fileExtensions = [".crncl", ".chaos", ".sa490"];
-  if (stat.isFile() || fileExtensions.includes(parsePath.ext)) {
-    return {
-      ...commonProp,
+  const isAtom = Atom.isAtom(curPath);
+  if (stat.isFile() || isAtom) {
+    node.update({
       type: "file",
-      children: []
-    };
+      children: [],
+    });
+    if (isAtom) {
+      node.update({
+        isAtom: true,
+      });
+    }
+    return node.toObj();
   }
 
   // if parent node, recurse
@@ -43,16 +52,19 @@ export const recursivelyGetPaths = curPath => {
     }
     fsDir.closeSync();
 
-    const childrenPaths = [];
+    // iterate over the children
+    const childrenNodes = [];
     for (let p of dirents) {
-      childrenPaths.push(recursivelyGetPaths(path.join(fsDir.path, p.name)));
+      childrenNodes.push(recursivelyGetNodes(path.join(fsDir.path, p.name)));
     }
 
-    return {
-      ...commonProp,
+    // add as children of current node
+    node.update({
       type: "directory",
-      children: childrenPaths,
-      showChildren: false
-    };
+      showChildren: false,
+      children: childrenNodes,
+    });
+
+    return node.toObj();
   }
 };
