@@ -12,6 +12,7 @@ import DropdownItem from "../../components/Dropdown/DropdownItem";
 
 import ListView from "../../components/ListView/ListView";
 import GridView from "../../components/GridView/GridView";
+import ViewOptions from "../../components/ViewOptions/ViewOptions";
 
 import store from "../../store";
 export default {
@@ -27,9 +28,11 @@ export default {
     PlusIcon,
     FilterIcon,
     EyeIcon,
+
     // views
     ListView,
     GridView,
+    ViewOptions,
   },
   data() {
     return {
@@ -73,6 +76,9 @@ export default {
         return sorted;
       }
       return nodeArray;
+    },
+    changeViewHandler(input) {
+      this.viewProperty = input;
     },
   },
   computed: {
@@ -124,6 +130,8 @@ export default {
       <!-- toolbar -->
       <div class="flex items-baseline justify-between mb-4">
         <div class="flex items-baseline">
+          <ViewOptions :changeViewHandler="changeViewHandler" />
+          <ViewOptions />
           <Dropdown text="View" class="mr-2">
             <template v-slot:icon>
               <EyeIcon width="15" />
