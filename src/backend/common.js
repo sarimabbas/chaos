@@ -14,5 +14,5 @@ export {
   fs,
   path,
   BrowserWindow,
-  Joi
+  Joi,
 };
