@@ -1,30 +1,10 @@
 <script>
 import { get as lGet } from "lodash";
-import Toggle from "./components/Toggle/Toggle";
+import { remote } from "electron";
+const { shell } = remote;
 
 export default {
   props: ["manifest"],
-  components: {
-    Toggle,
-  },
-  data() {
-    return {
-      offlineDom: "",
-      liveToggleState: false,
-    };
-  },
-  watch: {
-    currentPath: {
-      immediate: true,
-      handler: async function (newVal, oldVal) {
-        // reset local props (just in case)
-        this.offlineDom = "";
-        this.liveToggleState = false;
-        // reload the dom
-        this.loadOfflineDom();
-      },
-    },
-  },
   computed: {
     currentURL() {
       return lGet(this.manifest, "module.url", "");
@@ -33,25 +13,26 @@ export default {
       const node = this.$store.state.views.currentWorkingNode;
       return node;
     },
-    currentPath() {
-      return this.currentNode.path;
-    },
-    currentPathToPage() {
+    currentPathToHTML() {
       return (
-        "file://" + this.$chaos.path.join(this.currentPath, "singlepage.html")
+        "file://" + this.$chaos.path.join(this.currentNode.path, "page.html")
       );
+    },
+    currentPathToImage() {
+      return (
+        "file://" + this.$chaos.path.join(this.currentNode.path, "page.png")
+      );
+    },
+    currentPathToPDF() {
+      return this.$chaos.path.join(this.currentNode.path, "page.pdf");
     },
   },
   methods: {
-    async loadOfflineDom() {
-      const pathToOfflineDom =
-        this.currentPath + this.manifest.module.singlepage.slice(1);
-      const response = this.$chaos.fs.readFileSync(pathToOfflineDom);
-
-      this.offlineDom = response;
+    openPDF() {
+      shell.openItem(this.currentPathToPDF);
     },
-    toggleHandler(event) {
-      this.liveToggleState = !this.liveToggleState;
+    openHTML() {
+      shell.openExternal(this.currentPathToHTML);
     },
   },
 };
@@ -61,28 +42,30 @@ export default {
   <div class="h-full">
     <!-- <h1 class="text-xl">Website View</h1> -->
     <div class="h-full p-4">
-      <Toggle
-        label-left="Archived"
-        label-right="Live"
-        class="mb-2"
-        :handler="toggleHandler"
-        :checked="liveToggleState"
-      />
+      <!-- controls -->
+      <div class="flex mb-2">
+        <button
+          class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
+          @click="openPDF"
+        >
+          Open PDF
+        </button>
+        <button
+          class="relative z-10 flex items-center justify-between block px-2 ml-2 bg-gray-200 rounded-sm hover:bg-gray-400"
+          @click="openHTML"
+        >
+          Open archived web page
+        </button>
+      </div>
+      <!-- live view -->
       <div class="relative w-full h-full overflow-hidden rounded-sm">
         <!-- there seems to be a bug in vue. If i put the first iframe in a DIV
         as well, vue cannot seem to distinguish between both sets and does not
         patch the dom appropriately -->
         <webview
-          v-if="liveToggleState"
           :src="currentURL"
           class="absolute top-0 left-0 w-full h-full border-0"
         />
-        <div v-else>
-          <iframe
-            :srcdoc="offlineDom"
-            class="absolute top-0 left-0 w-full h-full border-0"
-          />
-        </div>
       </div>
       <br />
     </div>

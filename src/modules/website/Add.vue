@@ -8,14 +8,14 @@ const moduleName = "Chaos Website Module";
 export default {
   components: {
     CheckIcon,
-    LoaderIcon
+    LoaderIcon,
   },
   data() {
     return {
       url: "",
       loading: false,
       success: false,
-      error: false
+      error: false,
     };
   },
   methods: {
@@ -41,7 +41,7 @@ export default {
       let win = new this.$chaos.BrowserWindow({
         width: 800,
         height: 600,
-        show: false
+        show: false,
       });
 
       // register event handler to clear up window when closed
@@ -61,54 +61,43 @@ export default {
           module: {
             id: moduleID,
             name: moduleName,
-            page: "./page.html",
-            singlepage: "./singlepage.html",
-            url: this.url
-          }
+            html: "./page.html",
+            pdf: "./page.pdf",
+            image: "./page.png",
+            url: this.url,
+          },
         });
 
         webpageAtom.save(pathToBundle);
 
-        // save the full directory
-        const pathToPage = this.$chaos.path.join(pathToBundle, "page.mhtml");
+        // save the html
+        const pathToPage = this.$chaos.path.join(pathToBundle, "page.html");
         await win.webContents.savePage(pathToPage, "HTMLComplete");
 
-        // const mhtmlFileContents = this.$chaos.fs.readFileSync(
-        //   pathToPage,
-        //   "utf8"
-        // );
-        // const html = mhtml2html.convert(mhtmlFileContents);
-        // console.log(html);
-
-        // save a compressed/inlined version for preview
-        this.$chaos.inline.html(
-          {
-            fileContent: this.$chaos.fs.readFileSync(pathToPage, "utf8"),
-            images: true,
-            svgs: true,
-            scripts: false,
-            links: true,
-            relativeTo: pathToBundle
-          },
-          (error, result) => {
-            this.$chaos.fs.writeFileSync(
-              this.$chaos.path.join(pathToBundle, "singlepage.html"),
-              result
-            );
-
-            // finish
-            win.close();
-            this.loading = false;
-            this.success = true;
-            this.$chaos.refreshExplorer();
-            setTimeout(() => {
-              this.success = false;
-            }, 2000);
-          }
+        // save screenshot
+        const pathToScreenshot = this.$chaos.path.join(
+          pathToBundle,
+          "page.png"
         );
+        const image = await win.webContents.capturePage();
+        await this.$chaos.fs.writeFileSync(pathToScreenshot, image.toPNG());
+
+        // save PDF
+        const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
+        const pdf = await win.webContents.printToPDF({});
+        await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
+
+        // finish
+        win.close();
+        this.loading = false;
+        this.success = true;
+        this.$chaos.refreshExplorer();
+        setTimeout(() => {
+          this.success = false;
+        }, 2000);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

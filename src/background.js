@@ -24,6 +24,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true,
+      plugins: true,
     },
     vibrancy: "sidebar",
     backgroundColor: "#80FFFFFF",
