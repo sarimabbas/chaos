@@ -8,7 +8,6 @@ const fs = remote.require("fs");
 const path = remote.require("path");
 const Joi = remote.require("@hapi/joi");
 const axios = remote.require("axios");
-const inline = remote.require("web-resource-inliner");
 
 // backend APIs
 import Atom from "./backend/atom";
@@ -27,7 +26,6 @@ const api = {
   BrowserWindow,
   axios,
   Atom,
-  inline
 };
 
 export default api;

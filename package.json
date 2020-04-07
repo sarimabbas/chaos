@@ -16,6 +16,7 @@
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
     "date-fns": "^2.11.1",
+    "link-preview-js": "^2.0.1",
     "lodash": "^4.17.15",
     "slack": "^11.0.2",
     "tailwindcss": "^1.1.4",

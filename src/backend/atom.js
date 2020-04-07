@@ -1,4 +1,5 @@
 import { fs, path, Joi } from "./common";
+import { merge as lMerge } from "lodash";
 
 class Atom {
   constructor() {
@@ -7,24 +8,28 @@ class Atom {
       system: {
         st_size: Joi.number(),
         st_mtime: Joi.date().timestamp(),
-        st_ctime: Joi.date().timestamp()
+        st_ctime: Joi.date().timestamp(),
       },
       // shared metadata for all atoms, where possible
       shared: {
+        // descriptors (besides the filename)
+        title: Joi.string().allow(""),
+        description: Joi.string().allow(""),
+        image: Joi.string().allow(""),
         // general organization (e.g. Kanban board)
         category: Joi.string().allow(""),
         tags: Joi.array().items(Joi.string().allow("")),
         // for todo functionality
         completed: Joi.boolean(),
-        deadline: Joi.date().timestamp() // integer UNIX time
+        deadline: Joi.date().timestamp(), // integer UNIX time
       },
       module: {
         id: Joi.string().required(),
-        name: Joi.string().required()
+        name: Joi.string().required(),
         // module specific properties:
         // assetsPath: "",
         // apiToken: ""
-      }
+      },
     });
     this.state = {};
   }
@@ -33,11 +38,12 @@ class Atom {
     // save the original state
     const save = JSON.parse(JSON.stringify(this.state));
     // apply changes to the state
-    const changedState = Object.assign(this.state, rep);
+    this.state = lMerge(this.state, rep);
     // check if the update parses correctly
-    if (this.validate(changedState)) {
+    if (this.validate(this.state)) {
       return true;
     } else {
+      console.log("Failed atom update!");
       this.state = save;
       return false;
     }
@@ -93,7 +99,7 @@ class Atom {
 
   validate(rep) {
     const { error, value } = this.spec.validate(rep, {
-      allowUnknown: true
+      allowUnknown: true,
     });
     if (error) {
       return false;

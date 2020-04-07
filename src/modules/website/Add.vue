@@ -1,6 +1,9 @@
 <script>
 import CheckIcon from "../../assets/icons/check.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
+import { remote } from "electron";
+const { getLinkPreview } = remote.require("link-preview-js");
+import { get as lGet } from "lodash";
 
 const moduleID = "com.sarimabbas.chaos.website";
 const moduleName = "Chaos Website Module";
@@ -19,6 +22,23 @@ export default {
     };
   },
   methods: {
+    async downloadURLImageToPath(url, path) {
+      console.log("Downloading preview image...");
+      const writer = this.$chaos.fs.createWriteStream(path);
+
+      const response = await this.$chaos.axios({
+        url,
+        method: "GET",
+        responseType: "stream",
+      });
+
+      response.data.pipe(writer);
+
+      return new Promise((resolve, reject) => {
+        writer.on("finish", resolve);
+        writer.on("error", reject);
+      });
+    },
     async fetchURL() {
       this.loading = true;
 
@@ -32,10 +52,49 @@ export default {
         return;
       }
 
-      // create path to a new bundle file
-      const hostname = new URL(this.url).hostname;
-      const pathToBundle =
-        this.$store.state.views.currentWorkingPath + "/" + hostname + ".chaos";
+      // collect preliminary information about URL
+      const previewData = await getLinkPreview(this.url);
+
+      // construct a path to the bundle
+      const pathToBundle = await this.$chaos.path.join(
+        this.$store.state.views.currentWorkingPath,
+        previewData.title + ".chaos"
+      );
+
+      // create the initial bundle and save
+      const webpageAtom = new this.$chaos.Atom();
+      await webpageAtom.update({
+        shared: {
+          title: previewData.title,
+          description: previewData.description,
+        },
+        module: {
+          id: moduleID,
+          name: moduleName,
+          url: this.url,
+          favicon: lGet(previewData, "favicons[0]", ""),
+        },
+      });
+      await webpageAtom.save(pathToBundle);
+
+      // try to save the preview image as well
+      const previewImage = await lGet(previewData, "images[0]", null);
+      let previewImageRelativePath = null;
+      if (await previewImage) {
+        const extension = await this.$chaos.path.extname(previewImage);
+        previewImageRelativePath = `./image${extension}`;
+        await this.downloadURLImageToPath(
+          previewImage,
+          this.$chaos.path.join(pathToBundle, `image${extension}`)
+        );
+      }
+      await webpageAtom.update({
+        shared: {
+          // either the currently fetched image or the eventual page screenshot (below)
+          image: previewImageRelativePath || "./page.png",
+        },
+      });
+      await webpageAtom.save(pathToBundle);
 
       // create a new renderer process window, but keep it hidden
       let win = new this.$chaos.BrowserWindow({
@@ -54,25 +113,26 @@ export default {
 
       // when the window is finished loading
       win.webContents.on("did-finish-load", async () => {
-        // create atom
-        const webpageAtom = new this.$chaos.Atom();
-
-        webpageAtom.update({
-          module: {
-            id: moduleID,
-            name: moduleName,
-            html: "./page.html",
-            pdf: "./page.pdf",
-            image: "./page.png",
-            url: this.url,
-          },
-        });
-
-        webpageAtom.save(pathToBundle);
-
         // save the html
         const pathToPage = this.$chaos.path.join(pathToBundle, "page.html");
-        await win.webContents.savePage(pathToPage, "HTMLComplete");
+        try {
+          console.log("Saving page as HTML...");
+          await win.webContents.savePage(pathToPage, "HTMLComplete");
+        } catch (err) {
+          console.log(err);
+        }
+
+        // save the mhtml
+        const pathToMHTMLPage = this.$chaos.path.join(
+          pathToBundle,
+          "page.mhtml"
+        );
+        try {
+          console.log("Saving page as MHTML...");
+          await win.webContents.savePage(pathToMHTMLPage, "MHTML");
+        } catch (err) {
+          console.log(err);
+        }
 
         // save screenshot
         const pathToScreenshot = this.$chaos.path.join(
@@ -80,12 +140,33 @@ export default {
           "page.png"
         );
         const image = await win.webContents.capturePage();
-        await this.$chaos.fs.writeFileSync(pathToScreenshot, image.toPNG());
+        try {
+          console.log("Saving page as screenshot...");
+          await this.$chaos.fs.writeFileSync(pathToScreenshot, image.toPNG());
+        } catch (err) {
+          console.log(err);
+        }
 
         // save PDF
         const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
         const pdf = await win.webContents.printToPDF({});
-        await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
+        try {
+          console.log("Saving page as PDF...");
+          await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
+        } catch (err) {
+          console.log(err);
+        }
+
+        // update bundle
+        await webpageAtom.update({
+          module: {
+            html: "./page.html",
+            mhtml: "./page.mhtml",
+            screenshot: "./page.png",
+            pdf: "./page.pdf",
+          },
+        });
+        await webpageAtom.save(pathToBundle);
 
         // finish
         win.close();

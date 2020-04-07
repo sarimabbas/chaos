@@ -18,6 +18,11 @@ export default {
         "file://" + this.$chaos.path.join(this.currentNode.path, "page.html")
       );
     },
+    currentPathToMHTML() {
+      return (
+        "file://" + this.$chaos.path.join(this.currentNode.path, "page.mhtml")
+      );
+    },
     currentPathToImage() {
       return (
         "file://" + this.$chaos.path.join(this.currentNode.path, "page.png")
@@ -33,6 +38,9 @@ export default {
     },
     openHTML() {
       shell.openExternal(this.currentPathToHTML);
+    },
+    openMHTML() {
+      shell.openExternal(this.currentPathToMHTML);
     },
   },
 };
@@ -52,7 +60,7 @@ export default {
         </button>
         <button
           class="relative z-10 flex items-center justify-between block px-2 ml-2 bg-gray-200 rounded-sm hover:bg-gray-400"
-          @click="openHTML"
+          @click="openMHTML"
         >
           Open archived web page
         </button>
