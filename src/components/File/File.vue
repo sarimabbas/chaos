@@ -86,7 +86,7 @@ export default {
 
 <template>
   <ListItem
-    :title="title"
+    :title="node.name"
     :description="description"
     :node="node"
     :click="handleClick"

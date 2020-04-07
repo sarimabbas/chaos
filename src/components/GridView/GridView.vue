@@ -24,6 +24,6 @@ export default {
 .grid {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 }
 </style>

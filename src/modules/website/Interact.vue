@@ -14,22 +14,24 @@ export default {
       return node;
     },
     currentPathToHTML() {
-      return (
-        "file://" + this.$chaos.path.join(this.currentNode.path, "page.html")
-      );
+      const manifestHTML = lGet(this.manifest, "module.html", "");
+      return manifestHTML
+        ? "file://" + this.$chaos.path.join(this.currentNode.path, manifestHTML)
+        : null;
     },
     currentPathToMHTML() {
-      return (
-        "file://" + this.$chaos.path.join(this.currentNode.path, "page.mhtml")
-      );
+      const manifestMHTML = lGet(this.manifest, "module.mhtml", "");
+      return manifestMHTML
+        ? "file://" +
+            this.$chaos.path.join(this.currentNode.path, manifestMHTML)
+        : null;
     },
-    currentPathToImage() {
-      return (
-        "file://" + this.$chaos.path.join(this.currentNode.path, "page.png")
-      );
-    },
+
     currentPathToPDF() {
-      return this.$chaos.path.join(this.currentNode.path, "page.pdf");
+      const manifestPDF = lGet(this.manifest, "module.pdf", "");
+      return manifestPDF
+        ? this.$chaos.path.join(this.currentNode.path, manifestPDF)
+        : null;
     },
   },
   methods: {
@@ -53,14 +55,16 @@ export default {
       <!-- controls -->
       <div class="flex mb-2">
         <button
-          class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
+          class="relative z-10 flex items-center justify-between block px-2 mr-2 bg-gray-200 rounded-sm hover:bg-gray-400"
           @click="openPDF"
+          v-if="currentPathToPDF"
         >
           Open PDF
         </button>
         <button
-          class="relative z-10 flex items-center justify-between block px-2 ml-2 bg-gray-200 rounded-sm hover:bg-gray-400"
+          class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
           @click="openMHTML"
+          v-if="currentPathToMHTML"
         >
           Open archived web page
         </button>

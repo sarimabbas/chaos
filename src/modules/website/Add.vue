@@ -1,6 +1,7 @@
 <script>
 import CheckIcon from "../../assets/icons/check.svg";
 import LoaderIcon from "../../assets/icons/loader.svg";
+import Status from "./components/Status";
 import { remote } from "electron";
 const { getLinkPreview } = remote.require("link-preview-js");
 import { get as lGet } from "lodash";
@@ -12,6 +13,7 @@ export default {
   components: {
     CheckIcon,
     LoaderIcon,
+    Status,
   },
   data() {
     return {
@@ -19,11 +21,17 @@ export default {
       loading: false,
       success: false,
       error: false,
+      statuses: {
+        metadata: "not_started",
+        screenshot: "not_started", // loading, success, error
+        pdf: "not_started",
+        html: "not_started",
+        mhtml: "not_started",
+      },
     };
   },
   methods: {
     async downloadURLImageToPath(url, path) {
-      console.log("Downloading preview image...");
       const writer = this.$chaos.fs.createWriteStream(path);
 
       const response = await this.$chaos.axios({
@@ -53,7 +61,17 @@ export default {
       }
 
       // collect preliminary information about URL
-      const previewData = await getLinkPreview(this.url);
+      let previewData = null;
+      try {
+        this.statuses.metadata = "loading";
+        previewData = await getLinkPreview(this.url);
+      } catch (err) {
+        this.statuses.metadata = "error";
+        this.loading = false;
+        this.error = true;
+        console.log(err);
+        return;
+      }
 
       // construct a path to the bundle
       const pathToBundle = await this.$chaos.path.join(
@@ -83,10 +101,16 @@ export default {
       if (await previewImage) {
         const extension = await this.$chaos.path.extname(previewImage);
         previewImageRelativePath = `./image${extension}`;
-        await this.downloadURLImageToPath(
-          previewImage,
-          this.$chaos.path.join(pathToBundle, `image${extension}`)
-        );
+        try {
+          await this.downloadURLImageToPath(
+            previewImage,
+            this.$chaos.path.join(pathToBundle, `image${extension}`)
+          );
+          this.statuses.metadata = "success";
+        } catch (err) {
+          this.statuses.metadata = "error";
+          console.log(err);
+        }
       }
       await webpageAtom.update({
         shared: {
@@ -116,9 +140,18 @@ export default {
         // save the html
         const pathToPage = this.$chaos.path.join(pathToBundle, "page.html");
         try {
-          console.log("Saving page as HTML...");
+          this.statuses.html = "loading";
+
           await win.webContents.savePage(pathToPage, "HTMLComplete");
+          this.statuses.html = "success";
+          await webpageAtom.update({
+            module: {
+              html: "./page.html",
+            },
+          });
+          await webpageAtom.save(pathToBundle);
         } catch (err) {
+          this.statuses.html = "error";
           console.log(err);
         }
 
@@ -128,20 +161,37 @@ export default {
           "page.mhtml"
         );
         try {
-          console.log("Saving page as MHTML...");
+          this.statuses.mhtml = "loading";
           await win.webContents.savePage(pathToMHTMLPage, "MHTML");
+          this.statuses.mhtml = "success";
+          await webpageAtom.update({
+            module: {
+              mhtml: "./page.mhtml",
+            },
+          });
+          await webpageAtom.save(pathToBundle);
         } catch (err) {
+          this.statuses.mhtml = "error";
           console.log(err);
         }
 
         // save PDF
         const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
+        this.statuses.pdf = "loading";
         try {
-          console.log("Saving page as PDF...");
-          const pdf = await win.webContents.printToPDF({});
-          await this.$chaos.fs.writeFileSync(pathToPDF, pdf);
+          const pdfData = await win.webContents.printToPDF({});
+          await this.$chaos.fsWriteSync(pathToPDF, pdfData);
+          console.log("Write PDF successfully.");
+          this.statuses.pdf = "success";
+          await webpageAtom.update({
+            module: {
+              pdf: "./page.pdf",
+            },
+          });
+          await webpageAtom.save(pathToBundle);
         } catch (err) {
           console.log(err);
+          this.statuses.pdf = "error";
         }
 
         // save screenshot
@@ -150,23 +200,20 @@ export default {
           "page.png"
         );
         try {
-          console.log("Saving page as screenshot...");
+          this.statuses.screenshot = "loading";
           const image = await win.webContents.capturePage();
           await this.$chaos.fs.writeFileSync(pathToScreenshot, image.toPNG());
+          this.statuses.screenshot = "success";
+          await webpageAtom.update({
+            module: {
+              screenshot: "./page.png",
+            },
+          });
+          await webpageAtom.save(pathToBundle);
         } catch (err) {
+          this.statuses.screenshot = "error";
           console.log(err);
         }
-
-        // update bundle
-        await webpageAtom.update({
-          module: {
-            html: "./page.html",
-            mhtml: "./page.mhtml",
-            screenshot: "./page.png",
-            pdf: "./page.pdf",
-          },
-        });
-        await webpageAtom.save(pathToBundle);
 
         // finish
         win.close();
@@ -208,6 +255,13 @@ export default {
         </span>
         <span v-else>Fetch</span>
       </button>
+    </div>
+    <div class="mt-2 statuses">
+      <Status name="Metadata" :status="statuses.metadata" />
+      <Status name="HTML" :status="statuses.html" />
+      <Status name="MHTML" :status="statuses.mhtml" />
+      <Status name="PDF" :status="statuses.pdf" />
+      <Status name="Screenshot" :status="statuses.screenshot" />
     </div>
   </div>
 </template>
