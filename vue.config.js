@@ -1,12 +1,12 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
-      externals: ["@hapi/joi", "axios", "web-resource-inliner"]
+      externals: ["@hapi/joi", "axios", "slack"],
       // nodeModulesPath: ["../../node_modules", "./node_modules"]
-    }
+    },
   },
   assetsDir: "static",
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // handle svg imports
     const svgRule = config.module.rule("svg");
     svgRule.uses.clear();
@@ -16,5 +16,5 @@ module.exports = {
       .end()
       .use("vue-svg-loader")
       .loader("vue-svg-loader");
-  }
+  },
 };
