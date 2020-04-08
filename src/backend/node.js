@@ -25,6 +25,8 @@ class Node extends Spec {
     name: Joi.string().allow(""),
     type: Joi.string().allow(""),
     isAtom: Joi.boolean(),
+    // store the whole atom manifest
+    atom: Joi.object(),
   }).id("node");
 }
 

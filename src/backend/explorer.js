@@ -28,7 +28,8 @@ export const recursivelyGetNodes = (curPath) => {
   });
 
   // if leaf node, return
-  const isAtom = Atom.isAtom(curPath);
+  const atom = new Atom();
+  const isAtom = atom.load(curPath);
   if (stat.isFile() || isAtom) {
     node.update({
       type: "file",
@@ -37,6 +38,7 @@ export const recursivelyGetNodes = (curPath) => {
     if (isAtom) {
       node.update({
         isAtom: true,
+        atom: atom.toObj(),
       });
     }
     return node.toObj();
