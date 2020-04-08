@@ -77,14 +77,14 @@ export default {
   },
   watch: {
     workspaceRootNode: {
-      handler: function (val) {
+      handler: function(val) {
         this.checkConfig();
         this.startListening();
       },
       immediate: false,
     },
     currentWorkingNode: {
-      handler: async function (val) {
+      handler: async function(val) {
         await this.getChannelID();
         await this.listMessages();
       },
@@ -200,7 +200,7 @@ export default {
         }
       );
 
-      authWindow.on("closed", function () {
+      authWindow.on("closed", function() {
         authWindow = null;
       });
     },
@@ -350,10 +350,10 @@ export default {
       class="flex items-center h-full text-center"
       v-if="
         !workspaceRootNode.path ||
-        !validConfig ||
-        !pathIsDir ||
-        !currentChannelID ||
-        isCurrentNodeRoot
+          !validConfig ||
+          !pathIsDir ||
+          !currentChannelID ||
+          isCurrentNodeRoot
       "
     >
       <!-- no root found text -->
@@ -451,7 +451,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 .scroll-smooth {
   scroll-behavior: smooth;
 }

@@ -131,30 +131,6 @@ export default {
       <div class="flex items-baseline justify-between mb-4">
         <div class="flex items-baseline">
           <ViewOptions :changeViewHandler="changeViewHandler" />
-          <ViewOptions />
-          <Dropdown text="View" class="mr-2">
-            <template v-slot:icon>
-              <EyeIcon width="15" />
-            </template>
-            <DropdownItem
-              text="List"
-              :onClick="
-                () => {
-                  viewProperty = 'list';
-                }
-              "
-              :active="viewProperty === 'list'"
-            />
-            <DropdownItem
-              text="Grid"
-              :onClick="
-                () => {
-                  viewProperty = 'grid';
-                }
-              "
-              :active="viewProperty === 'grid'"
-            />
-          </Dropdown>
           <Dropdown text="Filter" class="mr-2">
             <template v-slot:icon>
               <FilterIcon width="15" />
