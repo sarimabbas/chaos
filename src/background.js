@@ -25,6 +25,7 @@ function createWindow() {
       nodeIntegration: true,
       webviewTag: true,
       plugins: true,
+      enableRemoteModule: true,
     },
     vibrancy: "sidebar",
     backgroundColor: "#80FFFFFF",

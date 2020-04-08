@@ -2,6 +2,7 @@ import { get as lGet } from "lodash";
 import { fs as nodeFs, path as nodePath } from "../../backend/common";
 
 const mixin = {
+  props: ["nodes"],
   methods: {
     handleClick(node) {
       this.$events.$emit("explorerNodeClick", node);
@@ -24,6 +25,10 @@ const mixin = {
         return URI;
       }
       return "";
+    },
+    systemIcon(node) {
+      const image = lGet(node, "icon", "");
+      return image;
     },
   },
 };

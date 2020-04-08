@@ -68,7 +68,6 @@ export default {
       );
       // if the difference is empty, just make the channel name the root basename
       const channelName = replaceSlashesWithDelimiter(relativePath);
-      console.log(channelName);
       return channelName;
     },
     orderedMessages() {

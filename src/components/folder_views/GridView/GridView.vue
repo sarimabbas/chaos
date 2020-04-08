@@ -6,7 +6,6 @@ export default {
     Card,
   },
   mixins: [mixin],
-  props: ["nodes"],
 };
 </script>
 

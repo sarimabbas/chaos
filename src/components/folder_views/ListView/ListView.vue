@@ -5,7 +5,6 @@ export default {
   components: {
     ListItem,
   },
-  props: ["nodes"],
   mixins: [mixin],
 };
 </script>
@@ -17,6 +16,7 @@ export default {
       :key="node.path"
       :title="title(node)"
       :description="description(node)"
+      :icon="systemIcon(node)"
       :node="node"
       :click="handleClick"
     />

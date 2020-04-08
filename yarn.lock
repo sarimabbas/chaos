@@ -3988,6 +3988,11 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+file-icon@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/file-icon/-/file-icon-3.1.0.tgz#f1639685d74b9ae621eeb809576e7a3d22c9fe8b"
+  integrity sha512-1+EdWiwE4S7Wa/SCEcEC+StMcT/OEVdw0RbGmD5ZmlsUL9Kqf6SyXzSbhxa9p2isIfORtCh3/lEflGdbMNX8fA==
+
 file-loader@^4.2.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-4.3.0.tgz#780f040f729b3d18019f20605f723e844b8a58af"

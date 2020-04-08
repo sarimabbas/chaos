@@ -1,4 +1,5 @@
-import { dialog, fs, path } from "./common";
+import { dialog, fs, path, remote } from "./common";
+const fileIcon = remote.require("file-icon");
 import Node from "./node";
 import Atom from "./atom";
 
@@ -13,7 +14,39 @@ export const filePicker = () => {
   }
 };
 
-export const recursivelyGetNodes = (curPath) => {
+const systemIconMap = {
+  ext: {},
+  type: {},
+};
+
+const getSystemIcon = async (pathToNode) => {
+  const getData = async () => {
+    const buffer = await fileIcon.buffer(pathToNode, { size: 25 });
+    const uri = await buffer.toString("base64");
+    return `data:image/png;base64,${uri}`;
+  };
+
+  // check if directory
+  const stat = fs.lstatSync(pathToNode);
+  if (stat.isDirectory()) {
+    if ("directory" in systemIconMap.type) {
+      return systemIconMap.type["directory"];
+    }
+    const data = await getData(pathToNode);
+    systemIconMap.type["directory"] = await data;
+    return data;
+  }
+  // for all other cases, check if extension meets criteria
+  const ext = path.extname(pathToNode);
+  if (ext in systemIconMap.ext) {
+    return systemIconMap.ext[ext];
+  }
+  const data = await getData(pathToNode);
+  systemIconMap.ext[ext] = await data;
+  return data;
+};
+
+export const recursivelyGetNodes = async (curPath) => {
   // first get the stat result
   const stat = fs.lstatSync(curPath);
   const parsePath = path.parse(curPath);
@@ -25,6 +58,7 @@ export const recursivelyGetNodes = (curPath) => {
     name: parsePath.base,
     show: true,
     selected: false,
+    icon: await getSystemIcon(curPath),
   });
 
   // if leaf node, return
@@ -57,7 +91,9 @@ export const recursivelyGetNodes = (curPath) => {
     // iterate over the children
     const childrenNodes = [];
     for (let p of dirents) {
-      childrenNodes.push(recursivelyGetNodes(path.join(fsDir.path, p.name)));
+      childrenNodes.push(
+        await recursivelyGetNodes(path.join(fsDir.path, p.name))
+      );
     }
 
     // add as children of current node

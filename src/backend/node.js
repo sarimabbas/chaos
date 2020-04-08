@@ -24,6 +24,7 @@ class Node extends Spec {
     path: Joi.string().allow(""),
     name: Joi.string().allow(""),
     type: Joi.string().allow(""),
+    icon: Joi.string().allow(""),
     isAtom: Joi.boolean(),
     // store the whole atom manifest
     atom: Joi.object(),
