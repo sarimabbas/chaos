@@ -10,8 +10,8 @@ import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import DropdownItem from "../../components/Dropdown/DropdownItem";
 
-import ListView from "../../components/ListView/ListView";
-import GridView from "../../components/GridView/GridView";
+import ListView from "../../components/folder_views/ListView/ListView";
+import GridView from "../../components/folder_views/GridView/GridView";
 import ViewOptions from "../../components/ViewOptions/ViewOptions";
 
 import store from "../../store";

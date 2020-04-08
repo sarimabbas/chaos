@@ -48,7 +48,6 @@ class Atom extends Spec {
   load(pathToBundle) {
     // check valid atom (including manifest check)
     if (!Atom.isAtom(pathToBundle)) {
-      console.log("Could not load ", pathToBundle);
       return false;
     }
     // get the manifest

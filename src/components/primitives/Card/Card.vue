@@ -1,6 +1,5 @@
 <template>
   <a
-    @click="click(node)"
     class="block overflow-hidden transition duration-150 ease-in-out bg-white rounded-md shadow-md cursor-pointer hover:shadow-lg"
   >
     <ResilientImage :src="image" class="h-32" />
@@ -21,7 +20,7 @@ export default {
   components: {
     ResilientImage,
   },
-  props: ["click", "node", "image", "title", "description"],
+  props: ["image", "title", "description"],
 };
 </script>
 
