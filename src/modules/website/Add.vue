@@ -24,7 +24,6 @@ export default {
       statuses: {
         metadata: "not_started",
         screenshot: "not_started", // loading, success, error
-        pdf: "not_started",
         html: "not_started",
         mhtml: "not_started",
       },
@@ -90,21 +89,35 @@ export default {
           id: moduleID,
           name: moduleName,
           url: this.url,
-          favicon: lGet(previewData, "favicons[0]", ""),
         },
       });
       await webpageAtom.save(pathToBundle);
 
-      // try to save the preview image as well
+      // try to save the preview and favicon images as well
       const previewImage = await lGet(previewData, "images[0]", null);
+      const faviconImage = await lGet(previewData, "favicons[0", null);
       let previewImageRelativePath = null;
+      let faviconImageRelativePath = null;
       if (await previewImage) {
         const extension = await this.$chaos.path.extname(previewImage);
         previewImageRelativePath = `./image${extension}`;
         try {
           await this.downloadURLImageToPath(
             previewImage,
-            this.$chaos.path.join(pathToBundle, `image${extension}`)
+            this.$chaos.path.join(pathToBundle, previewImageRelativePath)
+          );
+        } catch (err) {
+          this.statuses.metadata = "error";
+          console.log(err);
+        }
+      }
+      if (await faviconImage) {
+        const extension = await this.$chaos.path.extname(faviconImage);
+        faviconImageRelativePath = `./favicon${extension}`;
+        try {
+          await this.downloadURLImageToPath(
+            faviconImage,
+            this.$chaos.path.join(pathToBundle, faviconImageRelativePath)
           );
           this.statuses.metadata = "success";
         } catch (err) {
@@ -116,6 +129,7 @@ export default {
         shared: {
           // either the currently fetched image or the eventual page screenshot (below)
           image: previewImageRelativePath || "./page.png",
+          favicon: faviconImageRelativePath || "",
         },
       });
       await webpageAtom.save(pathToBundle);
@@ -173,25 +187,6 @@ export default {
         } catch (err) {
           this.statuses.mhtml = "error";
           console.log(err);
-        }
-
-        // save PDF
-        const pathToPDF = this.$chaos.path.join(pathToBundle, "page.pdf");
-        this.statuses.pdf = "loading";
-        try {
-          const pdfData = await win.webContents.printToPDF({});
-          await this.$chaos.fsWriteSync(pathToPDF, pdfData);
-          console.log("Write PDF successfully.");
-          this.statuses.pdf = "success";
-          await webpageAtom.update({
-            module: {
-              pdf: "./page.pdf",
-            },
-          });
-          await webpageAtom.save(pathToBundle);
-        } catch (err) {
-          console.log(err);
-          this.statuses.pdf = "error";
         }
 
         // save screenshot
@@ -260,7 +255,6 @@ export default {
       <Status name="Metadata" :status="statuses.metadata" />
       <Status name="HTML" :status="statuses.html" />
       <Status name="MHTML" :status="statuses.mhtml" />
-      <Status name="PDF" :status="statuses.pdf" />
       <Status name="Screenshot" :status="statuses.screenshot" />
     </div>
   </div>

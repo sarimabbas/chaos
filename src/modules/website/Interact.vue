@@ -26,18 +26,8 @@ export default {
             this.$chaos.path.join(this.currentNode.path, manifestMHTML)
         : null;
     },
-
-    currentPathToPDF() {
-      const manifestPDF = lGet(this.manifest, "module.pdf", "");
-      return manifestPDF
-        ? this.$chaos.path.join(this.currentNode.path, manifestPDF)
-        : null;
-    },
   },
   methods: {
-    openPDF() {
-      shell.openItem(this.currentPathToPDF);
-    },
     openHTML() {
       shell.openExternal(this.currentPathToHTML);
     },
@@ -54,13 +44,6 @@ export default {
     <div class="h-full p-4">
       <!-- controls -->
       <div class="flex mb-2">
-        <button
-          class="relative z-10 flex items-center justify-between block px-2 mr-2 bg-gray-200 rounded-sm hover:bg-gray-400"
-          @click="openPDF"
-          v-if="currentPathToPDF"
-        >
-          Open PDF
-        </button>
         <button
           class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
           @click="openMHTML"
