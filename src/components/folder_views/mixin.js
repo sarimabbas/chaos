@@ -1,5 +1,5 @@
 import { get as lGet } from "lodash";
-import { fs as nodeFs, path as nodePath } from "../../backend/common";
+import { fs as nodeFs, path as nodePath, utils } from "../../backend/common";
 
 const mixin = {
   props: ["nodes"],
@@ -19,10 +19,7 @@ const mixin = {
       const image = lGet(node.atom, "shared.image", null);
       if (node.isAtom && image) {
         const path = nodePath.join(node.path, image);
-        const ext = nodePath.extname(path);
-        const data = nodeFs.readFileSync(path, "base64");
-        const URI = `data:image/${ext};base64,${data}`;
-        return URI;
+        return utils.loadToBase64(path);
       }
       return "";
     },

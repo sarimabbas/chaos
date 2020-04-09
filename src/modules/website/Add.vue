@@ -18,44 +18,22 @@ export default {
   data() {
     return {
       url: "",
-      loading: false,
-      success: false,
-      error: false,
       statuses: {
+        global: "not_started", // loading, success, error
         metadata: "not_started",
-        screenshot: "not_started", // loading, success, error
+        screenshot: "not_started",
         html: "not_started",
         mhtml: "not_started",
       },
     };
   },
   methods: {
-    async downloadURLImageToPath(url, path) {
-      const writer = this.$chaos.fs.createWriteStream(path);
-
-      const response = await this.$chaos.axios({
-        url,
-        method: "GET",
-        responseType: "stream",
-      });
-
-      response.data.pipe(writer);
-
-      return new Promise((resolve, reject) => {
-        writer.on("finish", resolve);
-        writer.on("error", reject);
-      });
-    },
     async fetchURL() {
-      this.loading = true;
+      this.statuses.global = "loading";
 
       // check if URL even exists
-      let axiosResponse;
-      try {
-        axiosResponse = await this.$chaos.axios.get(this.url);
-      } catch (error) {
-        this.loading = false;
-        this.error = true;
+      if (!(await this.$chaos.utils.urlExists(this.url))) {
+        this.stauses.global = "error";
         return;
       }
 
@@ -66,8 +44,6 @@ export default {
         previewData = await getLinkPreview(this.url);
       } catch (err) {
         this.statuses.metadata = "error";
-        this.loading = false;
-        this.error = true;
         console.log(err);
         return;
       }
@@ -93,31 +69,33 @@ export default {
       });
       await webpageAtom.save(pathToBundle);
 
-      // try to save the preview and favicon images as well
-      const previewImage = await lGet(previewData, "images[0]", null);
-      const faviconImage = await lGet(previewData, "favicons[0", null);
-      let previewImageRelativePath = null;
+      // save the favicon
+      const faviconImage = await lGet(previewData, "favicons[0]", null);
       let faviconImageRelativePath = null;
-      if (await previewImage) {
-        const extension = await this.$chaos.path.extname(previewImage);
-        previewImageRelativePath = `./image${extension}`;
+      if (await faviconImage) {
+        const favextension = await this.$chaos.path.extname(faviconImage);
+        faviconImageRelativePath = `./favicon${favextension}`;
         try {
-          await this.downloadURLImageToPath(
-            previewImage,
-            this.$chaos.path.join(pathToBundle, previewImageRelativePath)
+          await this.$chaos.utils.saveURLToPath(
+            faviconImage,
+            this.$chaos.path.join(pathToBundle, faviconImageRelativePath)
           );
         } catch (err) {
           this.statuses.metadata = "error";
           console.log(err);
         }
       }
-      if (await faviconImage) {
-        const extension = await this.$chaos.path.extname(faviconImage);
-        faviconImageRelativePath = `./favicon${extension}`;
+
+      // try to save the preview image as well
+      const previewImage = await lGet(previewData, "images[0]", null);
+      let previewImageRelativePath = null;
+      if (await previewImage) {
+        const imageextension = await this.$chaos.path.extname(previewImage);
+        previewImageRelativePath = `./image${imageextension}`;
         try {
-          await this.downloadURLImageToPath(
-            faviconImage,
-            this.$chaos.path.join(pathToBundle, faviconImageRelativePath)
+          await this.$chaos.utils.saveURLToPath(
+            previewImage,
+            this.$chaos.path.join(pathToBundle, previewImageRelativePath)
           );
           this.statuses.metadata = "success";
         } catch (err) {
@@ -125,14 +103,17 @@ export default {
           console.log(err);
         }
       }
-      await webpageAtom.update({
+
+      const result = await webpageAtom.update({
         shared: {
           // either the currently fetched image or the eventual page screenshot (below)
           image: previewImageRelativePath || "./page.png",
+        },
+        module: {
           favicon: faviconImageRelativePath || "",
         },
       });
-      await webpageAtom.save(pathToBundle);
+      const saveRes = await webpageAtom.save(pathToBundle);
 
       // create a new renderer process window, but keep it hidden
       let win = new this.$chaos.BrowserWindow({
@@ -155,7 +136,6 @@ export default {
         const pathToPage = this.$chaos.path.join(pathToBundle, "page.html");
         try {
           this.statuses.html = "loading";
-
           await win.webContents.savePage(pathToPage, "HTMLComplete");
           this.statuses.html = "success";
           await webpageAtom.update({
@@ -212,11 +192,10 @@ export default {
 
         // finish
         win.close();
-        this.loading = false;
-        this.success = true;
+        this.statuses.global = "success";
         this.$chaos.refreshExplorer();
         setTimeout(() => {
-          this.success = false;
+          this.statuses.global = "not_started";
         }, 2000);
       });
     },
@@ -242,10 +221,10 @@ export default {
         class="px-2 ml-2 bg-gray-400 rounded-lg hover:bg-gray-500"
         @click="fetchURL"
       >
-        <span v-if="loading">
+        <span v-if="statuses.global === 'loading'">
           <LoaderIcon width="24" class="spin" />
         </span>
-        <span v-else-if="success">
+        <span v-else-if="statuses.global === 'success'">
           <CheckIcon width="24" />
         </span>
         <span v-else>Fetch</span>

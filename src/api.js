@@ -10,6 +10,7 @@ const Joi = remote.require("@hapi/joi");
 const axios = remote.require("axios");
 
 // backend APIs
+import { utils } from "./backend/common";
 import Atom from "./backend/atom";
 
 const refreshExplorer = () => {
@@ -26,6 +27,7 @@ const api = {
   BrowserWindow,
   axios,
   Atom,
+  utils,
 };
 
 export default api;
