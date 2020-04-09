@@ -14,9 +14,11 @@ export default {
     <Card
       v-for="node in nodes"
       :key="node.path"
+      :subtitle="node.name"
       :title="title(node)"
       :description="description(node)"
       :image="image(node)"
+      :icon="systemIcon(node)"
       @click.native="handleClick(node)"
     />
   </div>

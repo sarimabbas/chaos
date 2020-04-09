@@ -4,9 +4,12 @@
   >
     <ResilientImage :src="image" class="h-32" />
     <div class="p-4 md:p-6">
-      <h3 class="pb-2 text-xl font-semibold leading-tight sm:leading-normal">
-        {{ title }}
-      </h3>
+      <div class="flex items-center">
+        <img :src="icon" />
+        <h3 class="ml-2 text-base leading-tight sm:leading-normal">
+          {{ subtitle }}
+        </h3>
+      </div>
       <p>
         {{ description }}
       </p>
@@ -20,7 +23,7 @@ export default {
   components: {
     ResilientImage,
   },
-  props: ["image", "title", "description"],
+  props: ["image", "title", "description", "icon", "subtitle"],
 };
 </script>
 
