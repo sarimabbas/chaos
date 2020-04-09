@@ -21,7 +21,7 @@ const systemIconMap = {
 
 const getSystemIcon = async (pathToNode) => {
   const getData = async () => {
-    const buffer = await fileIcon.buffer(pathToNode, { size: 32 });
+    const buffer = await fileIcon.buffer(pathToNode, { size: 64 });
     const uri = await buffer.toString("base64");
     return `data:image/png;base64,${uri}`;
   };
