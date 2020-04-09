@@ -26,6 +26,20 @@ export default {
             this.$chaos.path.join(this.currentNode.path, manifestMHTML)
         : null;
     },
+    title() {
+      return lGet(this.manifest, "shared.title", "");
+    },
+    description() {
+      return lGet(this.manifest, "shared.description", "");
+    },
+    favicon() {
+      const faviconPath = lGet(this.manifest, "module.favicon", "");
+      const fullPath = this.$chaos.path.join(
+        this.currentNode.path,
+        faviconPath
+      );
+      return this.$chaos.utils.loadToBase64(fullPath);
+    },
   },
   methods: {
     openHTML() {
@@ -33,6 +47,9 @@ export default {
     },
     openMHTML() {
       shell.openExternal(this.currentPathToMHTML);
+    },
+    openURL() {
+      shell.openExternal(this.manifest.module.url);
     },
   },
 };
@@ -51,6 +68,19 @@ export default {
         >
           Open archived web page
         </button>
+      </div>
+      <!-- info card -->
+      <div class="p-4 mb-2 bg-white rounded-md">
+        <div class="flex items-center">
+          <img :src="favicon" alt="favicon" class="mr-2" />
+          <h1
+            class="text-lg cursor-pointer hover:text-gray-700"
+            @click="openURL"
+          >
+            {{ title }}
+          </h1>
+        </div>
+        <p>{{ description }}</p>
       </div>
       <!-- live view -->
       <div class="relative w-full h-full overflow-hidden rounded-sm">
