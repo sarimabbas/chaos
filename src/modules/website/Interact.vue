@@ -72,7 +72,7 @@ export default {
       <!-- info card -->
       <div class="p-4 mb-2 bg-white rounded-md">
         <div class="flex items-center">
-          <img :src="favicon" alt="favicon" class="mr-2" />
+          <img :src="favicon" alt="favicon" class="h-5 mr-2" />
           <h1
             class="text-lg cursor-pointer hover:text-gray-700"
             @click="openURL"

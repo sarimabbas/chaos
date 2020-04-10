@@ -5,7 +5,7 @@
     <ResilientImage :src="image" class="h-32" />
     <div class="p-4 md:p-6">
       <div class="flex items-center">
-        <img :src="icon" />
+        <img :src="icon" class="h-10" />
         <h3 class="ml-2 text-base leading-tight sm:leading-normal">
           {{ subtitle }}
         </h3>

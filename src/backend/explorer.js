@@ -1,11 +1,12 @@
 import { dialog, fs, path, remote } from "./common";
 const fileIcon = remote.require("file-icon");
+const openWith = remote.require("mac-open-with");
 import Node from "./node";
 import Atom from "./atom";
 
 export const filePicker = () => {
   const filePaths = dialog.showOpenDialogSync({
-    properties: ["openFile", "openDirectory", "createDirectory"],
+    properties: ["openFile", "openDirectory", "createDirectory"]
   });
   if (filePaths.length > 0) {
     return filePaths[0];
@@ -16,19 +17,36 @@ export const filePicker = () => {
 
 const systemIconMap = {
   ext: {},
-  type: {},
+  type: {}
 };
 
-const getSystemIcon = async (pathToNode) => {
+const getSystemIcon = async pathToNode => {
   const getData = async () => {
     const buffer = await fileIcon.buffer(pathToNode, { size: 64 });
     const uri = await buffer.toString("base64");
     return `data:image/png;base64,${uri}`;
   };
 
+  // get extension
+  const ext = path.extname(pathToNode);
+
   // check if directory
   const stat = fs.lstatSync(pathToNode);
   if (stat.isDirectory()) {
+    // if there is an extension, it could be a package, for which the file-icon
+    // fails, so need to use another package
+    if (ext) {
+      if (ext in systemIconMap.ext) {
+        return systemIconMap.ext[ext];
+      }
+      const apps = openWith.getAppsThatOpenFile.sync(pathToNode);
+      if (apps && apps.length) {
+        const data = apps[0].icon;
+        systemIconMap.ext[ext] = data;
+        return data;
+      }
+    }
+    // for regular directory, do this
     if ("directory" in systemIconMap.type) {
       return systemIconMap.type["directory"];
     }
@@ -37,7 +55,6 @@ const getSystemIcon = async (pathToNode) => {
     return data;
   }
   // for all other cases, check if extension meets criteria
-  const ext = path.extname(pathToNode);
   if (ext in systemIconMap.ext) {
     return systemIconMap.ext[ext];
   }
@@ -46,7 +63,7 @@ const getSystemIcon = async (pathToNode) => {
   return data;
 };
 
-export const recursivelyGetNodes = async (curPath) => {
+export const recursivelyGetNodes = async curPath => {
   // first get the stat result
   const stat = fs.lstatSync(curPath);
   const parsePath = path.parse(curPath);
@@ -58,7 +75,7 @@ export const recursivelyGetNodes = async (curPath) => {
     name: parsePath.base,
     show: true,
     selected: false,
-    icon: await getSystemIcon(curPath),
+    icon: await getSystemIcon(curPath)
   });
 
   // if leaf node, return
@@ -67,12 +84,12 @@ export const recursivelyGetNodes = async (curPath) => {
   if (stat.isFile() || isAtom) {
     node.update({
       type: "file",
-      children: [],
+      children: []
     });
     if (isAtom) {
       node.update({
         isAtom: true,
-        atom: atom.toObj(),
+        atom: atom.toObj()
       });
     }
     return node.toObj();
@@ -100,7 +117,7 @@ export const recursivelyGetNodes = async (curPath) => {
     node.update({
       type: "directory",
       showChildren: false,
-      children: childrenNodes,
+      children: childrenNodes
     });
 
     return node.toObj();
