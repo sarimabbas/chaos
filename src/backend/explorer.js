@@ -63,6 +63,15 @@ const getSystemIcon = async pathToNode => {
   return data;
 };
 
+const isPackage = curPath => {
+  const stat = fs.lstatSync(curPath);
+  const ext = path.extname(curPath);
+  if (stat.isDirectory() && ext) {
+    return true;
+  }
+  return false;
+};
+
 export const recursivelyGetNodes = async curPath => {
   // first get the stat result
   const stat = fs.lstatSync(curPath);
@@ -81,7 +90,7 @@ export const recursivelyGetNodes = async curPath => {
   // if leaf node, return
   const atom = new Atom();
   const isAtom = atom.load(curPath);
-  if (stat.isFile() || isAtom) {
+  if (stat.isFile() || isAtom || isPackage(curPath)) {
     node.update({
       type: "file",
       children: []
