@@ -25,6 +25,7 @@ class Atom extends Spec {
     module: {
       id: Joi.string().required(),
       name: Joi.string().required(),
+      icon: Joi.string().allow(""),
       // module specific properties:
       // assetsPath: "",
       // apiToken: ""

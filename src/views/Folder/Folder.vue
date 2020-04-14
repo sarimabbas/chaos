@@ -13,6 +13,8 @@ import DropdownItem from "../../components/Dropdown/DropdownItem";
 import ListView from "../../components/folder_views/ListView/ListView";
 import GridView from "../../components/folder_views/GridView/GridView";
 import ViewOptions from "../../components/ViewOptions/ViewOptions";
+import FilterOptions from "../../components/FilterOptions/FilterOptions";
+import SortOptions from "../../components/SortOptions/SortOptions";
 
 import store from "../../store";
 export default {
@@ -33,11 +35,13 @@ export default {
     ListView,
     GridView,
     ViewOptions,
+    FilterOptions,
+    SortOptions
   },
   data() {
     return {
       nodeSortProperty: "",
-      viewProperty: "list",
+      viewProperty: "list"
     };
   },
   mounted() {},
@@ -79,7 +83,7 @@ export default {
     },
     changeViewHandler(input) {
       this.viewProperty = input;
-    },
+    }
   },
   computed: {
     currentWorkingPath() {
@@ -100,16 +104,16 @@ export default {
     },
     isFolderImmediateMode() {
       return this.$store.state.views.folderMode === "immediate";
-    },
+    }
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-    },
+    }
     // currentWorkingPath(value) {
     //   console.log(value);
     // }
-  },
+  }
 };
 </script>
 
@@ -130,8 +134,11 @@ export default {
       <!-- toolbar -->
       <div class="flex items-baseline justify-between mb-4">
         <div class="flex items-baseline">
-          <ViewOptions :changeViewHandler="changeViewHandler" />
-          <Dropdown text="Filter" class="mr-2">
+          <ViewOptions :changeViewHandler="changeViewHandler" class="mr-2" />
+          <FilterOptions :changeViewHandler="changeViewHandler" class="mr-2" />
+          <SortOptions :changeViewHandler="changeViewHandler" />
+
+          <!-- <Dropdown text="Filter" class="mr-2">
             <template v-slot:icon>
               <FilterIcon width="15" />
             </template>
@@ -167,7 +174,7 @@ export default {
               "
               :active="nodeSortProperty === 'system.st_size'"
             />
-          </Dropdown>
+          </Dropdown> -->
         </div>
         <!--  Add button -->
         <button

@@ -34,12 +34,14 @@ export default {
     },
     favicon() {
       const faviconPath = lGet(this.manifest, "module.favicon", "");
-      const fullPath = this.$chaos.path.join(
-        this.currentNode.path,
-        faviconPath
-      );
-      return this.$chaos.utils.loadToBase64(fullPath);
-    },
+      if (faviconPath) {
+        const fullPath = this.$chaos.path.join(
+          this.currentNode.path,
+          faviconPath
+        );
+        return this.$chaos.utils.loadToBase64(fullPath);
+      }
+    }
   },
   methods: {
     openHTML() {
@@ -50,8 +52,8 @@ export default {
     },
     openURL() {
       shell.openExternal(this.manifest.module.url);
-    },
-  },
+    }
+  }
 };
 </script>
 
