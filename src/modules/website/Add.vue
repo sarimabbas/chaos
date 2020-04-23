@@ -29,37 +29,94 @@ export default {
   },
   methods: {
     async fetchURL() {
+      // statuses
       this.statuses.global = "loading";
-
-      // check if URL even exists
-      if (!(await this.$chaos.utils.urlExists(this.url))) {
-        this.stauses.global = "error";
-        return;
-      }
-
-      // collect preliminary information about URL
-      let previewData = null;
+      // create initial bundle
+      let pathToBundle;
+      let metadata;
+      let webpageAtom;
       try {
         this.statuses.metadata = "loading";
-        previewData = await getLinkPreview(this.url);
+        const result = await this.fetchMetadata();
+        pathToBundle = result.pathToBundle;
+        metadata = result.metadata;
+        webpageAtom = result.webpageAtom;
+        this.statuses.metadata = "success";
       } catch (err) {
-        this.statuses.metadata = "error";
         console.log(err);
-        return;
+        this.statuses.metadata = "error";
       }
-
-      // construct a path to the bundle
+      // save favicon
+      const faviconURL = lGet(metadata, "favicons[0]", null);
+      if (faviconURL) {
+        try {
+          this.statuses.metadata = "loading";
+          const relativePathToImage = await this.fetchImage(
+            pathToBundle,
+            faviconURL,
+            "favicon"
+          );
+          await webpageAtom.update({
+            module: {
+              favicon: relativePathToImage,
+            },
+          });
+          await webpageAtom.save(pathToBundle);
+          this.statuses.metadata = "success";
+        } catch (err) {
+          this.statuses.metadata = "error";
+          console.log(err);
+        }
+      }
+      // save image
+      const imageURL = lGet(metadata, "images[0]", null);
+      if (imageURL) {
+        try {
+          this.statuses.metadata = "loading";
+          const relativePathToImage = await this.fetchImage(
+            pathToBundle,
+            imageURL,
+            "image"
+          );
+          await webpageAtom.update({
+            shared: {
+              image: relativePathToImage,
+            },
+          });
+          await webpageAtom.save(pathToBundle);
+          this.statuses.metadata = "success";
+        } catch (err) {
+          this.statuses.metadata = "error";
+          console.log(err);
+        }
+      }
+      // save snapshots
+      await this.fetchSnapshots(pathToBundle, webpageAtom);
+      // finish
+      this.statuses.global = "success";
+      this.$chaos.refreshExplorer();
+      setTimeout(() => {
+        this.statuses.global = "not_started";
+      }, 2000);
+    },
+    async fetchMetadata() {
+      // check if the URL exists
+      const checkExists = await this.$chaos.utils.urlExists(this.url);
+      if (!checkExists) {
+        throw "URL does not exist";
+      }
+      // fetch the metadata object
+      const metadata = await getLinkPreview(this.url);
       const pathToBundle = await this.$chaos.path.join(
         this.$store.state.views.currentWorkingPath,
-        previewData.title + ".chaos"
+        metadata.title + ".chaos"
       );
-
       // create the initial bundle and save
       const webpageAtom = new this.$chaos.Atom();
       await webpageAtom.update({
         shared: {
-          title: previewData.title,
-          description: previewData.description,
+          title: metadata.title,
+          description: metadata.description,
         },
         module: {
           id: moduleID,
@@ -68,53 +125,31 @@ export default {
         },
       });
       await webpageAtom.save(pathToBundle);
-
-      // save the favicon
-      const faviconImage = await lGet(previewData, "favicons[0]", null);
-      let faviconImageRelativePath = null;
-      if (await faviconImage) {
-        const favextension = await this.$chaos.path.extname(faviconImage);
-        faviconImageRelativePath = `./favicon${favextension}`;
-        try {
-          await this.$chaos.utils.saveURLToPath(
-            faviconImage,
-            this.$chaos.path.join(pathToBundle, faviconImageRelativePath)
-          );
-        } catch (err) {
-          this.statuses.metadata = "error";
-          console.log(err);
-        }
+      return {
+        pathToBundle: pathToBundle,
+        metadata: metadata,
+        webpageAtom: webpageAtom,
+      };
+    },
+    async fetchImage(pathToBundle, imageURL, filename) {
+      if (!imageURL) {
+        throw "Image URL does not exist";
       }
-
-      // try to save the preview image as well
-      const previewImage = await lGet(previewData, "images[0]", null);
-      let previewImageRelativePath = null;
-      if (await previewImage) {
-        const imageextension = await this.$chaos.path.extname(previewImage);
-        previewImageRelativePath = `./image${imageextension}`;
-        try {
-          await this.$chaos.utils.saveURLToPath(
-            previewImage,
-            this.$chaos.path.join(pathToBundle, previewImageRelativePath)
-          );
-          this.statuses.metadata = "success";
-        } catch (err) {
-          this.statuses.metadata = "error";
-          console.log(err);
-        }
+      console.log(imageURL, filename, pathToBundle);
+      const extension = this.$chaos.path.extname(imageURL);
+      const relativePath = `./${filename}${extension}`;
+      try {
+        await this.$chaos.utils.saveURLToPath(
+          imageURL,
+          this.$chaos.path.join(pathToBundle, relativePath)
+        );
+        return relativePath;
+      } catch (err) {
+        console.log(err);
+        throw "Could not save URL to path";
       }
-
-      const result = await webpageAtom.update({
-        shared: {
-          // either the currently fetched image or the eventual page screenshot (below)
-          image: previewImageRelativePath || "./page.png",
-        },
-        module: {
-          favicon: faviconImageRelativePath || "",
-        },
-      });
-      const saveRes = await webpageAtom.save(pathToBundle);
-
+    },
+    async fetchSnapshots(pathToBundle, webpageAtom) {
       // create a new renderer process window, but keep it hidden
       let win = new this.$chaos.BrowserWindow({
         width: 800,
@@ -192,11 +227,6 @@ export default {
 
         // finish
         win.close();
-        this.statuses.global = "success";
-        this.$chaos.refreshExplorer();
-        setTimeout(() => {
-          this.statuses.global = "not_started";
-        }, 2000);
       });
     },
   },

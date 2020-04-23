@@ -8,6 +8,7 @@ module.exports = {
         "file-icon",
         "link-preview-js",
         "vue-js-toggle-button",
+        "mac-open-with",
       ],
       // nodeModulesPath: ["../../node_modules", "./node_modules"]
       builderOptions: {
@@ -36,5 +37,8 @@ module.exports = {
       .end()
       .use("vue-svg-loader")
       .loader("vue-svg-loader");
+  },
+  configureWebpack: {
+    devtool: "source-map",
   },
 };

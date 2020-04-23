@@ -13,17 +13,17 @@ const utils = {
     return `data:image/${extension};base64,${data.toString("base64")}`;
   },
   saveURLToPath: async (url, pathToSave) => {
-    const writer = fs.createWriteStream(pathToSave);
-    const response = await axios({
-      url,
-      method: "GET",
-      responseType: "stream",
-    });
-    response.data.pipe(writer);
-    return new Promise((resolve, reject) => {
-      writer.on("finish", resolve);
-      writer.on("error", reject);
-    });
+    try {
+      const response = await axios({
+        method: "get",
+        url: url,
+        responseType: "stream",
+      });
+      await response.data.pipe(fs.createWriteStream(pathToSave));
+    } catch (err) {
+      console.log(err);
+      throw "could not save URL to path";
+    }
   },
   urlExists: async (url) => {
     try {
