@@ -4,14 +4,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
   <title>Chaos</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container px-4 mx-auto">
-    <h1>Chaos</h1>
+  <div class="container p-10 mx-auto">
+    <h1 class="text-4xl font-medium leading-tight tracking-tight">Chaos</h1>
+    <h2 class="text-xl font-medium">A novel system for organization of diverse digital data </h2>
+    <br>
+    <p>By Sarim Abbas <br>Advised by Mark Santolucito and Ruzica Piskac</p>
+    <br>
+    <h3 class="text-xl font-medium">Abstract/Introduction</h3>
+    <br>
+    <p>Much of the data we produce and collect now lives on the web, but it can be surprisingly fragile and ephemeral.
+      Interesting content, including articles, images or streaming video may vanish due to link rot. Creative and
+      productive tools, many now offered as web apps or services, may shutdown at any point, offering limited migration
+      paths. It does not help that most of our data is stored in proprietary and inaccessible formats, instead of
+      building on open standards or extending the capabilities of the operating system (OS). Moreover, the web apps we
+      use daily are rarely interoperable, and so our data exists in silos, as evidenced by the dozens of app windows
+      that we juggle in our daily workflows.
+    </p>
+    <br>
+    <p>
+      Chaos is a system for the organization, preview and archival of diverse digital information. It is driven by a few
+      powerful assumptions about the inherent similarities of web apps and the data they produce. In doing, it aims to
+      do for web app data what the OS has done for native app data. First, Chaos proposes an open, container file format
+      that brings web apps into the realm of the file system. Second, it introduces a programmatic and graphical
+      interface for the creation, editing and organization of these files. With its modular architecture, the use cases
+      are theoretically infinite: users can archive links, write notes, hold conversations and pull data from their
+      favorite apps, all in a single interface, with the proposed file format at its foundation. In sum, Chaos is an
+      unconventional undertaking to wrangle the chaos of our digital age.</p>
+    <br>
+    <h3 class="text-xl font-medium">Links</h3>
+    <ul class="list-disc list-inside">
+      <li><a href="./proposal/proposal.pdf" target="_blank" class="text-indigo-600 hover:text-indigo-400"
+          style="cursor: ne-resize">Proposal</a></li>
+      <li><a href="https://github.com/sarimabbas/chaos" target="_blank" class="text-indigo-600 hover:text-indigo-400"
+          style="cursor: ne-resize">GitHub
+          Code</a></li>
+      <li><a href="./report/report.pdf" target="_blank" class="text-indigo-600 hover:text-indigo-400"
+          style="cursor: ne-resize">Final
+          Report</a></li>
+    </ul>
   </div>
+
 </body>
 
 </html>
