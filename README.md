@@ -25,8 +25,11 @@ Chaos is a system for the organization, preview and archival of diverse digital 
 
 ## Develop
 
-```
+```bash
+# install dependencies (first time only)
 yarn install
+
+# run app in development mode
 yarn electron:serve
 ```
 
@@ -39,7 +42,7 @@ Make sure that either Xcode or the Xcode Command Line Tools are installed.
 - Declare any external dependencies in `vue.config.js`. 
 - When compiling for multiple platforms, make sure that platform-specific code is wrapped appropriately. 
 
-```
+```bash
 yarn electron:build
 ```
 
