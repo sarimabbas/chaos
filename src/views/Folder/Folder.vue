@@ -16,10 +16,6 @@ import ViewOptions from "../../components/ViewOptions/ViewOptions";
 import FilterOptions from "../../components/FilterOptions/FilterOptions";
 import SortOptions from "../../components/SortOptions/SortOptions";
 
-// Right click menu
-import { VueContext } from "vue-context";
-import ContextMenu from "./ContextMenu/ContextMenu";
-
 // Edit file
 import EditModal from "./EditModal/EditModal";
 
@@ -45,10 +41,6 @@ export default {
     FilterOptions,
     SortOptions,
 
-    // context menu
-    VueContext,
-    ContextMenu,
-
     // edit inode
     EditModal,
   },
@@ -58,17 +50,7 @@ export default {
       viewProperty: "list",
     };
   },
-  mounted() {
-    this.$events.$on("showInodeContextMenu", (event, node) => {
-      if (this.$refs.menu) {
-        this.$refs.menu.open(event, node);
-      }
-    });
-  },
   methods: {
-    onClick(text) {
-      alert(`You clicked ${text}!`);
-    },
     close() {
       this.$router.push("splash");
     },
@@ -231,24 +213,11 @@ export default {
         <ListView v-if="viewProperty == 'list'" :nodes="nestedChildren" />
         <GridView v-if="viewProperty == 'grid'" :nodes="nestedChildren" />
       </div>
-      <!-- context menu -->
-      <vue-context ref="menu" class="contextmenu">
-        <template slot-scope="child">
-          <ContextMenu :node="child.data" />
-        </template>
-      </vue-context>
+
       <!-- edit modal -->
       <EditModal />
     </div>
   </div>
 </template>
 
-<style scoped>
-.contextmenu {
-  display: block;
-  z-index: 1500;
-  position: fixed;
-  box-sizing: border-box;
-  outline: none;
-}
-</style>
+<style></style>

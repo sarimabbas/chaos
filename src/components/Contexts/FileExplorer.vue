@@ -11,7 +11,9 @@ import { recursivelyGetNodes, filePicker } from "../../backend/explorer";
 import { remote } from "../../backend/common";
 const chokidar = remote.require("chokidar");
 
-console.log(chokidar);
+// Right click menu
+import { VueContext } from "vue-context";
+import ContextMenu from "./ContextMenu/ContextMenu";
 
 export default {
   components: {
@@ -21,6 +23,10 @@ export default {
     LayersIcon,
     RotateCwIcon,
     LoaderIcon,
+
+    // right click menu
+    VueContext,
+    ContextMenu,
   },
   data() {
     return {
@@ -33,6 +39,12 @@ export default {
   mounted() {
     this.$events.$on("explorerNodeClick", (node) => {
       this.handleNodeClick(node);
+    });
+
+    this.$events.$on("showInodeContextMenu", (event, node) => {
+      if (this.$refs.menu) {
+        this.$refs.menu.open(event, node);
+      }
     });
   },
   beforeDestroy() {
@@ -269,6 +281,12 @@ export default {
         Open file or folder
       </button>
     </div>
+    <!-- context menu -->
+    <vue-context ref="menu" class="contextmenu">
+      <template slot-scope="child">
+        <ContextMenu :node="child.data" />
+      </template>
+    </vue-context>
   </div>
 </template>
 
@@ -282,5 +300,13 @@ export default {
   position: absolute !important;
   white-space: nowrap;
   width: 1px;
+}
+
+.contextmenu {
+  display: block;
+  z-index: 1500;
+  position: fixed;
+  box-sizing: border-box;
+  outline: none;
 }
 </style>
