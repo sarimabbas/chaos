@@ -87,7 +87,6 @@ const mixin = {
       await this.fetchSnapshots(pathToBundle, webpageAtom);
       // finish
       this.statuses.global = "success";
-      this.$chaos.refreshExplorer();
       setTimeout(() => {
         this.statuses.global = "not_started";
       }, 2000);

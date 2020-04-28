@@ -3,9 +3,9 @@ import mixin from "../mixin";
 import ListItem from "../../primitives/ListItem/ListItem";
 export default {
   components: {
-    ListItem,
+    ListItem
   },
-  mixins: [mixin],
+  mixins: [mixin]
 };
 </script>
 
@@ -19,6 +19,7 @@ export default {
       :icon="systemIcon(node)"
       :node="node"
       :click="handleClick"
+      @contextmenu.native.prevent="event => showInodeContextMenu(event, node)"
     />
   </ul>
 </template>

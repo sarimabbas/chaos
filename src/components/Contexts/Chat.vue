@@ -188,7 +188,6 @@ export default {
           });
 
           configAtom.save(pathToConfig);
-          this.$chaos.refreshExplorer();
 
           // don't forget to let the request proceed
           callback({

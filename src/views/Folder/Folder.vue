@@ -16,6 +16,9 @@ import ViewOptions from "../../components/ViewOptions/ViewOptions";
 import FilterOptions from "../../components/FilterOptions/FilterOptions";
 import SortOptions from "../../components/SortOptions/SortOptions";
 
+import { VueContext } from "vue-context";
+import ContextMenu from "./ContextMenu/ContextMenu";
+
 import store from "../../store";
 export default {
   components: {
@@ -36,7 +39,11 @@ export default {
     GridView,
     ViewOptions,
     FilterOptions,
-    SortOptions
+    SortOptions,
+
+    // context menu
+    VueContext,
+    ContextMenu
   },
   data() {
     return {
@@ -44,8 +51,16 @@ export default {
       viewProperty: "list"
     };
   },
-  mounted() {},
+  mounted() {
+    this.$events.$on("showInodeContextMenu", (event, node) => {
+      console.log("received!", event, node);
+      this.$refs.menu.open(event, node);
+    });
+  },
   methods: {
+    onClick(text) {
+      alert(`You clicked ${text}!`);
+    },
     close() {
       this.$router.push("splash");
     },
@@ -125,9 +140,7 @@ export default {
       <div class="flex items-center justify-between my-3">
         <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
           Folder:
-          <h2 class="inline text-xl text-gray-200">
-            {{ currentWorkingNode.name }}
-          </h2>
+          <h2 class="inline text-xl text-gray-200">{{ currentWorkingNode.name }}</h2>
         </h1>
         <CrossIcon class="ui-option-button" width="24" @click="close" />
       </div>
@@ -174,7 +187,7 @@ export default {
               "
               :active="nodeSortProperty === 'system.st_size'"
             />
-          </Dropdown> -->
+          </Dropdown>-->
         </div>
         <!--  Add button -->
         <button
@@ -187,12 +200,7 @@ export default {
             <PlusIcon width="15" />
           </div>
         </button>
-        <modal
-          name="add-modal"
-          height="auto"
-          :scrollable="true"
-          :adaptive="true"
-        >
+        <modal name="add-modal" height="auto" :scrollable="true" :adaptive="true">
           <Add />
         </modal>
       </div>
@@ -205,8 +213,26 @@ export default {
         <ListView v-if="viewProperty == 'list'" :nodes="nestedChildren" />
         <GridView v-if="viewProperty == 'grid'" :nodes="nestedChildren" />
       </div>
+      <!-- context menu -->
+      <vue-context ref="menu" class="contextmenu">
+        <!-- <li>
+          <a href="#" @click.prevent="onClick($event.target.innerText)">Delete</a>
+        </li>
+        <li>
+          <a href="#" @click.prevent="onClick($event.target.innerText)">Duplicate</a>
+        </li>-->
+        <ContextMenu />
+      </vue-context>
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.contextmenu {
+  display: block;
+  z-index: 1500;
+  position: fixed;
+  box-sizing: border-box;
+  outline: none;
+}
+</style>

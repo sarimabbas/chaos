@@ -11,11 +11,11 @@ export default {
     LeftContext,
     RightContext,
     Topbar,
-    Bottombar,
+    Bottombar
   },
   data() {
     return {
-      splitInstance: null,
+      splitInstance: null
     };
   },
   computed: {
@@ -23,22 +23,22 @@ export default {
       let leftShow = false;
       let rightShow = false;
       const contexts = this.$store.state.contexts;
-      Object.keys(contexts).forEach(function (key) {
+      Object.keys(contexts).forEach(function(key) {
         if (contexts[key].isShowing && contexts[key].side === "left") {
           leftShow = true;
         }
       });
-      Object.keys(contexts).forEach(function (key) {
+      Object.keys(contexts).forEach(function(key) {
         if (contexts[key].isShowing && contexts[key].side === "right") {
           rightShow = true;
         }
       });
       return {
         left: leftShow,
-        right: rightShow,
+        right: rightShow
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -58,6 +58,7 @@ export default {
 <style>
 @import "./assets/tailwind.css";
 @import "./assets/theme.css";
+/* @import "~vue-context/dist/css/vue-context.css"; */
 
 .grid-container {
   display: grid;

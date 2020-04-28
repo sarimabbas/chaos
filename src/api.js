@@ -13,15 +13,10 @@ const axios = remote.require("axios");
 import { utils } from "./backend/common";
 import Atom from "./backend/atom";
 
-const refreshExplorer = () => {
-  store.dispatch("refreshFileExplorer");
-};
-
 const api = {
   fs,
   path,
   Joi,
-  refreshExplorer,
   events,
   dialog,
   BrowserWindow,

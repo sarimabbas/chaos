@@ -8,6 +8,11 @@ import RotateCwIcon from "../../assets/icons/rotate-cw.svg";
 
 import { recursivelyGetNodes, filePicker } from "../../backend/explorer";
 
+import { remote } from "../../backend/common";
+const chokidar = remote.require("chokidar");
+
+console.log(chokidar);
+
 export default {
   components: {
     TreeView,
@@ -22,6 +27,7 @@ export default {
       roots: [],
       lastSetPath: "",
       loading: false,
+      fileWatcher: null,
     };
   },
   mounted() {
@@ -29,7 +35,14 @@ export default {
       this.handleNodeClick(node);
     });
   },
-
+  beforeDestroy() {
+    if (this.fileWatcher) {
+      this.fileWatcher.close().then(() => {
+        this.fileWatcher = null;
+        console.log("file watcher closed");
+      });
+    }
+  },
   computed: {
     mode() {
       return this.$store.state.views.folderMode === "immediate"
@@ -100,6 +113,13 @@ export default {
       const pathRequest = await recursivelyGetNodes(pickerRequest);
       this.roots = await [pathRequest];
       this.$store.dispatch("setWorkspaceRootNode", await this.roots[0]);
+      this.fileWatcher = chokidar
+        .watch(pathRequest.path, { ignoreInitial: true })
+        .on("all", (event, path) => {
+          console.log(event, path);
+          console.log("refreshing tree");
+          this.refreshTree();
+        });
       this.loading = false;
     },
     async refreshTree() {

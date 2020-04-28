@@ -27,6 +27,10 @@ const mixin = {
       const image = lGet(node, "icon", "");
       return image;
     },
+    showInodeContextMenu(event, node) {
+      console.log("right clicked!", event, node);
+      this.$events.$emit("showInodeContextMenu", event, node);
+    },
   },
 };
 
