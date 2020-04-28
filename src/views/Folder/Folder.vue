@@ -43,12 +43,12 @@ export default {
 
     // context menu
     VueContext,
-    ContextMenu
+    ContextMenu,
   },
   data() {
     return {
       nodeSortProperty: "",
-      viewProperty: "list"
+      viewProperty: "list",
     };
   },
   mounted() {
@@ -98,7 +98,7 @@ export default {
     },
     changeViewHandler(input) {
       this.viewProperty = input;
-    }
+    },
   },
   computed: {
     currentWorkingPath() {
@@ -119,16 +119,16 @@ export default {
     },
     isFolderImmediateMode() {
       return this.$store.state.views.folderMode === "immediate";
-    }
+    },
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-    }
+    },
     // currentWorkingPath(value) {
     //   console.log(value);
     // }
-  }
+  },
 };
 </script>
 
@@ -140,7 +140,9 @@ export default {
       <div class="flex items-center justify-between my-3">
         <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
           Folder:
-          <h2 class="inline text-xl text-gray-200">{{ currentWorkingNode.name }}</h2>
+          <h2 class="inline text-xl text-gray-200">
+            {{ currentWorkingNode.name }}
+          </h2>
         </h1>
         <CrossIcon class="ui-option-button" width="24" @click="close" />
       </div>
@@ -200,7 +202,12 @@ export default {
             <PlusIcon width="15" />
           </div>
         </button>
-        <modal name="add-modal" height="auto" :scrollable="true" :adaptive="true">
+        <modal
+          name="add-modal"
+          height="auto"
+          :scrollable="true"
+          :adaptive="true"
+        >
           <Add />
         </modal>
       </div>
@@ -215,13 +222,9 @@ export default {
       </div>
       <!-- context menu -->
       <vue-context ref="menu" class="contextmenu">
-        <!-- <li>
-          <a href="#" @click.prevent="onClick($event.target.innerText)">Delete</a>
-        </li>
-        <li>
-          <a href="#" @click.prevent="onClick($event.target.innerText)">Duplicate</a>
-        </li>-->
-        <ContextMenu />
+        <template slot-scope="child">
+          <ContextMenu :node="child.data" />
+        </template>
       </vue-context>
     </div>
   </div>

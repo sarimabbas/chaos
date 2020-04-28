@@ -17,10 +17,10 @@ export default {
 
 <template>
   <li
-    class="flex items-center justify-between px-2 py-1 my-1 truncate bg-white border-gray-600 rounded-sm "
+    class="flex items-center justify-between px-2 py-2 my-1 truncate bg-white border-gray-600 rounded-sm "
   >
     <div class="flex items-center cursor-pointer" @click="click(node)">
-      <img :src="icon" class="h-8" />
+      <img :src="icon" class="h-6" />
       <span class="ml-2">{{ node.name }}</span>
     </div>
     <div class="flex items-center">

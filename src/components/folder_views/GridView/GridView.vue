@@ -20,6 +20,7 @@ export default {
       :image="image(node)"
       :icon="systemIcon(node)"
       @click.native="handleClick(node)"
+      @contextmenu.native.prevent="(event) => showInodeContextMenu(event, node)"
     />
   </div>
 </template>
