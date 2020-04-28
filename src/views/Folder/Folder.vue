@@ -1,6 +1,6 @@
 <script>
 import { get as lGet } from "lodash";
-import Add from "../../components/Add/Add";
+
 import CrossIcon from "../../assets/icons/cross.svg";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg";
 import PlusIcon from "../../assets/icons/plus.svg";
@@ -15,6 +15,7 @@ import GridView from "../../components/folder_views/GridView/GridView";
 import ViewOptions from "../../components/ViewOptions/ViewOptions";
 import FilterOptions from "../../components/FilterOptions/FilterOptions";
 import SortOptions from "../../components/SortOptions/SortOptions";
+import AddOptions from "../../components/AddOptions/AddOptions";
 
 // Edit file
 import EditModal from "./EditModal/EditModal";
@@ -24,7 +25,6 @@ export default {
   components: {
     Dropdown,
     DropdownItem,
-    Add,
 
     // icons
     CrossIcon,
@@ -40,6 +40,7 @@ export default {
     ViewOptions,
     FilterOptions,
     SortOptions,
+    AddOptions,
 
     // edit inode
     EditModal,
@@ -70,9 +71,6 @@ export default {
         }
       }
       return children;
-    },
-    showAddModal() {
-      this.$modal.show("add-modal");
     },
     showEditModal() {
       this.$modal.show("edit-modal");
@@ -185,24 +183,7 @@ export default {
           </Dropdown>-->
         </div>
         <!--  Add button -->
-        <button
-          class="relative z-10 flex items-center justify-between block px-2 bg-gray-200 rounded-sm hover:bg-gray-400"
-          type="button"
-          @click="showAddModal"
-        >
-          <span>Add</span>
-          <div class="ml-1">
-            <PlusIcon width="15" />
-          </div>
-        </button>
-        <modal
-          name="add-modal"
-          height="auto"
-          :scrollable="true"
-          :adaptive="true"
-        >
-          <Add />
-        </modal>
+        <AddOptions />
       </div>
       <!-- immediate children list -->
       <div v-if="isFolderImmediateMode">

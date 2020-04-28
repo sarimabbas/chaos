@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="p-4">
     <h1 class="text-xl">Add website</h1>
     <p class="mt-1 mb-2 text-sm text-gray-600">
       The URL, if it exists, will be fetched and stored in the Chaos file
