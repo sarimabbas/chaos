@@ -16,8 +16,12 @@ import ViewOptions from "../../components/ViewOptions/ViewOptions";
 import FilterOptions from "../../components/FilterOptions/FilterOptions";
 import SortOptions from "../../components/SortOptions/SortOptions";
 
+// Right click menu
 import { VueContext } from "vue-context";
 import ContextMenu from "./ContextMenu/ContextMenu";
+
+// Edit file
+import EditModal from "./EditModal/EditModal";
 
 import store from "../../store";
 export default {
@@ -44,6 +48,9 @@ export default {
     // context menu
     VueContext,
     ContextMenu,
+
+    // edit inode
+    EditModal,
   },
   data() {
     return {
@@ -53,8 +60,12 @@ export default {
   },
   mounted() {
     this.$events.$on("showInodeContextMenu", (event, node) => {
-      console.log("received!", event, node);
       this.$refs.menu.open(event, node);
+    });
+
+    this.$events.$on("showEditModal", (event, node) => {
+      console.log("received!");
+      this.$modal.show("edit-modal");
     });
   },
   methods: {
@@ -83,6 +94,9 @@ export default {
     },
     showAddModal() {
       this.$modal.show("add-modal");
+    },
+    showEditModal() {
+      this.$modal.show("edit-modal");
     },
     sortByProperty(nodeArray) {
       if (this.nodeSortProperty && nodeArray && nodeArray.length) {
@@ -226,6 +240,15 @@ export default {
           <ContextMenu :node="child.data" />
         </template>
       </vue-context>
+      <!-- edit modal -->
+      <modal
+        name="edit-modal"
+        height="auto"
+        :scrollable="true"
+        :adaptive="true"
+      >
+        <EditModal />
+      </modal>
     </div>
   </div>
 </template>

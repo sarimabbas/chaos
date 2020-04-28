@@ -13,6 +13,16 @@
             <span>Open</span>
           </div>
         </a>
+        <!-- edit -->
+        <a
+          @click="editNode"
+          class="flex items-center block px-4 py-2 text-sm leading-5 text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        >
+          <div class="flex items-center">
+            <EditLineIcon class="mr-2" width="15" />
+            <span>Edit</span>
+          </div>
+        </a>
         <!-- trash -->
         <a
           @click="trashNode"
@@ -21,6 +31,16 @@
           <div class="flex items-center">
             <TrashIcon class="mr-2" width="15" />
             <span>Trash</span>
+          </div>
+        </a>
+        <!-- preview -->
+        <a
+          @click="previewNode"
+          class="flex items-center block px-4 py-2 text-sm leading-5 text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        >
+          <div class="flex items-center">
+            <EyeIcon class="mr-2" width="15" />
+            <span>Preview</span>
           </div>
         </a>
         <!-- show in finder -->
@@ -34,39 +54,30 @@
           </div>
         </a>
       </div>
-      <div class="border-t border-gray-300"></div>
-      <div class="py-1">
-        <div
-          href="#"
-          class="flex items-center justify-between block px-4 py-2 text-sm leading-5 text-gray-700 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-        >
-          Rename
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import EyeIcon from "../../../assets/icons/eye.svg";
-import ListIcon from "../../../assets/icons/list.svg";
-import GridIcon from "../../../assets/icons/grid.svg";
 import TrashIcon from "../../../assets/icons/trash.svg";
 import ExternalLinkIcon from "../../../assets/icons/external-link.svg";
 import MousePointerIcon from "../../../assets/icons/mouse-pointer.svg";
+import EditLineIcon from "../../../assets/icons/edit-line.svg";
+import EyeIcon from "../../../assets/icons/eye.svg";
 
-import { shell } from "../../../backend/common";
+import { shell, remote } from "../../../backend/common";
+const currWindow = remote.getCurrentWindow();
 
 export default {
   props: ["node"],
   components: {
-    EyeIcon,
-    ListIcon,
-    GridIcon,
     TrashIcon,
     ExternalLinkIcon,
     MousePointerIcon,
+    EditLineIcon,
+    EyeIcon,
   },
+
   methods: {
     trashNode() {
       shell.moveItemToTrash(this.node.path);
@@ -76,6 +87,12 @@ export default {
     },
     openNode() {
       this.$events.$emit("explorerNodeClick", this.node);
+    },
+    editNode() {
+      this.$events.$emit("showEditModal", this.node);
+    },
+    previewNode() {
+      currWindow.previewFile(this.node.path);
     },
   },
 };
