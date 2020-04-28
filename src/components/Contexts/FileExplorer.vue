@@ -175,6 +175,10 @@ export default {
         this.selectedHelper(c);
       });
     },
+    handleNodeRightClick(event, node) {
+      this.$events.$emit("showInodeContextMenu", event, node);
+      //  @contextmenu.native.prevent="(event) => showInodeContextMenu(event, node)"
+    },
     handleNodeClick(node) {
       if (!node) {
         return;
@@ -252,6 +256,7 @@ export default {
     <!-- rest -->
     <TreeView
       :handleNodeClick="handleNodeClick"
+      :handleNodeRightClick="handleNodeRightClick"
       :roots="roots"
       v-if="roots.length"
       class="overflow-x-hidden overflow-y-auto"

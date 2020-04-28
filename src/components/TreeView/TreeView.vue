@@ -4,7 +4,7 @@ export default {
   components: {
     Node,
   },
-  props: ["roots", "handleNodeClick"],
+  props: ["roots", "handleNodeClick", "handleNodeRightClick"],
 };
 </script>
 
@@ -16,6 +16,7 @@ export default {
         :node="node"
         :key="index"
         :handleNodeClick="handleNodeClick"
+        :handleNodeRightClick="handleNodeRightClick"
       />
     </ul>
   </div>

@@ -60,7 +60,9 @@ export default {
   },
   mounted() {
     this.$events.$on("showInodeContextMenu", (event, node) => {
-      this.$refs.menu.open(event, node);
+      if (this.$refs.menu) {
+        this.$refs.menu.open(event, node);
+      }
     });
   },
   methods: {

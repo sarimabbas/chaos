@@ -7,7 +7,7 @@ export default {
     ChevronRightIcon,
     ChevronDownIcon,
   },
-  props: ["node", "handleNodeClick"],
+  props: ["node", "handleNodeClick", "handleNodeRightClick"],
   methods: {
     toggleChildren() {
       this.node.showChildren = !this.node.showChildren;
@@ -58,6 +58,7 @@ export default {
           { 'pl-6': this.haveLeftPadding },
         ]"
         @click="handleNodeClick(node)"
+        @contextmenu.prevent="handleNodeRightClick($event, node)"
         >{{ node.name }}</span
       >
     </div>
@@ -69,6 +70,7 @@ export default {
         :key="index"
         :node="child"
         :handleNodeClick="handleNodeClick"
+        :handleNodeRightClick="handleNodeRightClick"
       ></node>
     </ul>
   </li>
