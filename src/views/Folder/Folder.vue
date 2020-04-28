@@ -62,11 +62,6 @@ export default {
     this.$events.$on("showInodeContextMenu", (event, node) => {
       this.$refs.menu.open(event, node);
     });
-
-    this.$events.$on("showEditModal", (event, node) => {
-      console.log("received!");
-      this.$modal.show("edit-modal");
-    });
   },
   methods: {
     onClick(text) {
@@ -241,14 +236,7 @@ export default {
         </template>
       </vue-context>
       <!-- edit modal -->
-      <modal
-        name="edit-modal"
-        height="auto"
-        :scrollable="true"
-        :adaptive="true"
-      >
-        <EditModal />
-      </modal>
+      <EditModal />
     </div>
   </div>
 </template>
