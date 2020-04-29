@@ -42,8 +42,7 @@ html,
 body {
   overflow-y: scroll;
   height: 100%;
-  /* background: rgba(0, 0, 0, 0); */
-  background: linear-gradient(#e66465, #9198e5);
+  margin: 0;
 }
 
 .spin {

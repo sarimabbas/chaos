@@ -127,7 +127,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-full h-full overflow-y-scroll break-words">
+  <div class="w-full h-full overflow-hidden break-words">
     <!-- margins -->
     <div class="mx-4">
       <!-- heading -->
@@ -188,14 +188,16 @@ export default {
         <!--  Add button -->
         <AddOptions />
       </div>
-      <!-- immediate children list -->
-      <div v-if="isFolderImmediateMode">
-        <ListView v-if="viewProperty == 'list'" :nodes="immediateChildren" />
-        <GridView v-if="viewProperty == 'grid'" :nodes="immediateChildren" />
-      </div>
-      <div v-else>
-        <ListView v-if="viewProperty == 'list'" :nodes="nestedChildren" />
-        <GridView v-if="viewProperty == 'grid'" :nodes="nestedChildren" />
+      <!-- content -->
+      <div class="content-height">
+        <div v-if="isFolderImmediateMode">
+          <ListView v-if="viewProperty == 'list'" :nodes="immediateChildren" />
+          <GridView v-if="viewProperty == 'grid'" :nodes="immediateChildren" />
+        </div>
+        <div v-else>
+          <ListView v-if="viewProperty == 'list'" :nodes="nestedChildren" />
+          <GridView v-if="viewProperty == 'grid'" :nodes="nestedChildren" />
+        </div>
       </div>
 
       <!-- edit modal -->
@@ -204,4 +206,9 @@ export default {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.content-height {
+  overflow-y: scroll;
+  height: calc(100vh - 160px);
+}
+</style>
