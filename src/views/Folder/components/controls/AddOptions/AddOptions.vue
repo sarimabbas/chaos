@@ -1,5 +1,9 @@
 <template>
-  <div @keydown.escape="open = false" class="relative inline-block text-left">
+  <div
+    @keydown.escape="open = false"
+    class="relative inline-block text-left"
+    v-on-clickaway="away"
+  >
     <div>
       <span class="rounded-md shadow-sm">
         <button
@@ -55,17 +59,19 @@ import CloudIcon from "@/assets/icons/cloud.svg";
 import PenIcon from "@/assets/icons/pen.svg";
 import WebsiteAdd from "@/modules/website/Add";
 import { path, fs } from "@/backend/common";
+import { mixin as clickaway } from "vue-clickaway";
 export default {
+  mixins: [clickaway],
   components: {
     FolderIcon,
     PlusIcon,
     CloudIcon,
     PenIcon,
-    WebsiteAdd
+    WebsiteAdd,
   },
   data() {
     return {
-      open: false
+      open: false,
     };
   },
   methods: {
@@ -81,8 +87,11 @@ export default {
         finalPath = path.join(pathToDir, `New Folder ${num}`);
       }
       fs.mkdirSync(finalPath);
-    }
-  }
+    },
+    away() {
+      this.open = false;
+    },
+  },
 };
 </script>
 

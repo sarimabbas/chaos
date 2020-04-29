@@ -1,5 +1,9 @@
 <template>
-  <div @keydown.escape="open = false" class="relative inline-block text-left">
+  <div
+    @keydown.escape="open = false"
+    class="relative inline-block text-left"
+    v-on-clickaway="away"
+  >
     <div>
       <span class="rounded-md shadow-sm">
         <button
@@ -54,19 +58,26 @@ import FilterIcon from "@/assets/icons/filter.svg";
 import ListIcon from "@/assets/icons/list.svg";
 import GridIcon from "@/assets/icons/grid.svg";
 import { ToggleButton } from "vue-js-toggle-button";
+import { mixin as clickaway } from "vue-clickaway";
 export default {
+  mixins: [clickaway],
   props: ["changeViewHandler"],
   components: {
     FilterIcon,
     ListIcon,
     GridIcon,
-    ToggleButton
+    ToggleButton,
   },
   data() {
     return {
-      open: false
+      open: false,
     };
-  }
+  },
+  methods: {
+    away() {
+      this.open = false;
+    },
+  },
 };
 </script>
 
