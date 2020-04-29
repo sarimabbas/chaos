@@ -189,7 +189,6 @@ export default {
     },
     handleNodeRightClick(event, node) {
       this.$events.$emit("showInodeContextMenu", event, node);
-      //  @contextmenu.native.prevent="(event) => showInodeContextMenu(event, node)"
     },
     handleNodeClick(node) {
       if (!node) {
