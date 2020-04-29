@@ -18,6 +18,9 @@ import SortOptions from "./components/controls/SortOptions/SortOptions";
 import AddOptions from "./components/controls/AddOptions/AddOptions";
 import EditModal from "./components/EditModal/EditModal";
 
+import { isPackage } from "@/backend/explorer";
+import { fs } from "@/backend/common";
+
 import store from "@/store";
 export default {
   components: {
@@ -41,12 +44,12 @@ export default {
     AddOptions,
 
     // edit inode
-    EditModal
+    EditModal,
   },
   data() {
     return {
       nodeSortProperty: "",
-      viewProperty: "list"
+      viewProperty: "list",
     };
   },
   methods: {
@@ -60,8 +63,10 @@ export default {
       let children = [];
       if (node.children && node.children.length > 0) {
         for (let child of node.children) {
-          // add the child to the array
-          children.push(child);
+          // add the child to the array if not dir
+          if (fs.lstatSync(child.path).isFile() || isPackage(child.path)) {
+            children.push(child);
+          }
           // also add all of its children
           if (child.children && child.children.length > 0) {
             children = children.concat(this.nestedChildrenHelper(child));
@@ -87,7 +92,7 @@ export default {
     },
     changeViewHandler(input) {
       this.viewProperty = input;
-    }
+    },
   },
   computed: {
     currentWorkingPath() {
@@ -108,16 +113,16 @@ export default {
     },
     isFolderImmediateMode() {
       return this.$store.state.views.folderMode === "immediate";
-    }
+    },
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-    }
+    },
     // currentWorkingPath(value) {
     //   console.log(value);
     // }
-  }
+  },
 };
 </script>
 
@@ -129,7 +134,9 @@ export default {
       <div class="flex items-center justify-between my-3">
         <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
           Folder:
-          <h2 class="inline text-xl text-gray-200">{{ currentWorkingNode.name }}</h2>
+          <h2 class="inline text-xl text-gray-200">
+            {{ currentWorkingNode.name }}
+          </h2>
         </h1>
         <CrossIcon class="ui-option-button" width="24" @click="close" />
       </div>

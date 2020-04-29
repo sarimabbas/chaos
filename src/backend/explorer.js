@@ -6,7 +6,7 @@ import Atom from "./atom";
 
 export const filePicker = () => {
   const filePaths = dialog.showOpenDialogSync({
-    properties: ["openFile", "openDirectory", "createDirectory"]
+    properties: ["openFile", "openDirectory", "createDirectory"],
   });
   if (filePaths.length > 0) {
     return filePaths[0];
@@ -17,10 +17,10 @@ export const filePicker = () => {
 
 const systemIconMap = {
   ext: {},
-  type: {}
+  type: {},
 };
 
-const getSystemIcon = async pathToNode => {
+const getSystemIcon = async (pathToNode) => {
   const getData = async () => {
     const buffer = await fileIcon.buffer(pathToNode, { size: 64 });
     const uri = await buffer.toString("base64");
@@ -63,7 +63,7 @@ const getSystemIcon = async pathToNode => {
   return data;
 };
 
-const isPackage = curPath => {
+export const isPackage = (curPath) => {
   const stat = fs.lstatSync(curPath);
   const ext = path.extname(curPath);
   if (stat.isDirectory() && ext) {
@@ -72,7 +72,7 @@ const isPackage = curPath => {
   return false;
 };
 
-export const recursivelyGetNodes = async curPath => {
+export const recursivelyGetNodes = async (curPath) => {
   // first get the stat result
   const stat = fs.lstatSync(curPath);
   const parsePath = path.parse(curPath);
@@ -84,7 +84,7 @@ export const recursivelyGetNodes = async curPath => {
     name: parsePath.base,
     show: true,
     selected: false,
-    icon: await getSystemIcon(curPath)
+    icon: await getSystemIcon(curPath),
   });
 
   // if leaf node, return
@@ -93,12 +93,12 @@ export const recursivelyGetNodes = async curPath => {
   if (stat.isFile() || isAtom || isPackage(curPath)) {
     node.update({
       type: "file",
-      children: []
+      children: [],
     });
     if (isAtom) {
       node.update({
         isAtom: true,
-        atom: atom.toObj()
+        atom: atom.toObj(),
       });
     }
     return node.toObj();
@@ -126,7 +126,7 @@ export const recursivelyGetNodes = async curPath => {
     node.update({
       type: "directory",
       showChildren: false,
-      children: childrenNodes
+      children: childrenNodes,
     });
 
     return node.toObj();
