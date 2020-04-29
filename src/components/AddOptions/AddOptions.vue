@@ -33,6 +33,7 @@
             <span>Note</span>
           </a>
           <a
+            @click="addFolder"
             class="flex items-center block px-4 py-2 text-sm leading-5 text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
           >
             <FolderIcon class="mr-2" width="15" />
@@ -54,6 +55,7 @@ import CloudIcon from "../../assets/icons/cloud.svg";
 import PenIcon from "../../assets/icons/pen.svg";
 import WebsiteAdd from "../../modules/website/Add";
 import { ToggleButton } from "vue-js-toggle-button";
+import { path, fs } from "../../backend/common";
 export default {
   components: {
     FolderIcon,
@@ -71,6 +73,16 @@ export default {
   methods: {
     showWebsiteAdd() {
       this.$modal.show("add-modal");
+    },
+    addFolder() {
+      const pathToDir = this.$store.state.views.currentWorkingNode.path;
+      let num = 0;
+      let finalPath = path.join(pathToDir, `New Folder ${num}`);
+      while (fs.existsSync(finalPath)) {
+        num = num + 1;
+        finalPath = path.join(pathToDir, `New Folder ${num}`);
+      }
+      fs.mkdirSync(finalPath);
     },
   },
 };
