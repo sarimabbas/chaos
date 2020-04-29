@@ -30,9 +30,7 @@
           <button
             @click="saveChanges"
             class="p-2 text-sm text-white bg-green-500 rounded-md hover:bg-green-400"
-          >
-            Save
-          </button>
+          >Save</button>
         </div>
       </div>
     </div>
@@ -40,15 +38,15 @@
 </template>
 
 <script>
-import { path, fs } from "../../../backend/common";
+import { path, fs } from "@/backend/common.js";
 export default {
   data() {
     return {
-      node: null,
+      node: null
     };
   },
   mounted() {
-    this.$events.$on("showEditModal", (node) => {
+    this.$events.$on("showEditModal", node => {
       this.$modal.show("edit-modal");
       this.node = node;
     });
@@ -59,8 +57,8 @@ export default {
       const dirname = path.dirname(this.node.path);
       fs.renameSync(this.node.path, path.join(dirname, this.node.name));
       //
-    },
-  },
+    }
+  }
 };
 </script>
 

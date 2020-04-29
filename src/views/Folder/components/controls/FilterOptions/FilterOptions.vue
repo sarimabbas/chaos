@@ -23,13 +23,15 @@
             @click="changeViewHandler('list')"
             class="flex items-center block px-4 py-2 text-sm leading-5 text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
           >
-            <ListIcon class="mr-2" width="15" /><span>List</span>
+            <ListIcon class="mr-2" width="15" />
+            <span>List</span>
           </a>
           <a
             @click="changeViewHandler('grid')"
             class="flex items-center block px-4 py-2 text-sm leading-5 text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
           >
-            <GridIcon class="mr-2" width="15" /><span>Grid</span>
+            <GridIcon class="mr-2" width="15" />
+            <span>Grid</span>
           </a>
         </div>
         <div class="border-t border-gray-300"></div>
@@ -48,9 +50,9 @@
 </template>
 
 <script>
-import FilterIcon from "../../assets/icons/filter.svg";
-import ListIcon from "../../assets/icons/list.svg";
-import GridIcon from "../../assets/icons/grid.svg";
+import FilterIcon from "@/assets/icons/filter.svg";
+import ListIcon from "@/assets/icons/list.svg";
+import GridIcon from "@/assets/icons/grid.svg";
 import { ToggleButton } from "vue-js-toggle-button";
 export default {
   props: ["changeViewHandler"],
@@ -58,13 +60,13 @@ export default {
     FilterIcon,
     ListIcon,
     GridIcon,
-    ToggleButton,
+    ToggleButton
   },
   data() {
     return {
-      open: false,
+      open: false
     };
-  },
+  }
 };
 </script>
 

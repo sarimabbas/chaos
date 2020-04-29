@@ -1,26 +1,24 @@
 <script>
 import { get as lGet } from "lodash";
 
-import CrossIcon from "../../assets/icons/cross.svg";
-import ChevronDownIcon from "../../assets/icons/chevron-down.svg";
-import PlusIcon from "../../assets/icons/plus.svg";
-import FilterIcon from "../../assets/icons/filter.svg";
-import EyeIcon from "../../assets/icons/eye.svg";
-import ArrowDownIcon from "../../assets/icons/arrow-down.svg";
-import Dropdown from "../../components/Dropdown/Dropdown";
-import DropdownItem from "../../components/Dropdown/DropdownItem";
+import CrossIcon from "@/assets/icons/cross.svg";
+import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
+import PlusIcon from "@/assets/icons/plus.svg";
+import FilterIcon from "@/assets/icons/filter.svg";
+import EyeIcon from "@/assets/icons/eye.svg";
+import ArrowDownIcon from "@/assets/icons/arrow-down.svg";
+import Dropdown from "@/components/Dropdown/Dropdown";
+import DropdownItem from "@/components/Dropdown/DropdownItem";
 
-import ListView from "../../components/folder_views/ListView/ListView";
-import GridView from "../../components/folder_views/GridView/GridView";
-import ViewOptions from "../../components/ViewOptions/ViewOptions";
-import FilterOptions from "../../components/FilterOptions/FilterOptions";
-import SortOptions from "../../components/SortOptions/SortOptions";
-import AddOptions from "../../components/AddOptions/AddOptions";
+import ListView from "./components/folder_views/ListView/ListView";
+import GridView from "./components/folder_views/GridView/GridView";
+import ViewOptions from "./components/controls/ViewOptions/ViewOptions";
+import FilterOptions from "./components/controls/FilterOptions/FilterOptions";
+import SortOptions from "./components/controls/SortOptions/SortOptions";
+import AddOptions from "./components/controls/AddOptions/AddOptions";
+import EditModal from "./components/EditModal/EditModal";
 
-// Edit file
-import EditModal from "./EditModal/EditModal";
-
-import store from "../../store";
+import store from "@/store";
 export default {
   components: {
     Dropdown,
@@ -43,12 +41,12 @@ export default {
     AddOptions,
 
     // edit inode
-    EditModal,
+    EditModal
   },
   data() {
     return {
       nodeSortProperty: "",
-      viewProperty: "list",
+      viewProperty: "list"
     };
   },
   methods: {
@@ -89,7 +87,7 @@ export default {
     },
     changeViewHandler(input) {
       this.viewProperty = input;
-    },
+    }
   },
   computed: {
     currentWorkingPath() {
@@ -110,16 +108,16 @@ export default {
     },
     isFolderImmediateMode() {
       return this.$store.state.views.folderMode === "immediate";
-    },
+    }
   },
   watch: {
     $route(to, from) {
       // react to route changes...
-    },
+    }
     // currentWorkingPath(value) {
     //   console.log(value);
     // }
-  },
+  }
 };
 </script>
 
@@ -131,9 +129,7 @@ export default {
       <div class="flex items-center justify-between my-3">
         <h1 class="text-2xl font-bold tracking-widest text-gray-200 uppercase">
           Folder:
-          <h2 class="inline text-xl text-gray-200">
-            {{ currentWorkingNode.name }}
-          </h2>
+          <h2 class="inline text-xl text-gray-200">{{ currentWorkingNode.name }}</h2>
         </h1>
         <CrossIcon class="ui-option-button" width="24" @click="close" />
       </div>

@@ -1,6 +1,6 @@
 <script>
 import mixin from "../mixin";
-import ListItem from "../../primitives/ListItem/ListItem";
+import ListItem from "@/components/primitives/ListItem/ListItem";
 export default {
   components: {
     ListItem

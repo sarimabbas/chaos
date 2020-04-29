@@ -1,11 +1,11 @@
 <script>
-import Card from "../../primitives/Card/Card";
+import Card from "@/components/primitives/Card/Card";
 import mixin from "../mixin";
 export default {
   components: {
-    Card,
+    Card
   },
-  mixins: [mixin],
+  mixins: [mixin]
 };
 </script>
 

@@ -11,5 +11,8 @@
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": false,
-  "python.linting.mypyEnabled": true
+  "python.linting.mypyEnabled": true,
+  "path-intellisense.mappings": {
+    "@": "${workspaceRoot}/src"
+  }
 }

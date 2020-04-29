@@ -49,25 +49,23 @@
 </template>
 
 <script>
-import PlusIcon from "../../assets/icons/plus.svg";
-import FolderIcon from "../../assets/icons/folder.svg";
-import CloudIcon from "../../assets/icons/cloud.svg";
-import PenIcon from "../../assets/icons/pen.svg";
-import WebsiteAdd from "../../modules/website/Add";
-import { ToggleButton } from "vue-js-toggle-button";
-import { path, fs } from "../../backend/common";
+import PlusIcon from "@/assets/icons/plus.svg";
+import FolderIcon from "@/assets/icons/folder.svg";
+import CloudIcon from "@/assets/icons/cloud.svg";
+import PenIcon from "@/assets/icons/pen.svg";
+import WebsiteAdd from "@/modules/website/Add";
+import { path, fs } from "@/backend/common";
 export default {
   components: {
     FolderIcon,
     PlusIcon,
     CloudIcon,
     PenIcon,
-    ToggleButton,
-    WebsiteAdd,
+    WebsiteAdd
   },
   data() {
     return {
-      open: false,
+      open: false
     };
   },
   methods: {
@@ -83,8 +81,8 @@ export default {
         finalPath = path.join(pathToDir, `New Folder ${num}`);
       }
       fs.mkdirSync(finalPath);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,5 +1,5 @@
 import { get as lGet } from "lodash";
-import { fs as nodeFs, path as nodePath, utils } from "../../backend/common";
+import { fs as nodeFs, path as nodePath, utils } from "@/backend/common";
 
 const mixin = {
   props: ["nodes"],
